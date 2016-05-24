@@ -15,10 +15,9 @@ public class UserService {
 	@Autowired
 	private UserMapper userMapper;
 
-	public UserEntity getUser(String loginId) {
+	public UserEntity getUser(String loginId, String password) {
 
-		System.out.println(loginId);
-		UserEntity entity = userMapper.getUser(loginId);
+		UserEntity entity = userMapper.getUser(loginId, password);
 		System.out.println(entity.getLoginId());
 
 		return entity;
@@ -46,4 +45,5 @@ public class UserService {
 		}
 		return true;
 	}
+
 }

@@ -2,12 +2,14 @@ package bbs.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import bbs.entity.UserEntity;
 import bbs.form.UserForm;
 
 public interface UserMapper {
 
-	UserEntity getUser(String loginId);
+	UserEntity getUser(@Param("loginId") String loginId, @Param("password") String password);
 
 	List<String> getBranches();
 
@@ -18,4 +20,5 @@ public interface UserMapper {
 	int getDepartmentId(String departmentName);
 
 	int entryUser(UserForm form);
+
 }

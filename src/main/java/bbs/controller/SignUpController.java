@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import bbs.form.UserForm;
 import bbs.service.UserService;
+import bbs.util.CipherUtil;
 
 @Controller
 public class SignUpController {
@@ -44,16 +45,20 @@ public class SignUpController {
 			form.setDepartmentId(userService.getDepartmentId(form.getDepartmentName()));
 			form.setStatus(true);
 
-			if(userService.entryUser(form))
+			new CipherUtil();
+			form.setPassword(CipherUtil.encrypt(form.getPassword()));
+
+			form.setLastLoginDate(Calendar.getInstance().getTime());
+
+			if (userService.entryUser(form))
 				model.addAttribute("message", "入力値を受け付けました");
 			else
 				model.addAttribute("message", "登録に失敗しました");
 
-
 		} else {
 			String message = new String("エラーです");
-			if(!(request.getParameter("password").equals(request.getParameter("password_verify")))){
-				message ="エラーです<br>入力されたパスワードが一致していません";
+			if (!(request.getParameter("password").equals(request.getParameter("password_verify")))) {
+				message = "エラーです<br>入力されたパスワードが一致していません";
 			}
 			model.addAttribute("message", message);
 
@@ -73,7 +78,7 @@ public class SignUpController {
 		form.setElapsedTimeText(form.getElapsedTime() / 1000);
 		form.setLastLoginDate(Calendar.getInstance().getTime());
 
-		model.addAttribute("form", form);
+		model.addAttribute("userForm", form);
 
 		model.addAttribute("branches", userService.getBranches());
 		model.addAttribute("departments", userService.getDepartments());

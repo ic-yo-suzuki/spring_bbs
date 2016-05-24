@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import bbs.entity.UserEntity;
 import bbs.form.LoginForm;
 import bbs.service.UserService;
+import bbs.util.CipherUtil;
 
 @Controller
 public class LoginController {
@@ -32,10 +33,13 @@ public class LoginController {
 	@RequestMapping(value = "/login/", method = RequestMethod.POST)
 	public String doLogin(@Valid @ModelAttribute LoginForm form, Model model) {
 
-		UserEntity user = userService.getUser(form.getLoginId());
-
-		model.addAttribute("user", user);
-		model.addAttribute("message", "入力値を受け付けました");
+		new CipherUtil();
+		String encryptedPassword = CipherUtil.encrypt(form.getPassword());
+		UserEntity user = userService.getUser(form.getLoginId(), encryptedPassword);
+		if(user != null)
+			model.addAttribute("message", "ログインに成功しました");
+		else
+			model.addAttribute("message", "ログインに失敗しました");
 
 		return "login";
 
