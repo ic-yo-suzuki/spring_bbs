@@ -1,11 +1,11 @@
-package bbs.dto;
+package bbs.entity;
 
 import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class UserDto {
+public class UserEntity {
 
 	@Getter
 	@Setter

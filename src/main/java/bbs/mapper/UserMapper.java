@@ -1,8 +1,21 @@
 package bbs.mapper;
 
-import bbs.entity.User;
+import java.util.List;
+
+import bbs.entity.UserEntity;
+import bbs.form.UserForm;
 
 public interface UserMapper {
 
-	User getUser(String loginId);
+	UserEntity getUser(String loginId);
+
+	List<String> getBranches();
+
+	List<String> getDepartments();
+
+	int getBranchId(String branchName);
+
+	int getDepartmentId(String departmentName);
+
+	int entryUser(UserForm form);
 }

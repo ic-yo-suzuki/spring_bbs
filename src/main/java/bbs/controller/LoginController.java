@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import bbs.entity.User;
+import bbs.entity.UserEntity;
 import bbs.form.LoginForm;
 import bbs.service.UserService;
-
 
 @Controller
 public class LoginController {
@@ -21,7 +20,7 @@ public class LoginController {
 	private UserService userService;
 
 	@RequestMapping(value = "/login/", method = RequestMethod.GET)
-	public String showLoginScreen(Model model){
+	public String showLoginScreen(Model model) {
 		LoginForm form = new LoginForm();
 		form.setLoginId("");
 
@@ -31,14 +30,12 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/login/", method = RequestMethod.POST)
-	public String doLogin(@Valid @ModelAttribute LoginForm form, Model model){
+	public String doLogin(@Valid @ModelAttribute LoginForm form, Model model) {
 
-		User user = userService.getUser(form.getLoginId());
-
+		UserEntity user = userService.getUser(form.getLoginId());
 
 		model.addAttribute("user", user);
 		model.addAttribute("message", "入力値を受け付けました");
-
 
 		return "login";
 

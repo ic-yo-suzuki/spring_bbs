@@ -15,7 +15,7 @@
 
 	<div class = "login-screen">
 
-		<h3>掲示板　ログイン</h3>
+		<h3>掲示板 ログイン</h3>
 		<h2>${message}</h2>
 		<form:form modelAttribute="loginForm">
 			<div><form:errors path="*"  /></div>
