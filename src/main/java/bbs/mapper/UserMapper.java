@@ -9,7 +9,9 @@ import bbs.form.UserForm;
 
 public interface UserMapper {
 
-	UserEntity getUser(@Param("loginId") String loginId, @Param("password") String password);
+	Integer getUserId(@Param("loginId") String loginId, @Param("password") String password);
+
+	UserEntity getUser(@Param("id") int id);
 
 	List<String> getBranches();
 

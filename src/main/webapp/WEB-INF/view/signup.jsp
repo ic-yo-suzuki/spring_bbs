@@ -15,7 +15,7 @@
 	</div>
 	<div class="main-contents">
 
-			${message }<br>
+		${message }<br>
 
 		<form:form modelAttribute="userForm">
 			<div>

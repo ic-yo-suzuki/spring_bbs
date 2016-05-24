@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="bbs.mapper.UserMapper">
+
+	<resultMap id="getUserResult" type="bbs.entity.UserEntity">
+		<result column="login_id" property="loginId" />
+		<result column="name" property="name" />
+		<result column="id" property="id"></result>
+		<result column="password" property="password"></result>
+		<result column="branch_id" property="branchId"></result>
+		<result column="department_id" property="departmentId" />
+		<result column="status" property="status"></result>
+		<result column="last_login_date" property="lastLoginDate" />
+	</resultMap>
+
+
+	<select id="getUser" resultMap="getUserResult">
+		select 	id, login_id, password,
+				name, branch_id, department_id, status, last_login_date,
+				timestampdiff(SECOND, users.last_login_date, CURRENT_TIMESTAMP) as elapsed_time
+		from users
+		where id = #{id};
+	</select>
+
+	<select id = "getUserId" resultType = "Integer">
+		select id
+		from users
+		where login_id = #{loginId} and password = #{password} and status = true;
+	</select>
+
+	<select id="getBranches" resultType="String">
+		select name
+		from branches;
+	</select>
+
+	<select id="getBranchId" resultType="int">
+		select id
+		from branches
+		where
+		name = #{branchName};
+
+	</select>
+
+	<select id="getDepartments" resultType="String">
+		select name
+		from
+		departments;
+	</select>
+
+	<select id="getDepartmentId" resultType="int">
+		select id
+		from
+		departments
+		where name = #{departmentName};
+	</select>
+
+	<insert id="entryUser">
+		insert into users
+		(
+		login_id,
+		password,
+		name,
+		branch_id,
+		department_id,
+		status,
+		last_login_date
+		)
+		values
+		(
+		#{loginId},
+		#{password},
+		#{name},
+		#{branchId},
+		#{departmentId},
+		#{status},
+		#{lastLoginDate}
+		);
+
+	</insert>
+
+
+
+</mapper>

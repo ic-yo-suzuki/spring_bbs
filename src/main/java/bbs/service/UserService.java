@@ -16,11 +16,18 @@ public class UserService {
 	private UserMapper userMapper;
 
 	public UserEntity getUser(String loginId, String password) {
-
-		UserEntity entity = userMapper.getUser(loginId, password);
-		System.out.println(entity.getLoginId());
-
+		Integer id = userMapper.getUserId(loginId, password);
+		UserEntity entity = null;
+		if(id != null){
+			entity = userMapper.getUser(id);
+			entity.setElapsedTimeText(entity.getElapsedTime());
+			System.out.println(entity.getLoginId());
+		}
 		return entity;
+	}
+
+	public UserEntity getUser(int id){
+		return userMapper.getUser(id);
 	}
 
 	public List<String> getBranches() {
