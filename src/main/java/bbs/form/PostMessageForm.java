@@ -1,35 +1,35 @@
-package bbs.dto;
+package bbs.form;
 
 import java.util.Date;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class UserDto {
-
+public class PostMessageForm {
 	@Setter
-	private String loginId;
-
+	@NotNull(message = "カテゴリを選択するか、入力してください")
+	private String category;
 	@Setter
 	private String name;
-
 	@Setter
-	private String password;
-
+	@NotNull(message = "本文を入力してください")
+	@Size(max = 1000, message = "本文は1000文字以下で入力してください")
+	private String text;
 	@Setter
-	private int id, branchId, departmentId;
-	@Setter
-	private String branchName, departmentName;
-
+	@NotNull(message = "タイトルを入力してください")
+	@Size(max = 50, message = "タイトルは50文字以内で入力してください")
+	private String title;
 	private String elapsedTimeText;
-
-	@Setter
-	private boolean status;
 	@Setter
 	private long elapsedTime;
 	@Setter
-	private Date lastLoginDate;
+	private int id, branchId, departmentId, userId;
+	@Setter
+	private Date insertDate;
 
 	public void setElapsedTimeText(long elapsedTime) {
 
@@ -62,5 +62,4 @@ public class UserDto {
 
 		}
 	}
-
 }

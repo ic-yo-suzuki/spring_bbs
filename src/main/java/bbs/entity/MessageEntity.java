@@ -1,4 +1,4 @@
-package bbs.dto;
+package bbs.entity;
 
 import java.util.Date;
 
@@ -6,30 +6,20 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class UserDto {
-
+public class MessageEntity {
 	@Setter
-	private String loginId;
-
-	@Setter
-	private String name;
-
-	@Setter
-	private String password;
-
-	@Setter
-	private int id, branchId, departmentId;
-	@Setter
-	private String branchName, departmentName;
+	private String category, name, text, title;
 
 	private String elapsedTimeText;
 
 	@Setter
-	private boolean status;
-	@Setter
 	private long elapsedTime;
+
 	@Setter
-	private Date lastLoginDate;
+	private int postId, branchId, departmentId, userId;
+
+	@Setter
+	private Date insertDate;
 
 	public void setElapsedTimeText(long elapsedTime) {
 
@@ -62,5 +52,4 @@ public class UserDto {
 
 		}
 	}
-
 }

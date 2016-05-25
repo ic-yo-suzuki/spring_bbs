@@ -2,13 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>${title }</title>
-</head>
-<body>
+
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
 <script
@@ -20,18 +20,22 @@
 
 </head>
 <body>
+	<div>
+		<form:errors path="*" />
+	</div>
+	<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
 	<div class="main-contents">
 		<div class="header">
 			<div class="menu">
 
-				<a href="newpost">新規投稿</a>
+				<a href="${contextPath}/newpost/">新規投稿</a>
 				<c:if test="${loginUser.departmentId == 1 }">
 					<a href="usermanager">ユーザの管理</a>
 				</c:if>
 				<c:if test="${loginUser.departmentId == 2 }">
 					<a href="ngwordmanager">NGワードの管理</a>
 				</c:if>
-				<a href="logout">ログアウト</a>
+				<a href="${contextPath }/logout/">ログアウト</a>
 				<p>
 			</div>
 			<div class="name">
@@ -40,51 +44,30 @@
 			<p>
 		</div>
 		<p>
-			<c:if test="${not empty errorMessages }">
-				<div class="errorMessages">
-					<ul>
-						<c:forEach items="${errorMessages }" var="messages">
-							<li><c:out value="${messages }" /></li>
-							<br />
-						</c:forEach>
-					</ul>
-				</div>
-				<c:remove var="errorMessages" scope="session" />
-			</c:if>
 		<p>
 		<div class="narrowing">
-			<form action="top" method="post" style="display: inline">
+			<form:form modelAttribute="narrowingForm">
 				<b>投稿の絞込み検索</b>
 				<p>
 				<ul>
 					<li>カテゴリー</li>
-					<select name="category">
-						<c:forEach items="${categories }" var="category">
-							<c:if test="${category == selectedCategory }">
-								<option value="${category }" selected><c:out
-										value="${category }"></c:out></option>
-							</c:if>
-							<c:if test="${category != selectedCategory }">
-								<option value="${category }"><c:out
-										value="${category }"></c:out></option>
-							</c:if>
-						</c:forEach>
-					</select>
+					<form:select path="category" items="${categories }">
+					</form:select>
 
 					</p>
 					<p>
 					<li>日付<br /></li>
 				</ul>
 
-				開始日時<input type="text" name="dateStart" id="dateStart"
+					開始日時<input type="text" name="dateStart" id="dateStart"
 					value="${dates[0] }"> 終了日時<input type="text" name="dateEnd"
 					id="dateEnd" value="${dates[1] }">(クリックするとカレンダーが表示されます)
-				<p></p>
+					<p></p>
 
 				<button type="submit" name="mode" value="narrow">指定した条件で検索</button>
 				<button type="submit" name="mode" value="reset">絞込みを解除</button>
 
-			</form>
+			</form:form>
 
 
 		</div>
@@ -119,7 +102,7 @@
 			<c:forEach items="${messages }" var="message">
 				<table class="message">
 
-					<c:set var="id" scope="request" value="${message.id }" />
+					<c:set var="id" scope="request" value="${message.postId }" />
 					<tr>
 						<td>投稿者</td>
 						<td><c:out value="${message.name }"></c:out></td>
@@ -157,11 +140,12 @@
 					<c:if
 						test="${(message.userId == loginUser.id) || (loginUser.departmentId == 2) || (message.branchId == loginUser.branchId && loginUser.departmentId == 3) }">
 						<form action="deletePost" method="post">
+						<form:form action = "deleteMessage">
 							<tr>
 								<td colspan="2"><button type="submit" name="id"
-										value="${message.id }"
+										value="${message.postId }"
 										onClick="return confirm('この投稿を削除します。よろしいですか？')">投稿を削除する</button>
-						</form>
+						</form:form>
 					</c:if>
 
 				</table>
@@ -176,7 +160,7 @@
 								int count = 1;
 							%>
 							<c:forEach items="${comments }" var="comment">
-								<c:if test="${message.id == comment.postId }">
+								<c:if test="${message.postId == comment.postId }">
 									<table class="comment">
 
 										<tr>
@@ -202,7 +186,7 @@
 											<form action="deleteComment" method="post">
 												<tr>
 													<td colspan="2"><button type="submit" name="id"
-															value="${comment.id }"
+															value="${comment.postId }"
 															onClick="return confirm('このコメントを削除します。よろしいですか？')">コメントを削除する</button>
 													</td>
 												</tr>
@@ -219,15 +203,17 @@
 						</c:if>
 					</table>
 					<div class="postComeent">
-						<form action="postComment" method="post">
+						<form:form modelAttribute="postCommentForm">
 							<br />コメントの投稿<br />
 							<textarea name="comment" cols="80" rows="5" class="post-box"><c:out
 									value="${inputValues.text }"></c:out></textarea>
-							<br /> <input type="submit" value="投稿する">(500文字まで) <input
-								type="hidden" name="postId" value="${message.id }" /> <input
-								type="hidden" name="userId" value="${loginUser.id }" />
+							<br />
+							<input type="submit" value="投稿する">(500文字まで)
 
-						</form>
+							<form:hidden path="postId" value="${message.postId }" />
+							<form:hidden path="userId" value="${loginUser.id }" />
+
+						</form:form>
 					</div>
 				</div>
 				<hr>
@@ -235,6 +221,7 @@
 
 		</div>
 	</div>
+
 
 	<script>
 		$(function() {

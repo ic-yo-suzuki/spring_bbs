@@ -46,7 +46,7 @@ public class LoginController {
 
 				HttpSession session = request.getSession();
 
-				session.setAttribute("user", user);
+				session.setAttribute("loginUser", user);
 				session.setAttribute("message", "ログインに成功しました。ようこそ" + user.getName() + "さん。");
 				session.setAttribute("title", user.getName() + " - わったいな掲示板");
 
