@@ -39,7 +39,10 @@
 				<p>
 			</div>
 			<div class="name">
-				ようこそ<b><c:out value="${loginUser.name }" /></b>さん
+				ようこそ<b><c:out value="${loginUser.name }" /></b>さん(
+				<c:out value="${loginUser.branchId }" />
+				<c:out value="${loginUser.departmentId }" />
+				)
 			</div>
 			<p>
 		</div>
@@ -71,22 +74,22 @@
 
 
 		</div>
-		<table class="postCount">
-			<th></th>
-			<th>記事投稿数</th>
-			<th>コメント投稿数</th>
+		<!-- 		<table class="postCount"> -->
+		<!-- 			<th></th> -->
+		<!-- 			<th>記事投稿数</th> -->
+		<!-- 			<th>コメント投稿数</th> -->
 
-			<tr>
-				<td><c:out value="${loginUser.name }"></c:out>さんの投稿件数</td>
-				<td><c:out value="${userPostCount[0] }" /></td>
-				<td><c:out value="${userPostCount[1] }" /></td>
-			</tr>
-			<tr>
-				<td><c:out value="${loginUser.branchName }"></c:out>の投稿件数</td>
-				<td><c:out value="${branchPostCount[0] }" /></td>
-				<td><c:out value="${branchPostCount[1] }" /></td>
-			</tr>
-		</table>
+		<!-- 			<tr> -->
+		<%-- 				<td><c:out value="${loginUser.name }"></c:out>さんの投稿件数</td> --%>
+		<%-- 				<td><c:out value="${userPostCount[0] }" /></td> --%>
+		<%-- 				<td><c:out value="${userPostCount[1] }" /></td> --%>
+		<!-- 			</tr> -->
+		<!-- 			<tr> -->
+		<%-- 				<td><c:out value="${loginUser.branchName }"></c:out>の投稿件数</td> --%>
+		<%-- 				<td><c:out value="${branchPostCount[0] }" /></td> --%>
+		<%-- 				<td><c:out value="${branchPostCount[1] }" /></td> --%>
+		<!-- 			</tr> -->
+		<!-- 		</table> -->
 
 
 		<div class="messages">
@@ -140,12 +143,12 @@
 					<c:if
 						test="${(message.userId == loginUser.id) || (loginUser.departmentId == 2) || (message.branchId == loginUser.branchId && loginUser.departmentId == 3) }">
 						<form action="deletePost" method="post">
-						<form:form action = "deleteMessage">
-							<tr>
-								<td colspan="2"><button type="submit" name="id"
-										value="${message.postId }"
-										onClick="return confirm('この投稿を削除します。よろしいですか？')">投稿を削除する</button>
-						</form:form>
+							<form:form action="deleteMessage">
+								<tr>
+									<td colspan="2"><button type="submit" name="id"
+											value="${message.postId }"
+											onClick="return confirm('この投稿を削除します。よろしいですか？')">投稿を削除する</button>
+							</form:form>
 					</c:if>
 
 				</table>

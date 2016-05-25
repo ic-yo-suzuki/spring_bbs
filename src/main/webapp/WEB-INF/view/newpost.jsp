@@ -10,6 +10,7 @@
 <title>新規投稿</title>
 </head>
 <body>
+<h2>${message }</h2>
 	<table class="newpost">
 		<form:form modelAttribute="postMessageForm">
 			<div>

@@ -20,7 +20,7 @@ public class MessageService {
 	public List<String> getCategories() {
 
 		List<String> categories = messageMapper.getCategories();
-		categories.add(0, "カテゴリーを選択してください");
+		categories.add(0, "");
 		return categories;
 	}
 
@@ -50,6 +50,9 @@ public class MessageService {
 
 	public Integer deleteMessage(int postId) {
 		return messageMapper.deleteMessage(postId);
+	}
 
+	public int getMessageCount(){
+		return messageMapper.getMessageCount();
 	}
 }

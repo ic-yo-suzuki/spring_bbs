@@ -20,6 +20,9 @@ public interface MessageMapper {
 
 	Integer deleteMessage(int postId);
 
+	int getMessageCount();
+
+
 
 
 }

@@ -5,23 +5,28 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.context.annotation.Lazy;
+
 import lombok.Getter;
 import lombok.Setter;
 
+@Lazy
 @Getter
 public class PostMessageForm {
+	@Lazy
 	@Setter
-	@NotNull(message = "カテゴリを選択するか、入力してください")
+	@Size(min = 1, max = 10, message = "カテゴリを10文字以内で入力するか、選択してください")
+//	@NotNull(message = "カテゴリを選択するか、入力してください")
 	private String category;
 	@Setter
 	private String name;
 	@Setter
 	@NotNull(message = "本文を入力してください")
-	@Size(max = 1000, message = "本文は1000文字以下で入力してください")
+	@Size(min = 1, max = 1000, message = "本文は1000文字以下で入力してください")
 	private String text;
 	@Setter
 	@NotNull(message = "タイトルを入力してください")
-	@Size(max = 50, message = "タイトルは50文字以内で入力してください")
+	@Size(min = 1, max = 50, message = "タイトルは50文字以内で入力してください")
 	private String title;
 	private String elapsedTimeText;
 	@Setter

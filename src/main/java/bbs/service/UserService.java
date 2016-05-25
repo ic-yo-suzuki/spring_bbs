@@ -21,7 +21,6 @@ public class UserService {
 		if(id != null){
 			entity = userMapper.getUser(id);
 			entity.setElapsedTimeText(entity.getElapsedTime());
-			System.out.println(entity.getLoginId());
 		}
 		return entity;
 	}

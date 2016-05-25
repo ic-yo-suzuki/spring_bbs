@@ -27,6 +27,7 @@ public class TopController {
 		model.addAttribute("messages", messageService.getAllMessage());
 		model.addAttribute("comments", messageService.getComments());
 		model.addAttribute("postCommentForm", new PostCommentForm());
+		model.addAttribute("postCount", messageService.getMessageCount());
 		return "top";
 	}
 

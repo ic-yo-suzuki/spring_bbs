@@ -43,16 +43,11 @@ public class LoginController {
 			String encryptedPassword = CipherUtil.encrypt(form.getPassword());
 			UserEntity user = userService.getUser(form.getLoginId(), encryptedPassword);
 			if (user != null) {
-
 				HttpSession session = request.getSession();
-
 				session.setAttribute("loginUser", user);
 				session.setAttribute("message", "ログインに成功しました。ようこそ" + user.getName() + "さん。");
 				session.setAttribute("title", user.getName() + " - わったいな掲示板");
-
-				System.out.println(user.getElapsedTimeText());
 				statement = "redirect:/top/";
-
 			} else {
 				model.addAttribute("message", "ログインに失敗しました");
 			}

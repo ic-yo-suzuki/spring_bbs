@@ -23,6 +23,7 @@ public class PostMessageController {
 	public String showPostScreen(Model model) {
 		model.addAttribute("categories", messageService.getCategories());
 		model.addAttribute("postMessageForm", new PostMessageForm());
+		model.addAttribute("message", "新規投稿");
 		return "newpost";
 	}
 
@@ -32,7 +33,6 @@ public class PostMessageController {
 		if(!(request.getParameter("newCategory").isEmpty())){
 			form.setCategory(request.getParameter("newCategory"));
 		}
-		System.out.println(form.getCategory());
 		if(result.hasErrors() || form.getCategory().length() > 10  || messageService.postMessage(form) != 1){
 			model.addAttribute("message", "エラー");
 			model.addAttribute("categories", messageService.getCategories());
