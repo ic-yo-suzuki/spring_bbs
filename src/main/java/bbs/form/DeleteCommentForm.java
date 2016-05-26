@@ -3,6 +3,6 @@ package bbs.form;
 import lombok.Data;
 
 @Data
-public class CommentDeleteForm {
+public class DeleteCommentForm {
 	private int commentId;
 }

@@ -155,8 +155,7 @@
 
 					<c:if
 						test="${(message.userId == loginUser.id) || (loginUser.departmentId == 2) || (message.branchId == loginUser.branchId && loginUser.departmentId == 3) }">
-						<form action="deletePost" method="post">
-							<form:form action="deleteMessage">
+							<form:form modelAttribute="deleteMessageForm">
 								<tr>
 									<td colspan="2"><button type="submit" name="id"
 											value="${message.postId }"
@@ -199,14 +198,14 @@
 										</tr>
 										<c:if
 											test="${(comment.userId == loginUser.id) || (loginUser.departmentId == 2) || (comment.branchId == loginUser.branchId && loginUser.departmentId == 3) }">
-											<form action="deleteComment" method="post">
+											<form:form modelAttribute="deleteCommentForm">
 												<tr>
 													<td colspan="2"><button type="submit" name="id"
 															value="${comment.postId }"
 															onClick="return confirm('このコメントを削除します。よろしいですか？')">コメントを削除する</button>
 													</td>
 												</tr>
-											</form>
+											</form:form>
 										</c:if>
 										<hr>
 										投稿番号：<%=count%><br>

@@ -12,13 +12,17 @@
 <body>
 	<h2>${message }</h2>
 	<table class="newpost">
-		<form:form modelAttribute="postMessageForm">
+		<form:form modelAttribute="postMessageForm" onsubmit = "setCategory();">
 			<div>
 				<form:errors path="*" />
 			</div>
 
+			<%!
+				String enteredCategory;
+			%>
+
 			<tr>
-				<td>カテゴリー(必須)(どちらか一方を選択してください)</td>
+				<td>カテゴリー(必須)(選択してください)</td>
 				<td><label><input type="radio" name="categorySelect"
 						value="select" onclick="categorySelectChanged();"
 						checked="checked" />既存のカテゴリーから選択</label> <label><input
@@ -27,7 +31,7 @@
 			</tr>
 			<tr id="selectCategory">
 				<td>カテゴリの選択</td>
-				<td><select name="selectCategory">
+				<td><select name="selectCategory" >
 						<c:forEach items="${categories }" var="category">
 
 							<option value="${category }"><c:out
@@ -36,11 +40,11 @@
 				</select></td>
 			</tr>
 			<tr id="createCategory">
-				<td>カテゴリの新規作成</td>
-				<td><input name="createCategory" id = "createCategory" />新たに追加するカテゴリ名を10文字以内で入力してください)
+				<td>カテゴリの新規作成(10文字まで)</td>
+				<td><input name="createCategory" id = "createCategory" />
 				</td>
 			</tr>
-
+				<form:hidden path="category" value = ""/>
 			<tr>
 				<td>投稿者</td>
 				<td><c:out value="${loginUser.name }"></c:out>さん(自動で追加されます)</td>
@@ -69,19 +73,34 @@
 </body>
 
 <script type="text/javascript">
+	var category = "";
 	function categorySelectChanged() {
 
 		radio = document.getElementsByName('categorySelect');
 
+
 		if (radio[0].checked) {
 			document.getElementById('createCategory').style.display = "none";
 			document.getElementById('selectCategory').style.display = "";
-
+			category = postMessageForm.selectCategory.value;
 		} else if (radio[1].checked) {
 			document.getElementById('createCategory').style.display = "";
 			document.getElementById('selectCategory').style.display = "none";
+			category = postMessageForm.createCategory.value;
 		}
+
 	}
+
+	function setCategory(){
+		radio = document.getElementsByName('categorySelect');
+		if (radio[0].checked) {
+			category = postMessageForm.selectCategory.value;
+		} else if (radio[1].checked) {
+			category = postMessageForm.createCategory.value;
+		}
+		document.getElementById('category').value = category;
+	}
+
 	//オンロードさせ、リロード時に選択を保持
 	window.onload = categorySelectChanged;
 </script>

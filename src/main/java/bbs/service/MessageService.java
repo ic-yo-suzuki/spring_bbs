@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 
 import bbs.entity.CommentEntity;
 import bbs.entity.MessageEntity;
+import bbs.form.PostCommentForm;
 import bbs.form.PostMessageForm;
 import bbs.mapper.MessageMapper;
 
 @Service
-
 public class MessageService {
 
 	@Autowired
@@ -44,15 +44,19 @@ public class MessageService {
 		return messageMapper.postMessage(form);
 	}
 
-	public Integer postComment(PostMessageForm form) {
+	public Integer postComment(PostCommentForm form) {
 		return messageMapper.postComment(form);
 	}
 
-	public Integer deleteMessage(int postId) {
-		return messageMapper.deleteMessage(postId);
+	public int deleteMessage(int postId) throws ArithmeticException {
+		return messageMapper.deleteMessage(postId) / messageMapper.deleteCommentWithMessage(postId);
 	}
 
 	public int getMessageCount(){
 		return messageMapper.getMessageCount();
+	}
+
+	public int deleteComment(int postId) {
+		return messageMapper.deleteComment(postId);
 	}
 }
