@@ -10,9 +10,11 @@
 <title>${title }</title>
 
 <script
-	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+	src="<c:url value = "http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></c:url>"
+	type="text/javascript"></script>
 <script
-	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+	src="<c:url value = "http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></c:url>"
+	type="text/javascript"></script>
 <link rel="stylesheet"
 	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css">
 <!-- <link rel="stylesheet" type="text/css" href="stylesheet/style.css"> -->
@@ -20,6 +22,7 @@
 
 </head>
 <body>
+
 	<div>
 		<form:errors path="*" />
 	</div>
@@ -50,6 +53,16 @@
 		<p>
 		<div class="narrowing">
 			<form:form modelAttribute="narrowingForm">
+				<script>
+					$(function() {
+						$("#dateStart").datepicker({
+							maxDate : 0
+						});
+						$("#dateEnd").datepicker({
+							maxDate : 0
+						});
+					});
+				</script>
 				<b>投稿の絞込み検索</b>
 				<p>
 				<ul>
@@ -226,16 +239,7 @@
 	</div>
 
 
-	<script>
-		$(function() {
-			$("#dateStart").datepicker({
-				maxDate : 0
-			});
-			$("#dateEnd").datepicker({
-				maxDate : 0
-			});
-		});
-	</script>
+
 
 </body>
 </html>

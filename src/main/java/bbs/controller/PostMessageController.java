@@ -30,9 +30,15 @@ public class PostMessageController {
 	@RequestMapping(value = "/newpost/", method = RequestMethod.POST)
 	public String postMessage(@Valid @ModelAttribute PostMessageForm form, BindingResult result, Model model, HttpServletRequest request){
 
-		if(!(request.getParameter("newCategory").isEmpty())){
-			form.setCategory(request.getParameter("newCategory"));
+		if(com.mysql.jdbc.StringUtils.isEmptyOrWhitespaceOnly(request.getParameter("selectCategory"))){
+			form.setCategory(request.getParameter("createCategory"));
+		}else{
+			form.setCategory(request.getParameter("selectCategory"));
 		}
+
+		System.out.println(form.getCategory());
+		System.out.println(result.hasErrors());
+
 		if(result.hasErrors() || form.getCategory().length() > 10  || messageService.postMessage(form) != 1){
 			model.addAttribute("message", "エラー");
 			model.addAttribute("categories", messageService.getCategories());
