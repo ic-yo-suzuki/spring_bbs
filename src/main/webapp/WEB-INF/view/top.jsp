@@ -9,15 +9,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>${title }</title>
 
-<script
-	src="<c:url value = "http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></c:url>"
-	type="text/javascript"></script>
-<script
-	src="<c:url value = "http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></c:url>"
-	type="text/javascript"></script>
-<link rel="stylesheet"
-	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css">
-<!-- <link rel="stylesheet" type="text/css" href="stylesheet/style.css"> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css" >
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" >
 
 
 </head>
@@ -52,7 +48,7 @@
 		<p>
 		<p>
 		<div class="narrowing">
-			<form:form modelAttribute="narrowingForm">
+			<form:form modelAttribute="narrowingForm" >
 				<script>
 					$(function() {
 						$("#dateStart").datepicker({
@@ -65,23 +61,25 @@
 				</script>
 				<b>投稿の絞込み検索</b>
 				<p>
+				${narrowingMessage }
+				</p>
 				<ul>
+
 					<li>カテゴリー</li>
 					<form:select path="category" items="${categories }">
 					</form:select>
 
-					</p>
-					<p>
+
 					<li>日付<br /></li>
 				</ul>
 
-					開始日時<input type="text" name="dateStart" id="dateStart"
-					value="${dates[0] }"> 終了日時<input type="text" name="dateEnd"
-					id="dateEnd" value="${dates[1] }">(クリックするとカレンダーが表示されます)
+
+					開始日時<form:input path = "start" id="dateStart" value="${dates[0] }" />
+				    終了日時<form:input path = "end" id="dateEnd" value="${dates[1] }" />(クリックするとカレンダーが表示されます)
 					<p></p>
 
-				<button type="submit" name="mode" value="narrow">指定した条件で検索</button>
-				<button type="submit" name="mode" value="reset">絞込みを解除</button>
+				<button type="submit" name="narrow" >指定した条件で検索</button>
+				<button type="submit" name="reset" >絞込みを解除</button>
 
 			</form:form>
 
@@ -155,20 +153,20 @@
 
 					<c:if
 						test="${(message.userId == loginUser.id) || (loginUser.departmentId == 2) || (message.branchId == loginUser.branchId && loginUser.departmentId == 3) }">
-							<form:form modelAttribute="deleteMessageForm">
-								<tr>
-									<td colspan="2"><button type="submit" name="id"
-											value="${message.postId }"
-											onClick="return confirm('この投稿を削除します。よろしいですか？')">投稿を削除する</button>
-							</form:form>
+						<form:form modelAttribute="deleteMessageForm">
+							<tr>
+								<td colspan="2"><button type="submit" name="deleteMessage"
+										value="${message.postId }"
+										onClick="return confirm('この投稿を削除します。よろしいですか？')">投稿を削除する</button>
+						</form:form>
 					</c:if>
 
 				</table>
 
 				<div class=comments>
+					<br />コメント一覧 <br>
 					<table class=comments>
-						<br />コメント一覧
-						<br>
+
 
 						<c:if test="${not empty comments }">
 							<%
@@ -200,8 +198,8 @@
 											test="${(comment.userId == loginUser.id) || (loginUser.departmentId == 2) || (comment.branchId == loginUser.branchId && loginUser.departmentId == 3) }">
 											<form:form modelAttribute="deleteCommentForm">
 												<tr>
-													<td colspan="2"><button type="submit" name="id"
-															value="${comment.postId }"
+													<td colspan="2"><button type="submit"
+															name="deleteComment" value="${comment.postId }"
 															onClick="return confirm('このコメントを削除します。よろしいですか？')">コメントを削除する</button>
 													</td>
 												</tr>
@@ -220,10 +218,9 @@
 					<div class="postComeent">
 						<form:form modelAttribute="postCommentForm">
 							<br />コメントの投稿<br />
-							<textarea name="comment" cols="80" rows="5" class="post-box"><c:out
-									value="${inputValues.text }"></c:out></textarea>
+							<form:textarea path="text" cols="80" rows="5" />
 							<br />
-							<input type="submit" value="投稿する">(500文字まで)
+							<input type="submit" name="postComment" value="投稿する">(500文字まで)
 
 							<form:hidden path="postId" value="${message.postId }" />
 							<form:hidden path="userId" value="${loginUser.id }" />

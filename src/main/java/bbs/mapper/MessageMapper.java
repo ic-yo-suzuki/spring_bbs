@@ -4,6 +4,7 @@ import java.util.List;
 
 import bbs.entity.CommentEntity;
 import bbs.entity.MessageEntity;
+import bbs.form.NarrowingForm;
 import bbs.form.PostCommentForm;
 import bbs.form.PostMessageForm;
 
@@ -27,7 +28,18 @@ public interface MessageMapper {
 
 	int deleteComment(int postId);
 
+	List<MessageEntity> getMessage(NarrowingForm form);
 
+	List<MessageEntity> getMessageWithCategory(String category);
 
+	List<MessageEntity> getMessageWithEndDate(String end);
+
+	List<MessageEntity> getMessageWithStartDate(String start);
+
+	List<MessageEntity> getMessageWithDate(String start, String end);
+
+	List<MessageEntity> getMessageWithCategoryAndEndDate(String category, String end);
+
+	List<MessageEntity> getMessageWithCategoryAndStartDate(String category, String start);
 
 }
