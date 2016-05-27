@@ -2,6 +2,9 @@ package bbs.form;
 
 import java.util.Date;
 
+import javax.validation.constraints.Size;
+
+import bbs.validator.annotation.RefuseBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +16,11 @@ public class PostCommentForm {
 	@Setter
 	private long elapsedTime;
 	@Setter
-	private String text, name;
+	@Size(max = 500, message = "コメントは500文字以内で入力してください")
+	@RefuseBlank(message = "コメントを入力してください")
+	private String text;
+	@Setter
+	private String name;
 	private String elapsedTimeText;
 	@Setter
 	private Date insertDate;

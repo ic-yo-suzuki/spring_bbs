@@ -9,11 +9,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>${title }</title>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css" >
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" >
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<link rel="stylesheet"
+	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css">
+<link rel="stylesheet"
+	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css">
 
 
 </head>
@@ -27,12 +32,12 @@
 		<div class="header">
 			<div class="menu">
 
-				<a href="${contextPath}/newpost/">新規投稿</a>
+				<a href="${contextPath}/post/message/">新規投稿</a>
 				<c:if test="${loginUser.departmentId == 1 }">
-					<a href="usermanager">ユーザの管理</a>
+					<a href="${contextPath}/manage/user/">ユーザの管理</a>
 				</c:if>
 				<c:if test="${loginUser.departmentId == 2 }">
-					<a href="ngwordmanager">NGワードの管理</a>
+					<a href="${contextPath}/manage/ngword/">NGワードの管理</a>
 				</c:if>
 				<a href="${contextPath }/logout/">ログアウト</a>
 				<p>
@@ -48,7 +53,7 @@
 		<p>
 		<p>
 		<div class="narrowing">
-			<form:form modelAttribute="narrowingForm" >
+			<form:form modelAttribute="narrowingForm">
 				<script>
 					$(function() {
 						$("#dateStart").datepicker({
@@ -60,9 +65,7 @@
 					});
 				</script>
 				<b>投稿の絞込み検索</b>
-				<p>
-				${narrowingMessage }
-				</p>
+				<p>${narrowingMessage }</p>
 				<ul>
 
 					<li>カテゴリー</li>
@@ -74,12 +77,12 @@
 				</ul>
 
 
-					開始日時<form:input path = "start" id="dateStart" value="${dates[0] }" />
-				    終了日時<form:input path = "end" id="dateEnd" value="${dates[1] }" />(クリックするとカレンダーが表示されます)
+					開始日時<form:input path="start" id="dateStart" value="${dates[0] }" />
+				    終了日時<form:input path="end" id="dateEnd" value="${dates[1] }" />(クリックするとカレンダーが表示されます)
 					<p></p>
 
-				<button type="submit" name="narrow" >指定した条件で検索</button>
-				<button type="submit" name="reset" >絞込みを解除</button>
+				<button type="submit" name="narrow">指定した条件で検索</button>
+				<button type="submit" name="reset">絞込みを解除</button>
 
 			</form:form>
 
@@ -218,7 +221,10 @@
 					<div class="postComeent">
 						<form:form modelAttribute="postCommentForm">
 							<br />コメントの投稿<br />
-							<form:textarea path="text" cols="80" rows="5" />
+							<div>
+								<form:errors path="*" />
+							</div>
+							<form:textarea path="text" cols="80" rows="5" value="${text }" />
 							<br />
 							<input type="submit" name="postComment" value="投稿する">(500文字まで)
 

@@ -15,7 +15,6 @@ public class RefuseBlankValidator implements ConstraintValidator<RefuseBlank, St
 	}
 
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-		System.out.println(StringUtils.isNotBlank(value));
 		return StringUtils.isNotBlank(value);
 	}
 

@@ -20,6 +20,7 @@ public class UserService {
 		UserEntity entity = null;
 		if(id != null){
 			entity = userMapper.getUser(id);
+			userMapper.login(id);
 			entity.setElapsedTimeText(entity.getElapsedTime());
 		}
 		return entity;
@@ -52,4 +53,14 @@ public class UserService {
 		return true;
 	}
 
+	public List<UserEntity> getUsers() {
+		List<UserEntity> users = userMapper.getUsers();
+		for(UserEntity u: users){
+			u.setDepartmentName(userMapper.getDepartmentName(u.getDepartmentId()));
+			u.setBranchName(userMapper.getBranchName(u.getBranchId()));
+			u.setElapsedTimeText(u.getElapsedTime());
+		}
+
+		return users;
+	}
 }

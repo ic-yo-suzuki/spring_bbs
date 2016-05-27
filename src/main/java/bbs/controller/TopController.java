@@ -39,9 +39,9 @@ public class TopController {
 
 	@RequestMapping(params = "postComment",  method = RequestMethod.POST)
 	public String postComment(@Valid @ModelAttribute PostCommentForm form, BindingResult result, Model model){
-		System.out.println(form.getText());
 		if(result.hasErrors() || messageService.postComment(form) == null){
 			model.addAttribute("message", "エラー");
+			model.addAttribute("text", form.getText());
 		}
 		model.addAttribute("categories", messageService.getCategories());
 		model.addAttribute("narrowingForm", new NarrowingForm());
@@ -73,6 +73,7 @@ public class TopController {
 		int confirm = messageService.deleteMessage(Integer.parseInt(request.getParameter("deleteComment")));
 		if(confirm != 1){
 			model.addAttribute("message", "エラー");
+
 		}
 		model.addAttribute("categories", messageService.getCategories());
 		model.addAttribute("narrowingForm", new NarrowingForm());
@@ -94,6 +95,10 @@ public class TopController {
 		model.addAttribute("comments", messageService.getComments());
 		model.addAttribute("postCommentForm", new PostCommentForm());
 		model.addAttribute("postCount", count);
+		String[] dates = new String[2];
+		dates[0] = form.getStart();
+		dates[1] = form.getEnd();
+		model.addAttribute("dates", dates);
 		String message = "検索条件<br> カテゴリ：" + form.getCategory() + "<br>" + "日付：" + form.getStart() + "～" + form.getEnd();
 		model.addAttribute("narrowingMessage", message);
 		return "top";

@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,22 +25,19 @@ public class SignUpController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "/signup/", method = RequestMethod.GET)
-	public String showSignUpScreen(Model model) {
-
+	@RequestMapping(value = "/manage/user/signup/", method = RequestMethod.GET)
+	public String showSignUpScreen(Model model, HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("message");
 		UserForm form = new UserForm();
 		init(form, model);
 
 		return "signup";
 	}
 
-	@RequestMapping(value = "/signup/", method = RequestMethod.POST)
+	@RequestMapping(value = "/manage/user/signup/", method = RequestMethod.POST)
 	public String doSignUp(@Valid @ModelAttribute UserForm form, BindingResult result, Model model,
 			HttpServletRequest request) {
-		System.out.println(request.getParameter("loginId").length());
-		System.out.println(request.getParameter("name").length());
-		System.out.println(request.getParameter("password").length());
-		System.out.println(request.getParameter("password_verify").length());
 
 		if (!result.hasErrors() && request.getParameter("password").equals(request.getParameter("password_verify"))) {
 			form.setBranchId(userService.getBranchId(form.getBranchName()));
@@ -50,9 +49,8 @@ public class SignUpController {
 
 			form.setLastLoginDate(Calendar.getInstance().getTime());
 
-			if (userService.entryUser(form))
-				model.addAttribute("message", "入力値を受け付けました");
-			else
+			if (!userService.entryUser(form))
+
 				model.addAttribute("message", "登録に失敗しました");
 
 		} else {
@@ -61,12 +59,15 @@ public class SignUpController {
 				message = "エラーです<br>入力されたパスワードが一致していません";
 			}
 			model.addAttribute("message", message);
+			model.addAttribute("name", form.getName());
+			model.addAttribute("loginId", form.getLoginId());
+			init(form, model);
+
+			return "signup";
 
 		}
+		return "redirect:/manage/user/";
 
-		init(form, model);
-
-		return "signup";
 	}
 
 	private void init(UserForm form, Model model) {

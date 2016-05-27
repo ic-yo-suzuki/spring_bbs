@@ -74,19 +74,15 @@ public class MessageService {
 
 		String[] time = { " 00:00:00", " 23:59:59" };
 		if(start == 0 && end == 0){ // カテゴリー検索
-			System.out.println("カテゴリーで検索");
 			message = messageMapper.getMessageWithCategory(form.getCategory());
 
 		}else if(category == 0 && start == 0){ // 終了日付検索
-			System.out.println("終了日時で検索");
 			message = messageMapper.getMessageWithEndDate(form.getEnd() + time[1]);
 
 		}else if(category == 0 && end == 0){ // 開始日付検索
-			System.out.println("開始日時で検索");
 			message = messageMapper.getMessageWithStartDate(form.getStart()+ time[0]);
 
 		}else if(category == 0){ // 期間指定検索
-			System.out.println("開始日時～終了日時で検索");
 			if (form.getStart().compareTo(form.getEnd()) > 0) {
 				String tmp = form.getStart();
 				form.setStart(form.getEnd());
@@ -95,15 +91,12 @@ public class MessageService {
 			message = messageMapper.getMessageWithDate(form.getStart() + time[0], form.getEnd() + time[1]);
 
 		}else if(start == 0){ // カテゴリーと終了日時検索
-			System.out.println("カテゴリーと終了日時で検索");
 			message = messageMapper.getMessageWithCategoryAndEndDate(form.getCategory(), form.getEnd() + time[1]);
 
 		}else if(end == 0){ // カテゴリーと開始日時検索
-			System.out.println("カテゴリーと開始日時で検索");
 			message = messageMapper.getMessageWithCategoryAndStartDate(form.getCategory(), form.getStart() + time[0]);
 
 		}else{ // カテゴリー及び期間指定検索
-			System.out.println("全ての条件で検索");
 			if (form.getStart().compareTo(form.getEnd()) > 0) {
 				String tmp = form.getStart();
 				form.setStart(form.getEnd());

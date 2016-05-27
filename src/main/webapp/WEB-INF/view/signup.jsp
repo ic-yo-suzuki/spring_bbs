@@ -10,8 +10,9 @@
 </head>
 
 <body>
+	<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
 	<div class="header">
-		<a href="./usermanager">戻る</a>
+		<a href="${contextPath}/manage/user/">戻る</a>
 	</div>
 	<div class="main-contents">
 

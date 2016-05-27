@@ -2,6 +2,8 @@ package bbs.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import bbs.entity.CommentEntity;
 import bbs.entity.MessageEntity;
 import bbs.form.NarrowingForm;
@@ -30,16 +32,16 @@ public interface MessageMapper {
 
 	List<MessageEntity> getMessage(NarrowingForm form);
 
-	List<MessageEntity> getMessageWithCategory(String category);
+	List<MessageEntity> getMessageWithCategory(@Param("category") String category);
 
-	List<MessageEntity> getMessageWithEndDate(String end);
+	List<MessageEntity> getMessageWithEndDate(@Param("end") String end);
 
-	List<MessageEntity> getMessageWithStartDate(String start);
+	List<MessageEntity> getMessageWithStartDate(@Param("start") String start);
 
-	List<MessageEntity> getMessageWithDate(String start, String end);
+	List<MessageEntity> getMessageWithDate(@Param("start") String start, @Param("end") String end);
 
-	List<MessageEntity> getMessageWithCategoryAndEndDate(String category, String end);
+	List<MessageEntity> getMessageWithCategoryAndEndDate(@Param("category") String category, @Param("end") String end);
 
-	List<MessageEntity> getMessageWithCategoryAndStartDate(String category, String start);
+	List<MessageEntity> getMessageWithCategoryAndStartDate(@Param("category") String category, @Param("start") String start);
 
 }

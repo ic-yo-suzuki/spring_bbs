@@ -41,7 +41,7 @@
 			</tr>
 			<tr id="createCategory">
 				<td>カテゴリの新規作成(10文字まで)</td>
-				<td><input name="createCategory" id = "createCategory" />
+				<td><input name="createCategory" id = "createCategory" value = "${category  }" />
 				</td>
 			</tr>
 				<form:hidden path="category" value = ""/>
@@ -55,8 +55,7 @@
 			</tr>
 			<tr>
 				<td>本文(1000文字まで)</td>
-				<td><form:textarea path="text" cols="60" rows="8" /> <c:out
-						value="${inputValues.text }"></c:out></td>
+				<td><form:textarea path="text" cols="60" rows="8" /> </td>
 			</tr>
 
 			<tr>

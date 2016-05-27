@@ -23,4 +23,12 @@ public interface UserMapper {
 
 	int entryUser(UserForm form);
 
+	List<UserEntity> getUsers();
+
+	String getBranchName(@Param("id") int branchId);
+
+	String getDepartmentName(@Param("id") int departmentId);
+
+	void login(@Param("id") int id);
+
 }
