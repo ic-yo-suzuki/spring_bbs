@@ -31,4 +31,11 @@ public interface UserMapper {
 
 	void login(@Param("id") int id);
 
+	boolean logicalDeleteUser(@Param("id") int id, @Param("status") boolean status);
+
+	boolean physicalDeleteUser(@Param("id") int id);
+
+	boolean getStatus(@Param("id") int id);
+
+
 }

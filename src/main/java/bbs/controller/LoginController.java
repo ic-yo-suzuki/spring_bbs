@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import bbs.entity.UserEntity;
 import bbs.form.LoginForm;
@@ -34,7 +35,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/login/", method = RequestMethod.POST)
 	public String doLogin(@Valid @ModelAttribute LoginForm form, BindingResult result, Model model,
-			HttpServletRequest request) {
+			HttpServletRequest request, RedirectAttributes attributes) {
 		String statement = "login";
 		if (result.hasErrors()) {
 			model.addAttribute("message", "ログインに失敗しました");
@@ -45,13 +46,14 @@ public class LoginController {
 			if (user != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("loginUser", user);
-				session.setAttribute("message", "ログインに成功しました。ようこそ" + user.getName() + "さん。");
+				attributes.addFlashAttribute("message", "ログインに成功しました。");
 				session.setAttribute("title", user.getName() + " - わったいな掲示板");
 				statement = "redirect:/top/";
 			} else {
 				model.addAttribute("message", "ログインに失敗しました");
 			}
 		}
+		System.out.println("doLogin");
 		return statement;
 	}
 }

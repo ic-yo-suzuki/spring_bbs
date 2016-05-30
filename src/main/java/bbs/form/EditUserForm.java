@@ -1,22 +1,33 @@
-package bbs.entity;
+package bbs.form;
 
 import java.util.Date;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
 import lombok.Setter;
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class UserEntity {
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class EditUserForm {
+	@NotNull(message = "ログインIDを入力してください")
+	@Size(min = 6, max = 20, message = "ログインIDは6文字以上20文字以下で入力してください")
+	@Pattern(regexp = "^[0-9a-zA-Z]*$", message = "ログインIDに使えない文字があります")
 	@Getter
 	@Setter
 	private String loginId;
 
+	@Size(max = 10, message = "名前は10文字以下で入力してください")
+	@NotNull(message = "名前を入力してください")
 	@Getter
 	@Setter
 	private String name;
 
+	@Size(min = 6, max = 255, message = "パスワードは6文字以上255文字以下で入力してください")
+	@NotNull(message = "パスワードを入力してください")
 	@Getter
 	@Setter
 	private String password;
@@ -24,6 +35,7 @@ public class UserEntity {
 	@Getter
 	@Setter
 	private int id, branchId, departmentId;
+
 	@Getter
 	@Setter
 	private String branchName, departmentName;

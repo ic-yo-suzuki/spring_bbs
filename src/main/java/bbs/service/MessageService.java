@@ -61,8 +61,8 @@ public class MessageService {
 		return messageMapper.getMessageCount();
 	}
 
-	public int deleteComment(int postId) {
-		return messageMapper.deleteComment(postId);
+	public int deleteComment(int commentId) {
+		return messageMapper.deleteComment(commentId);
 	}
 
 	public List<MessageEntity> getMessage(NarrowingForm form) {

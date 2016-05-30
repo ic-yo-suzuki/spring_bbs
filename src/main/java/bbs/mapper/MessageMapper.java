@@ -28,7 +28,7 @@ public interface MessageMapper {
 
 	int getMessageCount();
 
-	int deleteComment(int postId);
+	int deleteComment(int commentId);
 
 	List<MessageEntity> getMessage(NarrowingForm form);
 

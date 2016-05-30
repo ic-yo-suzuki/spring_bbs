@@ -34,6 +34,7 @@ public class TopController {
 		model.addAttribute("comments", messageService.getComments());
 		model.addAttribute("postCommentForm", new PostCommentForm());
 		model.addAttribute("postCount", messageService.getMessageCount());
+		System.out.println("showTopScreen");
 		return "top";
 	}
 
@@ -70,7 +71,7 @@ public class TopController {
 
 	@RequestMapping(params = "deleteComment", method = RequestMethod.POST)
 	public String deleteComment(@ModelAttribute DeleteCommentForm form, HttpServletRequest request, Model model){
-		int confirm = messageService.deleteMessage(Integer.parseInt(request.getParameter("deleteComment")));
+		int confirm = messageService.deleteComment(Integer.parseInt(request.getParameter("deleteComment")));
 		if(confirm != 1){
 			model.addAttribute("message", "エラー");
 

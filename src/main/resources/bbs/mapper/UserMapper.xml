@@ -13,10 +13,10 @@
 		<result column="department_id" property="departmentId" />
 		<result column="status" property="status"></result>
 		<result column="last_login_date" property="lastLoginDate" />
-		<result column = "elapsed_time" property = "elapsedTime" />
+		<result column="elapsed_time" property="elapsedTime" />
 	</resultMap>
 
-	<update id = "login">
+	<update id="login">
 		update users
 		set last_login_date = CURRENT_TIMESTAMP
 		where id = #{id};
@@ -54,7 +54,7 @@
 		from branches;
 	</select>
 
-	<select id = "getBranchName" resultType = "String">
+	<select id="getBranchName" resultType="String">
 		select name
 		from branches
 		where id = #{id};
@@ -75,9 +75,10 @@
 		departments;
 	</select>
 
-	<select id = "getDepartmentName" resultType = "String">
+	<select id="getDepartmentName" resultType="String">
 		select name
-		from departments
+		from
+		departments
 		where id = #{id};
 
 	</select>
@@ -112,7 +113,28 @@
 		);
 
 	</insert>
+	<update id="logicalDeleteUser">
+		update users set status = #{status}
+		where id = #{id};
+	</update>
 
+	<delete id="physicalDeleteUser">
+		delete from users
+		where id = #{id};
+	</delete>
+
+	<select id="getStatus" resultType="boolean">
+		select status from users
+		where
+		id = #{id};
+
+	</select>
+
+	<select id="isExistUser" resultType="boolean">
+		select exists(select * from
+		users where id = #{id});
+
+	</select>
 
 
 </mapper>

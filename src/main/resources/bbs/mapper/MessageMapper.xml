@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bbs.mapper.MessageMapper">
+
+	<resultMap id="message" type="bbs.entity.MessageEntity">
+		<result column="post_id" property="postId" />
+		<result column="user_id" property="userId" />
+		<result column="branch_id" property="branchId"></result>
+		<result column="department_id" property="departmentId"></result>
+		<result column="name" property="name"></result>
+		<result column="title" property="title" />
+		<result column="text" property="text"></result>
+		<result column="category" property="category" />
+		<result column="insert_date" property="insertDate" />
+		<result column="elapsed_time" property="elapsedTime" />
+	</resultMap>
+
+	<resultMap id="comment" type="bbs.entity.CommentEntity">
+		<result column="comment_id" property="commentId"></result>
+		<result column="post_id" property="postId" />
+		<result column="user_id" property="userId" />
+		<result column="branch_id" property="branchId"></result>
+		<result column="department_id" property="departmentId"></result>
+		<result column="name" property="name"></result>
+		<result column="text" property="text"></result>
+		<result column="insert_date" property="insertDate" />
+		<result column="elapsed_time" property="elapsedTime" />
+	</resultMap>
+
+	<select id="getCategories" resultType="String">
+		select distinct category
+		from posts
+		order by category;
+	</select>
+
+	<select id="getAllMessage" resultMap="message">
+		select posts.id as post_id,
+		users.id as user_id, branch_id, department_id,
+		users.name as name,
+		title, text, category, insert_date,
+		timestampdiff(SECOND,
+		posts.insert_date, CURRENT_TIMESTAMP) as elapsed_time
+		from posts inner
+		join users on posts.user_id = users.id
+		order by posts.insert_date desc;
+
+
+	</select>
+
+	<select id="getComments" resultMap="comment">
+
+		select comments.id as
+		comment_id,
+		user_id, post_id, users.name as name,
+		users.branch_id as
+		branch_id,
+		users.department_id as department_id,
+		text, insert_date,
+		timestampdiff(SECOND, comments.insert_date, CURRENT_TIMESTAMP) as
+		elapsed_time
+		from comments inner join users
+		on users.id =
+		comments.user_id;
+	</select>
+
+	<insert id="postMessage">
+		insert into posts
+		(
+		user_id,
+		title,
+		text,
+		category,
+		insert_date
+		)
+		values
+		(
+		#{userId},
+		#{title},
+		#{text},
+		#{category},
+		CURRENT_TIMESTAMP
+		);
+	</insert>
+
+	<insert id="postComment">
+		insert into comments
+		(
+		user_id,
+		post_id,
+		text,
+		insert_date
+		)
+		values
+		(
+		#{userId},
+		#{postId},
+		#{text},
+		CURRENT_TIMESTAMP
+		);
+	</insert>
+
+	<delete id="deleteMessage">
+		delete
+		from posts
+		where id = #{postId};
+	</delete>
+
+	<delete id="deleteCommentWithMessage">
+		delete
+		from comments
+		where post_id = #{postId};
+
+	</delete>
+
+	<delete id="deleteComment">
+		delete
+		from comments
+		where id = #{commentId};
+	</delete>
+
+	<select id="getMessageCount" resultType="int">
+		select count(*) as
+		post_count
+		from posts;
+	</select>
+
+	<select id="getMessage" resultMap="message">
+		select posts.id as post_id,
+		users.id as user_id, branch_id, department_id,
+		users.name as name,
+		title, text, category, insert_date,
+		timestampdiff(SECOND,
+		posts.insert_date, CURRENT_TIMESTAMP) as
+		elapsed_time
+		from posts inner
+		join users on posts.user_id = users.id
+		where category = #{category} and
+		insert_date between #{start} and #{end}
+		and users.status = true
+		order by
+		posts.insert_date desc;
+
+	</select>
+
+	<select id="getMessageWithCategory" resultMap="message">
+		select posts.id as
+		post_id,
+		users.id as user_id, branch_id, department_id,
+		users.name as
+		name,
+		title, text, category, insert_date,
+		timestampdiff(SECOND,
+		posts.insert_date, CURRENT_TIMESTAMP) as
+		elapsed_time
+		from posts inner
+		join users on posts.user_id = users.id
+		where category = #{category}
+		and
+		users.status = true
+		order by posts.insert_date desc;
+
+	</select>
+
+	<select id="getMessageWithDate" resultMap="message">
+		select posts.id as
+		post_id,
+		users.id as user_id, branch_id, department_id,
+		users.name as
+		name,
+		title, text, category, insert_date,
+		timestampdiff(SECOND,
+		posts.insert_date, CURRENT_TIMESTAMP) as
+		elapsed_time
+		from posts inner
+		join users on posts.user_id = users.id
+		where insert_date between
+		#{start} and #{end}
+		and users.status = true
+		order by posts.insert_date desc;
+	</select>
+
+	<select id="getMessageWithStartDate" resultMap="message">
+		select posts.id
+		as post_id,
+		users.id as user_id, branch_id, department_id,
+		users.name as
+		name,
+		title, text, category, insert_date,
+		timestampdiff(SECOND,
+		posts.insert_date, CURRENT_TIMESTAMP) as
+		elapsed_time
+		from posts inner
+		join users on posts.user_id = users.id
+		where insert_date &gt;= #{start}
+		and users.status = true
+		order by
+		posts.insert_date desc;
+
+	</select>
+
+	<select id="getMessageWithEndDate" resultMap="message">
+		select posts.id as
+		post_id,
+		users.id as user_id, branch_id, department_id,
+		users.name as
+		name,
+		title, text, category, insert_date,
+		timestampdiff(SECOND,
+		posts.insert_date, CURRENT_TIMESTAMP) as
+		elapsed_time
+		from posts inner
+		join users on posts.user_id = users.id
+		where insert_date &lt;= #{end}
+		and users.status = true
+		order by
+		posts.insert_date desc;
+
+	</select>
+
+	<select id="getMessageWithCategoryAndStartDate" resultMap="message">
+		select posts.id
+		as post_id,
+		users.id as user_id, branch_id,
+		department_id,
+		users.name as
+		name,
+		title, text, category, insert_date,
+		timestampdiff(SECOND,
+		posts.insert_date, CURRENT_TIMESTAMP) as
+		elapsed_time
+		from posts inner
+		join users on posts.user_id = users.id
+		where insert_date &gt;= #{start}
+		and category = #{category}
+		and users.status = true
+		order by
+		posts.insert_date desc;
+
+	</select>
+
+	<select id="getMessageWithCategoryAndEndDate" resultMap="message">
+		select posts.id
+		as post_id,
+		users.id as user_id, branch_id,
+		department_id,
+		users.name as
+		name,
+		title, text, category, insert_date,
+		timestampdiff(SECOND,
+		posts.insert_date, CURRENT_TIMESTAMP) as
+		elapsed_time
+		from posts inner
+		join users on posts.user_id = users.id
+		where insert_date &lt;= #{end}
+		and category = #{category}
+		and users.status = true
+		order by
+		posts.insert_date desc;
+
+	</select>
+
+
+
+
+</mapper>

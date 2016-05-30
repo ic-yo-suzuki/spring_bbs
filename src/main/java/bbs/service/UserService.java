@@ -19,15 +19,16 @@ public class UserService {
 		Integer id = userMapper.getUserId(loginId, password);
 		UserEntity entity = null;
 		if(id != null){
-			entity = userMapper.getUser(id);
+			entity = getUser(id);
 			userMapper.login(id);
-			entity.setElapsedTimeText(entity.getElapsedTime());
 		}
 		return entity;
 	}
 
 	public UserEntity getUser(int id){
-		return userMapper.getUser(id);
+		UserEntity user = userMapper.getUser(id);
+		user.setElapsedTimeText(user.getElapsedTime());
+		return user;
 	}
 
 	public List<String> getBranches() {
@@ -62,5 +63,18 @@ public class UserService {
 		}
 
 		return users;
+	}
+
+	public boolean logicalDeleteUser(int id){
+		boolean status = !(getStatus(id));
+		return userMapper.logicalDeleteUser(id, status);
+	}
+
+	public boolean physicalDeleteUser(int id){
+		return userMapper.physicalDeleteUser(id);
+	}
+
+	public boolean getStatus(int id){
+		return userMapper.getStatus(id);
 	}
 }

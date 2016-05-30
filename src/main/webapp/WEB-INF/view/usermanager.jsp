@@ -27,18 +27,13 @@
 			</div>
 		</div>
 		<p>
+		${message }
+		<br>
+		<c:if test="${not empty successMessage }">
+				${successMessage }
+		</c:if>
 
-			<c:if test="${not empty errorMessages }">
-				<div class="errorMessages">
-					<ul>
-						<c:forEach items="${errorMessages }" var="messages">
-							<li><c:out value="${messages }" /></li>
-							<br />
-						</c:forEach>
-					</ul>
-				</div>
-				<c:remove var="errorMessages" scope="session" />
-			</c:if>
+		<br>
 		<hr>
 		ユーザ一覧
 		<div class="userlist">
@@ -61,24 +56,28 @@
 								title="<fmt:formatDate value= "${user.lastLoginDate }" pattern ="yyyy/MM/dd HH:mm:ss" />"><c:out
 										value="${user.elapsedTimeText }" /></abbr></td>
 
-							<form:form modelAttribute = "userForm" method="post" style="display: inline">
-								<td><button type='submit' name='edit' value="${user.id }">編集</button></td>
+							<form:form modelAttribute = "userForm" method = "post" style="display: inline">
+								<td>
+								<button type='submit' name='editUser' value="${user.id }">編集</button>
+
+
+								</td>
 							</form:form>
 
-							<form action="changeStatus" method="post" style="display: inline">
+							<form:form modelAttribute = "userForm" method="post" style="display: inline">
 								<c:if test="${user.status == true }">
-									<td><button type='submit' name='id' value="${user.id }"
+									<td><button type='submit' name='logicalDeleteUser' value="${user.id }"
 											onClick="return confirm('このユーザを停止します。よろしいですか？')">停止</button></td>
 								</c:if>
 								<c:if test="${user.status == false }">
-									<td><button type='submit' name='id' value="${user.id }"
+									<td><button type='submit' name='logicalDeleteUser' value="${user.id }"
 											onClick="return confirm('このユーザを復活します。よろしいですか？')">復活</button></td>
 								</c:if>
-							</form>
-							<form action="deleteUser" method="post" style="display: inline">
-								<td><button type='submit' name='id' value="${user.id }"
+							</form:form>
+							<form:form modelAttribute = "userForm" method="post" style="display: inline">
+								<td><button type='submit' name='physicalDeleteUser' value="${user.id }"
 										onClick="return confirm('このユーザを削除します。よろしいですか？')">削除</button></td>
-							</form>
+							</form:form>
 
 						</tr>
 					</c:forEach>

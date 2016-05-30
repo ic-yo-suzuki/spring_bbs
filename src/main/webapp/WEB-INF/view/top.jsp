@@ -42,11 +42,9 @@
 				<a href="${contextPath }/logout/">ログアウト</a>
 				<p>
 			</div>
+				${message }
 			<div class="name">
-				ようこそ<b><c:out value="${loginUser.name }" /></b>さん(
-				<c:out value="${loginUser.branchId }" />
-				<c:out value="${loginUser.departmentId }" />
-				)
+				ようこそ<b><c:out value="${loginUser.name }" /></b>さん
 			</div>
 			<p>
 		</div>
@@ -202,7 +200,7 @@
 											<form:form modelAttribute="deleteCommentForm">
 												<tr>
 													<td colspan="2"><button type="submit"
-															name="deleteComment" value="${comment.postId }"
+															name="deleteComment" value="${comment.commentId }"
 															onClick="return confirm('このコメントを削除します。よろしいですか？')">コメントを削除する</button>
 													</td>
 												</tr>
