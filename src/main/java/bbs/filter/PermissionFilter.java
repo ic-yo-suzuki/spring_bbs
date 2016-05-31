@@ -13,15 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bbs.entity.UserEntity;
+
 public class PermissionFilter implements Filter {
 
-	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		// TODO 自動生成されたメソッド・スタブ
 
 	}
 
-	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		UserEntity user = (UserEntity)((HttpServletRequest)request).getSession().getAttribute("loginUser");
@@ -35,7 +34,6 @@ public class PermissionFilter implements Filter {
 		chain.doFilter(request, response);
 	}
 
-	@Override
 	public void destroy() {
 		// TODO 自動生成されたメソッド・スタブ
 

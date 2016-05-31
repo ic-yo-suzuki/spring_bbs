@@ -42,5 +42,7 @@ public interface UserMapper {
 
 	int editUserWithPassword(EditUserForm form);
 
+	boolean isExistUser(int id);
+
 
 }

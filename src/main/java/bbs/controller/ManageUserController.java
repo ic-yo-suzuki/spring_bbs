@@ -44,14 +44,14 @@ public class ManageUserController {
 
 	@RequestMapping(params = "logicalDeleteUser", method = RequestMethod.POST)
 	public String logicalDeleteUser(@ModelAttribute UserForm form, Model model, HttpServletRequest request){
-		int id = Integer.parseInt(request.getParameter("logicalDeleteUser"));
-		int myId = ((UserEntity)request.getSession().getAttribute("loginUser")).getId();
-		System.out.println("操作者：" + myId + " 論理削除対象：" + id);
-		if( id == myId || !userService.logicalDeleteUser(id)){
+		int target = Integer.parseInt(request.getParameter("logicalDeleteUser"));
+		int own = ((UserEntity)request.getSession().getAttribute("loginUser")).getId();
+		System.out.println("操作者：" + own + " 論理削除対象：" + target);
+		if(!userService.logicalDeleteUser(target, own)){
 			model.addAttribute("errorMessage", "ユーザの論理削除に失敗しました");
 			System.out.println("論理削除失敗");
 		}else{
-			if(userService.getStatus(id)){
+			if(userService.getStatus(target)){
 				model.addAttribute("successMessage", "ユーザの復元に成功しました");
 				System.out.println("復元");
 			}else{
@@ -66,10 +66,10 @@ public class ManageUserController {
 
 	@RequestMapping(params = "physicalDeleteUser", method = RequestMethod.POST)
 	public String physicalDeleteUser(@ModelAttribute UserForm form, Model model, HttpServletRequest request){
-		int id = Integer.parseInt(request.getParameter("physicalDeleteUser"));
-		int myId = ((UserEntity)request.getSession().getAttribute("loginUser")).getId();
+		int target = Integer.parseInt(request.getParameter("physicalDeleteUser"));
+		int own = ((UserEntity)request.getSession().getAttribute("loginUser")).getId();
 
-		if(id == myId || !userService.physicalDeleteUser(id)){
+		if(!userService.physicalDeleteUser(target, own)){
 			model.addAttribute("errorMessage", "ユーザの物理削除に失敗しました");
 		}else{
 

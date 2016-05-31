@@ -27,8 +27,17 @@ public class UserService {
 	}
 
 	public UserEntity getUser(int id){
-		UserEntity user = userMapper.getUser(id);
+		System.out.println("userMapper.getUser(" + id + ") will run.");
+		UserEntity user = null;
+		try{
+			user = userMapper.getUser(id);
+			System.out.println(user);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
 		user.setElapsedTimeText(user.getElapsedTime());
+		System.out.println("getUser end");
 		return user;
 	}
 
@@ -66,13 +75,18 @@ public class UserService {
 		return users;
 	}
 
-	public boolean logicalDeleteUser(int id){
-		boolean status = !(getStatus(id));
-		return userMapper.logicalDeleteUser(id, status);
+	public boolean logicalDeleteUser(int target, int own){
+		if(target == own){
+			return false;
+		}
+		boolean status = !(getStatus(target));
+		return userMapper.logicalDeleteUser(target, status);
 	}
 
-	public boolean physicalDeleteUser(int id){
-		return userMapper.physicalDeleteUser(id);
+	public boolean physicalDeleteUser(int target, int own){
+		if(target == own)
+			return false;
+		return userMapper.physicalDeleteUser(target);
 	}
 
 	public boolean getStatus(int id){
@@ -91,5 +105,9 @@ public class UserService {
 			return false;
 		}
 		return true;
+	}
+
+	public boolean isExistUser(int id){
+		return userMapper.isExistUser(id);
 	}
 }
