@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import bbs.entity.UserEntity;
+import bbs.form.EditUserForm;
 import bbs.form.UserForm;
 
 public interface UserMapper {
@@ -36,6 +37,10 @@ public interface UserMapper {
 	boolean physicalDeleteUser(@Param("id") int id);
 
 	boolean getStatus(@Param("id") int id);
+
+	int editUser(EditUserForm form);
+
+	int editUserWithPassword(EditUserForm form);
 
 
 }

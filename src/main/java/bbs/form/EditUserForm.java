@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import bbs.validator.annotation.RefuseBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,13 +22,12 @@ public class EditUserForm {
 	private String loginId;
 
 	@Size(max = 10, message = "名前は10文字以下で入力してください")
-	@NotNull(message = "名前を入力してください")
+	@RefuseBlank(message = "名前を入力してください")
 	@Getter
 	@Setter
 	private String name;
 
-	@Size(min = 6, max = 255, message = "パスワードは6文字以上255文字以下で入力してください")
-	@NotNull(message = "パスワードを入力してください")
+
 	@Getter
 	@Setter
 	private String password;

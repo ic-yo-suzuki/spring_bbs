@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bbs.entity.UserEntity;
+import bbs.form.EditUserForm;
 import bbs.form.UserForm;
 import bbs.mapper.UserMapper;
 
@@ -76,5 +77,19 @@ public class UserService {
 
 	public boolean getStatus(int id){
 		return userMapper.getStatus(id);
+	}
+
+	public boolean editUser(EditUserForm form) {
+		if (userMapper.editUser(form) != 1) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean editUserWithPassword(EditUserForm form) {
+		if (userMapper.editUserWithPassword(form) != 1) {
+			return false;
+		}
+		return true;
 	}
 }

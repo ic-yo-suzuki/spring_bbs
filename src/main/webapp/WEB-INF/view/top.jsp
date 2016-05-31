@@ -22,10 +22,15 @@
 
 
 </head>
-<body>
 
 	<div>
 		<form:errors path="*" />
+		<c:if test="${not empty errorMessages } }">
+<%-- 			<c:forEach items = "${errorMessages }" var = "errorMessage"> --%>
+				<c:out value="${errorMessages }"></c:out>
+<%-- 			</c:forEach> --%>
+
+		</c:if>
 	</div>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
 	<div class="main-contents">

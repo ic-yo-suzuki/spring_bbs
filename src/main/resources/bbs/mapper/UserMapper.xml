@@ -136,5 +136,24 @@
 
 	</select>
 
+	<update id = "editUser">
+		update users set
+		login_id = #{loginId},
+		name = #{name},
+		branch_id = #{branchId},
+		department_id = #{departmentId}
+		where id = #{id};
 
+	</update>
+
+	<update id = "editUserWithPassword">
+		update users set
+		login_id = #{loginId},
+		name = #{name},
+		password = #{password},
+		branch_id = #{branchId},
+		department_id = #{departmentId}
+		where id = #{id};
+
+	</update>
 </mapper>
