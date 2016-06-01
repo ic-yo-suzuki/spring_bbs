@@ -38,6 +38,7 @@ public class LoginController {
 	public String doLogin(@Valid @ModelAttribute LoginForm form, BindingResult result, Model model,
 			HttpServletRequest request, RedirectAttributes attributes) {
 		System.out.println("bbs.controller.LoginController#doLogin running.");
+		System.out.println("userService.toString() is : " + userService.toString());
 		String statement = "login";
 		if (result.hasErrors()) {
 			model.addAttribute("message", "ログインに失敗しました");
@@ -51,6 +52,7 @@ public class LoginController {
 				session.setAttribute("loginUser", user);
 				attributes.addFlashAttribute("message", "ログインに成功しました。");
 				session.setAttribute("title", user.getName() + " - わったいな掲示板");
+				session.removeAttribute("errorMessages");
 				statement = "redirect:/top/";
 				System.out.println("Login success");
 			} else {

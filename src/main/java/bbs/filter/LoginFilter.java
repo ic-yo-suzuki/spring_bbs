@@ -12,17 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import bbs.entity.UserEntity;
-import bbs.service.UserService;
 
 @Controller
 public class LoginFilter implements Filter {
 
-	@Autowired
-	private UserService userService;
 
 	public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -32,15 +28,16 @@ public class LoginFilter implements Filter {
 			throws IOException, ServletException {
 		UserEntity loginUser = (UserEntity) ((HttpServletRequest) request).getSession().getAttribute("loginUser");
 		System.out.println("bbs.filter.LoginFilter#doFilter running.");
+//		boolean check = false;
 //		if (loginUser != null) {
 //			try {
-//				loginUser.setStatus(userService.getStatus(loginUser.getId()));
+//				check = new UserChecker().isValidUser(loginUser.getId());
 //			} catch (Exception e) {
 //				System.out.println("Exception in bbs.filter.LoignFilter#doFilter.");
 //				e.printStackTrace();
 //			}
 //		}
-		if (loginUser == null/* ){ || user == null */ || loginUser.isStatus() == false) {
+		if (loginUser == null) {
 
 			System.out.println("loginUser is null.");
 			HttpSession session = ((HttpServletRequest) request).getSession();

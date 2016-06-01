@@ -12,15 +12,10 @@
 <body>
 	<h2>${message }</h2>
 	<table class="newpost">
-		<form:form modelAttribute="postMessageForm" onsubmit = "setCategory();">
+		<form:form modelAttribute="postMessageForm" onsubmit="setCategory();">
 			<div>
 				<form:errors path="*" />
 			</div>
-
-			<%!
-				String enteredCategory;
-			%>
-
 			<tr>
 				<td>カテゴリー(必須)(選択してください)</td>
 				<td><label><input type="radio" name="categorySelect"
@@ -31,20 +26,25 @@
 			</tr>
 			<tr id="selectCategory">
 				<td>カテゴリの選択</td>
-				<td><select name="selectCategory" >
+				<td><select name="selectCategory">
 						<c:forEach items="${categories }" var="category">
-
-							<option value="${category }"><c:out
-									value="${category }"></c:out></option>
+							<c:if test="${category == selectedCategory }">
+								<option value="${category }" selected="selected"><c:out
+										value="${category }"></c:out></option>
+							</c:if>
+							<c:if test="${category != selectedCategory }">
+								<option value="${category }"><c:out
+										value="${category }"></c:out></option>
+							</c:if>
 						</c:forEach>
 				</select></td>
 			</tr>
 			<tr id="createCategory">
 				<td>カテゴリの新規作成(10文字まで)</td>
-				<td><input name="createCategory" id = "createCategory" value = "${category  }" />
-				</td>
+				<td><input name="createCategory" id="createCategory"
+					value="${selectedCategory  }" /></td>
 			</tr>
-				<form:hidden path="category" value = ""/>
+			<form:hidden path="category" value="" />
 			<tr>
 				<td>投稿者</td>
 				<td><c:out value="${loginUser.name }"></c:out>さん(自動で追加されます)</td>
@@ -55,7 +55,7 @@
 			</tr>
 			<tr>
 				<td>本文(1000文字まで)</td>
-				<td><form:textarea path="text" cols="60" rows="8" /> </td>
+				<td><form:textarea path="text" cols="60" rows="8" /></td>
 			</tr>
 
 			<tr>
@@ -77,7 +77,6 @@
 
 		radio = document.getElementsByName('categorySelect');
 
-
 		if (radio[0].checked) {
 			document.getElementById('createCategory').style.display = "none";
 			document.getElementById('selectCategory').style.display = "";
@@ -90,7 +89,7 @@
 
 	}
 
-	function setCategory(){
+	function setCategory() {
 		radio = document.getElementsByName('categorySelect');
 		if (radio[0].checked) {
 			category = postMessageForm.selectCategory.value;

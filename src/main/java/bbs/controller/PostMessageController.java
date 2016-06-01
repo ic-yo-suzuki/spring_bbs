@@ -32,7 +32,7 @@ public class PostMessageController {
 		if(result.hasErrors() || form.getCategory().length() > 10  || messageService.postMessage(form) != 1){
 			model.addAttribute("message", "エラー");
 			model.addAttribute("categories", messageService.getCategories());
-			model.addAttribute("category", form.getCategory());
+			model.addAttribute("selectedCategory", form.getCategory());
 			model.addAttribute("title", form.getTitle());
 			model.addAttribute("text", form.getText());
 			return "newpost";
