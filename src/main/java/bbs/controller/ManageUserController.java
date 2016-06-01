@@ -34,6 +34,7 @@ public class ManageUserController {
 		int id = Integer.parseInt(request.getParameter("editUser"));
 		System.out.println(id);
 		UserEntity editUser = userService.getUser(id);
+		System.out.println(editUser.getBranchName());
 		model.addAttribute("editUser", editUser);
 		HttpSession session = request.getSession();
 		session.setAttribute("editUser", editUser);

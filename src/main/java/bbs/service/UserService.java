@@ -27,16 +27,20 @@ public class UserService {
 	}
 
 	public UserEntity getUser(int id){
-		System.out.println("userMapper.getUser(" + id + ") will run.");
+		System.out.println("bbs.service.UserService#getUser running.");
+		System.out.println("bbs.mapper.UserMapper#getUser(" + id + ") will run.");
 		UserEntity user = null;
 		try{
 			user = userMapper.getUser(id);
 			System.out.println(user);
 		}catch(Exception e){
+			System.out.println("Exception in bbs.service.UserService#getUser");
 			e.printStackTrace();
 		}
 
 		user.setElapsedTimeText(user.getElapsedTime());
+		user.setBranchName(userMapper.getBranchName(user.getBranchId()));
+		user.setDepartmentName(userMapper.getDepartmentName(user.getDepartmentId()));
 		System.out.println("getUser end");
 		return user;
 	}

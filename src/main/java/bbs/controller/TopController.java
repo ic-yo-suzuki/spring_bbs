@@ -1,6 +1,5 @@
 package bbs.controller;
 
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,25 +21,27 @@ import bbs.form.PostCommentForm;
 import bbs.service.MessageService;
 
 @Controller
-@RequestMapping(value ="/top/")
+@RequestMapping(value = "/top/")
 public class TopController {
 	@Autowired
 	private MessageService messageService;
-	@RequestMapping( method = RequestMethod.GET)
+
+	@RequestMapping(method = RequestMethod.GET)
 	public String showTopScreen(Model model) {
+		System.out.println("bbs.controller.TopController#showTopScreen running.");
 		model.addAttribute("categories", messageService.getCategories());
 		model.addAttribute("narrowingForm", new NarrowingForm());
 		model.addAttribute("messages", messageService.getAllMessage());
 		model.addAttribute("comments", messageService.getComments());
 		model.addAttribute("postCommentForm", new PostCommentForm());
 		model.addAttribute("postCount", messageService.getMessageCount());
-		System.out.println("showTopScreen");
+
 		return "top";
 	}
 
-	@RequestMapping(params = "postComment",  method = RequestMethod.POST)
-	public String postComment(@Valid @ModelAttribute PostCommentForm form, BindingResult result, Model model){
-		if(result.hasErrors() || messageService.postComment(form) == null){
+	@RequestMapping(params = "postComment", method = RequestMethod.POST)
+	public String postComment(@Valid @ModelAttribute PostCommentForm form, BindingResult result, Model model) {
+		if (result.hasErrors() || messageService.postComment(form) == null) {
 			model.addAttribute("message", "エラー");
 			model.addAttribute("text", form.getText());
 		}
@@ -53,11 +54,11 @@ public class TopController {
 		return "top";
 	}
 
-	@RequestMapping(params = "deleteMessage",  method = RequestMethod.POST)
-	public String deleteMessage(@ModelAttribute DeleteMessageForm form, HttpServletRequest request, Model model){
+	@RequestMapping(params = "deleteMessage", method = RequestMethod.POST)
+	public String deleteMessage(@ModelAttribute DeleteMessageForm form, HttpServletRequest request, Model model) {
 
 		int confirm = messageService.deleteMessage(Integer.parseInt(request.getParameter("deleteMessage")));
-		if(confirm < 0){
+		if (confirm < 0) {
 			model.addAttribute("message", "エラー");
 		}
 		model.addAttribute("categories", messageService.getCategories());
@@ -70,9 +71,9 @@ public class TopController {
 	}
 
 	@RequestMapping(params = "deleteComment", method = RequestMethod.POST)
-	public String deleteComment(@ModelAttribute DeleteCommentForm form, HttpServletRequest request, Model model){
+	public String deleteComment(@ModelAttribute DeleteCommentForm form, HttpServletRequest request, Model model) {
 		int confirm = messageService.deleteComment(Integer.parseInt(request.getParameter("deleteComment")));
-		if(confirm != 1){
+		if (confirm != 1) {
 			model.addAttribute("message", "エラー");
 
 		}
@@ -86,7 +87,7 @@ public class TopController {
 	}
 
 	@RequestMapping(params = "narrow", method = RequestMethod.POST)
-	public String narrowingMessage(@ModelAttribute NarrowingForm form, HttpServletRequest request, Model model){
+	public String narrowingMessage(@ModelAttribute NarrowingForm form, HttpServletRequest request, Model model) {
 
 		List<MessageEntity> messages = messageService.getMessage(form);
 		int count = messages.size();
@@ -106,7 +107,7 @@ public class TopController {
 	}
 
 	@RequestMapping(params = "reset", method = RequestMethod.POST)
-	public String resetView(Model model){
+	public String resetView(Model model) {
 		return this.showTopScreen(model);
 	}
 }

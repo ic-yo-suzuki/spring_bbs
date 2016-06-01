@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import bbs.entity.UserEntity;
 import bbs.form.EditUserForm;
 import bbs.service.UserService;
 import bbs.util.CipherUtil;
@@ -31,11 +32,16 @@ public class EditUserController {
 		System.out.println("showEditUser");
 		HttpSession session = request.getSession();
 
+		UserEntity editUser = (UserEntity) session.getAttribute("editUser");
+//		session.removeAttribute("editUser");
+
 		List<String> branches = userService.getBranches();
+		branches.removeIf(a -> a.equals(editUser.getBranchName()));
 		model.addAttribute("branches", branches);
 		List<String> departments = userService.getDepartments();
+		departments.removeIf(a -> a.equals(editUser.getDepartmentName()));
 		model.addAttribute("departments", departments);
-		model.addAttribute("editUser", session.getAttribute("editUser"));
+		model.addAttribute("editUser", editUser);
 		model.addAttribute("message", session.getAttribute("message"));
 		return "edituser";
 	}

@@ -26,6 +26,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/login/", method = RequestMethod.GET)
 	public String showLoginScreen(Model model) {
+		System.out.println("bbs.controller.LoginController#showLoginScreen running.");
 		LoginForm form = new LoginForm();
 		form.setLoginId("");
 		form.setPassword("");
@@ -36,9 +37,11 @@ public class LoginController {
 	@RequestMapping(value = "/login/", method = RequestMethod.POST)
 	public String doLogin(@Valid @ModelAttribute LoginForm form, BindingResult result, Model model,
 			HttpServletRequest request, RedirectAttributes attributes) {
+		System.out.println("bbs.controller.LoginController#doLogin running.");
 		String statement = "login";
 		if (result.hasErrors()) {
 			model.addAttribute("message", "ログインに失敗しました");
+			System.out.println("Login failure");
 		} else {
 			new CipherUtil();
 			String encryptedPassword = CipherUtil.encrypt(form.getPassword());
@@ -49,11 +52,12 @@ public class LoginController {
 				attributes.addFlashAttribute("message", "ログインに成功しました。");
 				session.setAttribute("title", user.getName() + " - わったいな掲示板");
 				statement = "redirect:/top/";
+				System.out.println("Login success");
 			} else {
 				model.addAttribute("message", "ログインに失敗しました");
+				System.out.println("Login failure");
 			}
 		}
-		System.out.println("doLogin");
 		return statement;
 	}
 }

@@ -16,10 +16,16 @@
 	<div class="login-screen">
 
 		<h3>掲示板 ログイン</h3>
-		<h2>${message}</h2>
+
 		<form:form modelAttribute="loginForm">
 			<div>
 				<form:errors path="*" />
+				<c:if test = "${not empty message }">
+					${message }
+				</c:if>
+				<c:if test = "${not empty errorMessages }">
+					${errorMessages }
+				</c:if>
 			</div>
 			<table>
 				<tbody>
