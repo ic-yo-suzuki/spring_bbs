@@ -39,13 +39,14 @@ public class SignUpController {
 	public String doSignUp(@Valid @ModelAttribute UserForm form, BindingResult result, Model model,
 			HttpServletRequest request) {
 
-		if (!result.hasErrors() && request.getParameter("password").equals(request.getParameter("password_verify"))) {
+		if (!result.hasErrors() && request.getParameter("password").equals(request.getParameter("password_verify"))
+				&& !(userService.isExistLoginId(form.getLoginId()))) {
 			form.setBranchId(userService.getBranchId(form.getBranchName()));
 			form.setDepartmentId(userService.getDepartmentId(form.getDepartmentName()));
 			form.setStatus(true);
 
-			new CipherUtil();
-			form.setPassword(CipherUtil.encrypt(form.getPassword()));
+			form.setPassword(new CipherUtil().encrypt(form.getPassword()));
+			System.out.println(form.getPassword());
 
 			form.setLastLoginDate(Calendar.getInstance().getTime());
 
@@ -57,6 +58,9 @@ public class SignUpController {
 			String message = new String("エラーです");
 			if (!(request.getParameter("password").equals(request.getParameter("password_verify")))) {
 				message = "エラーです<br>入力されたパスワードが一致していません";
+			}
+			if (userService.isExistLoginId(form.getLoginId())) {
+				message += "<br>入力されたログインIDは既に使用されています";
 			}
 			model.addAttribute("message", message);
 			model.addAttribute("name", form.getName());

@@ -51,13 +51,12 @@ public class EditUserController {
 			HttpServletRequest request) {
 		System.out.println("名前：" + form.getName());
 
-		if (!result.hasErrors()) {
+		if (!result.hasErrors() && !(userService.isExistLoginId(form.getLoginId()))) {
 			form.setBranchId(userService.getBranchId(form.getBranchName()));
 			form.setDepartmentId(userService.getDepartmentId(form.getDepartmentName()));
 			if (request.getParameter("password").equals(request.getParameter("password_verify"))
 					&& !StringUtils.isBlank(request.getParameter("password"))) {
-				new CipherUtil();
-				form.setPassword(CipherUtil.encrypt(form.getPassword()));
+				form.setPassword(new CipherUtil().encrypt(form.getPassword()));
 				if (!userService.editUserWithPassword(form)) {
 					model.addAttribute("message", "変更に失敗しました");
 				}
@@ -72,6 +71,9 @@ public class EditUserController {
 			String message = new String("エラーです");
 			if (!(request.getParameter("password").equals(request.getParameter("password_verify")))) {
 				message = "エラーです<br>入力されたパスワードが一致していません";
+			}
+			if(userService.isExistLoginId(form.getLoginId())){
+				message += "<br>入力されたログインIDは既に使用されています";
 			}
 			model.addAttribute("message", message);
 			model.addAttribute("name", form.getName());

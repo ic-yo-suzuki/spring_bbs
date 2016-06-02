@@ -50,19 +50,32 @@ public class MessageService {
 		return messageMapper.postComment(form);
 	}
 
-	public int deleteMessage(int postId) throws ArithmeticException {
+	public boolean deleteMessage(int postId) {
 
-		int result = messageMapper.deleteMessage(postId);
-		result += messageMapper.deleteCommentWithMessage(postId);
-		return result;
+		int messageDel = messageMapper.deleteMessage(postId);
+		int commentDel = messageMapper.deleteCommentWithMessage(postId);
+		System.out.println("Delete:" + messageDel + " + " + commentDel);
+		if(messageDel + commentDel <= 0){
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 	public int getMessageCount(){
 		return messageMapper.getMessageCount();
 	}
 
-	public int deleteComment(int commentId) {
-		return messageMapper.deleteComment(commentId);
+	public boolean deleteComment(int commentId) {
+
+		int confirm = messageMapper.deleteComment(commentId);
+		System.out.println("Delete:" + confirm);
+		if(confirm != 1){
+			return false;
+		}else{
+			return true;
+		}
+
 	}
 
 	public List<MessageEntity> getMessage(NarrowingForm form) {
@@ -111,5 +124,13 @@ public class MessageService {
 			m.setElapsedTimeText(m.getElapsedTime());
 		}
 		return message;
+	}
+
+	public boolean isExistPost(int id) {
+		return messageMapper.isExistPost(id);
+	}
+
+	public boolean isExistComment(int id){
+		return messageMapper.isExistComment(id);
 	}
 }

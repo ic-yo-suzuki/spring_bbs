@@ -114,4 +114,8 @@ public class UserService {
 	public boolean isExistUser(int id){
 		return userMapper.isExistUser(id);
 	}
+
+	public boolean isExistLoginId(String loginId) {
+		return userMapper.isExistLoginId(loginId);
+	}
 }

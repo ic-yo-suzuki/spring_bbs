@@ -3,7 +3,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class CipherUtil {
-	public static String encrypt(String target){
+	public String encrypt(String target){
 		MessageDigest md = null;
 	    StringBuilder sb = null;
 	    try {

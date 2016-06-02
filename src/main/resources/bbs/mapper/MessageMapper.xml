@@ -260,7 +260,15 @@
 
 	</select>
 
+	<select id = "isExistPost" resultType = "boolean">
+	select exists(select * from
+		posts where id = #{id});
+	</select>
 
+	<select id = "isExistComment" resultType = "boolean">
+	select exists(select * from
+		comments where id = #{id});
+	</select>
 
 
 </mapper>

@@ -44,5 +44,7 @@ public interface UserMapper {
 
 	boolean isExistUser(int id);
 
+	boolean isExistLoginId(@Param("loginId") String loginId);
+
 
 }

@@ -29,60 +29,55 @@ public class TopController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String showTopScreen(Model model) {
 		System.out.println("bbs.controller.TopController#showTopScreen running.");
-		model.addAttribute("categories", messageService.getCategories());
-		model.addAttribute("narrowingForm", new NarrowingForm());
-		model.addAttribute("messages", messageService.getAllMessage());
-		model.addAttribute("comments", messageService.getComments());
-		model.addAttribute("postCommentForm", new PostCommentForm());
-		model.addAttribute("postCount", messageService.getMessageCount());
+		init(model);
 
 		return "top";
 	}
 
 	@RequestMapping(params = "postComment", method = RequestMethod.POST)
 	public String postComment(@Valid @ModelAttribute PostCommentForm form, BindingResult result, Model model) {
-		if (result.hasErrors() || messageService.postComment(form) == null) {
-			model.addAttribute("message", "エラー");
+		System.out.println(form.getPostId());
+		if (result.hasErrors() || !messageService.isExistPost(form.getPostId())) {
+			String message = "エラー：コメントの投稿に失敗しました。";
+			if (!messageService.isExistPost(form.getPostId())) {
+				message += "対象の投稿が存在しません。";
+			}
+			model.addAttribute("message", message);
 			model.addAttribute("text", form.getText());
+		} else {
+			if (messageService.postComment(form) == null) {
+				model.addAttribute("message", "エラー：コメントの投稿に失敗しました。");
+				model.addAttribute("text", form.getText());
+			}
+			model.addAttribute("message", "コメントが投稿されました。");
 		}
-		model.addAttribute("categories", messageService.getCategories());
-		model.addAttribute("narrowingForm", new NarrowingForm());
-		model.addAttribute("messages", messageService.getAllMessage());
-		model.addAttribute("comments", messageService.getComments());
-		model.addAttribute("postCommentForm", new PostCommentForm());
-		model.addAttribute("postCount", messageService.getMessageCount());
+		init(model);
 		return "top";
 	}
 
 	@RequestMapping(params = "deleteMessage", method = RequestMethod.POST)
 	public String deleteMessage(@ModelAttribute DeleteMessageForm form, HttpServletRequest request, Model model) {
 
-		int confirm = messageService.deleteMessage(Integer.parseInt(request.getParameter("deleteMessage")));
-		if (confirm < 0) {
-			model.addAttribute("message", "エラー");
+		boolean confirm = messageService.deleteMessage(Integer.parseInt(request.getParameter("deleteMessage")));
+		if (!confirm) {
+			model.addAttribute("message", "エラー：投稿の削除に失敗しました。");
+		}else{
+			model.addAttribute("message", "投稿の削除が完了しました。");
 		}
-		model.addAttribute("categories", messageService.getCategories());
-		model.addAttribute("narrowingForm", new NarrowingForm());
-		model.addAttribute("messages", messageService.getAllMessage());
-		model.addAttribute("comments", messageService.getComments());
-		model.addAttribute("postCommentForm", new PostCommentForm());
-		model.addAttribute("postCount", messageService.getMessageCount());
+		init(model);
 		return "top";
 	}
 
 	@RequestMapping(params = "deleteComment", method = RequestMethod.POST)
 	public String deleteComment(@ModelAttribute DeleteCommentForm form, HttpServletRequest request, Model model) {
-		int confirm = messageService.deleteComment(Integer.parseInt(request.getParameter("deleteComment")));
-		if (confirm != 1) {
-			model.addAttribute("message", "エラー");
+		boolean confirm = messageService.deleteComment(Integer.parseInt(request.getParameter("deleteComment")));
+		if (!confirm) {
+			model.addAttribute("message", "エラー：コメントの削除に失敗しました。");
 
+		}else{
+			model.addAttribute("message", "コメントの削除が完了しました。");
 		}
-		model.addAttribute("categories", messageService.getCategories());
-		model.addAttribute("narrowingForm", new NarrowingForm());
-		model.addAttribute("messages", messageService.getAllMessage());
-		model.addAttribute("comments", messageService.getComments());
-		model.addAttribute("postCommentForm", new PostCommentForm());
-		model.addAttribute("postCount", messageService.getMessageCount());
+		init(model);
 		return "top";
 	}
 
@@ -109,5 +104,14 @@ public class TopController {
 	@RequestMapping(params = "reset", method = RequestMethod.POST)
 	public String resetView(Model model) {
 		return this.showTopScreen(model);
+	}
+
+	private void init(Model model) {
+		model.addAttribute("categories", messageService.getCategories());
+		model.addAttribute("narrowingForm", new NarrowingForm());
+		model.addAttribute("messages", messageService.getAllMessage());
+		model.addAttribute("comments", messageService.getComments());
+		model.addAttribute("postCommentForm", new PostCommentForm());
+		model.addAttribute("postCount", messageService.getMessageCount());
 	}
 }

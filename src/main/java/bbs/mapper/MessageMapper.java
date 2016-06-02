@@ -44,4 +44,8 @@ public interface MessageMapper {
 
 	List<MessageEntity> getMessageWithCategoryAndStartDate(@Param("category") String category, @Param("start") String start);
 
+	boolean isExistPost(@Param("id") int id);
+
+	boolean isExistComment(@Param("id") int id);
+
 }

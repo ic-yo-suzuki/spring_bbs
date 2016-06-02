@@ -44,8 +44,7 @@ public class LoginController {
 			model.addAttribute("message", "ログインに失敗しました");
 			System.out.println("Login failure");
 		} else {
-			new CipherUtil();
-			String encryptedPassword = CipherUtil.encrypt(form.getPassword());
+			String encryptedPassword = new CipherUtil().encrypt(form.getPassword());
 			UserEntity user = userService.getUser(form.getLoginId(), encryptedPassword);
 			if (user != null) {
 				HttpSession session = request.getSession();
