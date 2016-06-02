@@ -14,10 +14,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<param-value>classpath:spring/application-config.xml</param-value>
 	</context-param>
 
-	<!-- <listener> -->
-	<!-- <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> -->
-	<!-- </listener> -->
-
+<!-- 	<listener> -->
+<!-- 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> -->
+<!-- 	</listener> -->
 
 	<!-- - Servlet that dispatches request to registered handlers (Controller
 		implementations). -->
@@ -59,9 +58,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!-- ログイン状態を判定するフィルタ -->
+	<!-- bbs.filter.LoginFilterを使用 -->
 	<filter>
 		<filter-name>LoginFilter</filter-name>
-		<filter-class>bbs.filter.LoginFilter</filter-class>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>LoginFilter</filter-name>
@@ -72,7 +73,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/manage/user/edit/</url-pattern>
 	</filter-mapping>
 
-
+	<!-- 人事総務部のみが入れる箇所のフィルタ -->
+	<!-- bbs.filter.PermissionFilterを使用 -->
 	<filter>
 		<filter-name>PermissionFilter</filter-name>
 		<filter-class>bbs.filter.PermissionFilter</filter-class>

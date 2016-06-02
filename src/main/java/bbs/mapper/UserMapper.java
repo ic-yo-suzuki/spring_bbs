@@ -36,15 +36,14 @@ public interface UserMapper {
 
 	boolean physicalDeleteUser(@Param("id") int id);
 
-	boolean getStatus(@Param("id") int id);
+	Boolean getStatus(@Param("id") int id);
 
 	int editUser(EditUserForm form);
 
 	int editUserWithPassword(EditUserForm form);
 
-	boolean isExistUser(int id);
+	Boolean isExistUser(int id);
 
 	boolean isExistLoginId(@Param("loginId") String loginId);
-
 
 }

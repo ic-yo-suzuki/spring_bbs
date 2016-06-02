@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import bbs.entity.UserEntity;
 import bbs.form.EditUserForm;
 import bbs.form.UserForm;
+import bbs.mapper.MessageMapper;
 import bbs.mapper.UserMapper;
 
 @Service
@@ -16,24 +17,27 @@ public class UserService {
 	@Autowired
 	private UserMapper userMapper;
 
+	@Autowired
+	private MessageMapper messageMapper;
+
 	public UserEntity getUser(String loginId, String password) {
 		Integer id = userMapper.getUserId(loginId, password);
 		UserEntity entity = null;
-		if(id != null){
+		if (id != null) {
 			entity = getUser(id);
 			userMapper.login(id);
 		}
 		return entity;
 	}
 
-	public UserEntity getUser(int id){
+	public UserEntity getUser(int id) {
 		System.out.println("bbs.service.UserService#getUser running.");
 		System.out.println("bbs.mapper.UserMapper#getUser(" + id + ") will run.");
 		UserEntity user = null;
-		try{
+		try {
 			user = userMapper.getUser(id);
 			System.out.println(user);
-		}catch(Exception e){
+		} catch (Exception e) {
 			System.out.println("Exception in bbs.service.UserService#getUser");
 			e.printStackTrace();
 		}
@@ -70,7 +74,7 @@ public class UserService {
 
 	public List<UserEntity> getUsers() {
 		List<UserEntity> users = userMapper.getUsers();
-		for(UserEntity u: users){
+		for (UserEntity u : users) {
 			u.setDepartmentName(userMapper.getDepartmentName(u.getDepartmentId()));
 			u.setBranchName(userMapper.getBranchName(u.getBranchId()));
 			u.setElapsedTimeText(u.getElapsedTime());
@@ -79,22 +83,29 @@ public class UserService {
 		return users;
 	}
 
-	public boolean logicalDeleteUser(int target, int own){
-		if(target == own){
+	public boolean logicalDeleteUser(int target, int own) {
+		if (target == own) {
 			return false;
 		}
 		boolean status = !(getStatus(target));
 		return userMapper.logicalDeleteUser(target, status);
 	}
 
-	public boolean physicalDeleteUser(int target, int own){
-		if(target == own)
+	public boolean physicalDeleteUser(int target, int own) {
+		if (target == own)
 			return false;
+		messageMapper.deleteMessageWithUserId(target);
+		messageMapper.deleteCommentWithUserId(target);
 		return userMapper.physicalDeleteUser(target);
 	}
 
-	public boolean getStatus(int id){
-		return userMapper.getStatus(id);
+	public Boolean getStatus(int id) {
+		Boolean result = userMapper.getStatus(id);
+		if(result == null){
+			return false;
+		}else{
+			return result;
+		}
 	}
 
 	public boolean editUser(EditUserForm form) {
@@ -111,8 +122,13 @@ public class UserService {
 		return true;
 	}
 
-	public boolean isExistUser(int id){
-		return userMapper.isExistUser(id);
+	public Boolean isExistUser(int id) {
+		Boolean result = userMapper.isExistUser(id);
+		if (result == null) {
+			return false;
+		} else {
+			return result;
+		}
 	}
 
 	public boolean isExistLoginId(String loginId) {

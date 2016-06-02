@@ -176,7 +176,7 @@
 
 					<c:if test="${not empty comments }">
 						<%
-							int count = 1;
+							int count = 0;
 						%>
 						<c:forEach items="${comments }" var="comment">
 							<c:if test="${message.postId == comment.postId }">
@@ -212,11 +212,8 @@
 										</form:form>
 									</c:if>
 									<hr>
-									投稿番号：<%=count%><br>
+									投稿番号：<%=++count%><br>
 								</table>
-								<%
-									count++;
-								%>
 							</c:if>
 						</c:forEach>
 					</c:if>

@@ -41,8 +41,9 @@
 		title, text, category, insert_date,
 		timestampdiff(SECOND,
 		posts.insert_date, CURRENT_TIMESTAMP) as elapsed_time
-		from posts inner
-		join users on posts.user_id = users.id
+		from posts inner join users
+		on posts.user_id = users.id
+		where users.status = true
 		order by posts.insert_date desc;
 
 
@@ -61,7 +62,8 @@
 		elapsed_time
 		from comments inner join users
 		on users.id =
-		comments.user_id;
+		comments.user_id
+		where users.status = true;
 	</select>
 
 	<insert id="postMessage">
@@ -122,7 +124,10 @@
 	<select id="getMessageCount" resultType="int">
 		select count(*) as
 		post_count
-		from posts;
+		from posts
+		inner join users
+		on posts.user_id = users.id
+		where users.status = true;
 	</select>
 
 	<select id="getMessage" resultMap="message">
@@ -133,8 +138,8 @@
 		timestampdiff(SECOND,
 		posts.insert_date, CURRENT_TIMESTAMP) as
 		elapsed_time
-		from posts inner
-		join users on posts.user_id = users.id
+		from posts inner join users
+		on posts.user_id = users.id
 		where category = #{category} and
 		insert_date between #{start} and #{end}
 		and users.status = true
@@ -153,8 +158,8 @@
 		timestampdiff(SECOND,
 		posts.insert_date, CURRENT_TIMESTAMP) as
 		elapsed_time
-		from posts inner
-		join users on posts.user_id = users.id
+		from posts inner join users
+		on posts.user_id = users.id
 		where category = #{category}
 		and
 		users.status = true
@@ -172,12 +177,13 @@
 		timestampdiff(SECOND,
 		posts.insert_date, CURRENT_TIMESTAMP) as
 		elapsed_time
-		from posts inner
-		join users on posts.user_id = users.id
+		from posts inner join users
+		on posts.user_id = users.id
 		where insert_date between
 		#{start} and #{end}
 		and users.status = true
-		order by posts.insert_date desc;
+		order by posts.insert_date
+		desc;
 	</select>
 
 	<select id="getMessageWithStartDate" resultMap="message">
@@ -190,8 +196,8 @@
 		timestampdiff(SECOND,
 		posts.insert_date, CURRENT_TIMESTAMP) as
 		elapsed_time
-		from posts inner
-		join users on posts.user_id = users.id
+		from posts inner join users
+		on posts.user_id = users.id
 		where insert_date &gt;= #{start}
 		and users.status = true
 		order by
@@ -233,14 +239,16 @@
 		join users on posts.user_id = users.id
 		where insert_date &gt;= #{start}
 		and category = #{category}
-		and users.status = true
+		and
+		users.status = true
 		order by
 		posts.insert_date desc;
 
 	</select>
 
 	<select id="getMessageWithCategoryAndEndDate" resultMap="message">
-		select posts.id
+		select
+		posts.id
 		as post_id,
 		users.id as user_id, branch_id,
 		department_id,
@@ -254,21 +262,32 @@
 		join users on posts.user_id = users.id
 		where insert_date &lt;= #{end}
 		and category = #{category}
-		and users.status = true
+		and
+		users.status = true
 		order by
 		posts.insert_date desc;
 
 	</select>
 
-	<select id = "isExistPost" resultType = "boolean">
-	select exists(select * from
+	<select id="isExistPost" resultType="boolean">
+		select exists(select * from
 		posts where id = #{id});
 	</select>
 
-	<select id = "isExistComment" resultType = "boolean">
-	select exists(select * from
+	<select id="isExistComment" resultType="boolean">
+		select exists(select * from
 		comments where id = #{id});
 	</select>
+
+	<delete id = "deleteMessageWithUserId">
+		delete from posts
+		where user_id = #{id};
+	</delete>
+
+	<delete id = "deleteCommentWithUserId">
+		delete from comments
+		where user_id = #{id};
+	</delete>
 
 
 </mapper>

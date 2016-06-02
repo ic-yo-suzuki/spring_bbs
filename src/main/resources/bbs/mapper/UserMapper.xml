@@ -159,8 +159,8 @@
 
 	</update>
 
-	<select id = "isExistLoginId" resultType = "boolean">
-	select exists(select * from
+	<select id="isExistLoginId" resultType="boolean">
+		select exists(select * from
 		users where login_id = #{loginId});
 	</select>
 

@@ -46,7 +46,6 @@ public class SignUpController {
 			form.setStatus(true);
 
 			form.setPassword(new CipherUtil().encrypt(form.getPassword()));
-			System.out.println(form.getPassword());
 
 			form.setLastLoginDate(Calendar.getInstance().getTime());
 

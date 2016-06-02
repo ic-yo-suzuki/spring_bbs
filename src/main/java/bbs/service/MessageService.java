@@ -28,7 +28,7 @@ public class MessageService {
 
 	public List<MessageEntity> getAllMessage() {
 		List<MessageEntity> messages = messageMapper.getAllMessage();
-		for(MessageEntity m: messages){
+		for (MessageEntity m : messages) {
 			m.setElapsedTimeText(m.getElapsedTime());
 		}
 		return messages;
@@ -36,7 +36,7 @@ public class MessageService {
 
 	public List<CommentEntity> getComments() {
 		List<CommentEntity> comments = messageMapper.getComments();
-		for(CommentEntity c: comments){
+		for (CommentEntity c : comments) {
 			c.setElapsedTimeText(c.getElapsedTime());
 		}
 		return comments;
@@ -54,25 +54,23 @@ public class MessageService {
 
 		int messageDel = messageMapper.deleteMessage(postId);
 		int commentDel = messageMapper.deleteCommentWithMessage(postId);
-		System.out.println("Delete:" + messageDel + " + " + commentDel);
-		if(messageDel + commentDel <= 0){
+		if (messageDel + commentDel <= 0) {
 			return false;
-		}else{
+		} else {
 			return true;
 		}
 	}
 
-	public int getMessageCount(){
+	public int getMessageCount() {
 		return messageMapper.getMessageCount();
 	}
 
 	public boolean deleteComment(int commentId) {
 
 		int confirm = messageMapper.deleteComment(commentId);
-		System.out.println("Delete:" + confirm);
-		if(confirm != 1){
+		if (confirm != 1) {
 			return false;
-		}else{
+		} else {
 			return true;
 		}
 
@@ -86,16 +84,16 @@ public class MessageService {
 		end = form.getEnd().length();
 
 		String[] time = { " 00:00:00", " 23:59:59" };
-		if(start == 0 && end == 0){ // カテゴリー検索
+		if (start == 0 && end == 0) { // カテゴリー検索
 			message = messageMapper.getMessageWithCategory(form.getCategory());
 
-		}else if(category == 0 && start == 0){ // 終了日付検索
+		} else if (category == 0 && start == 0) { // 終了日付検索
 			message = messageMapper.getMessageWithEndDate(form.getEnd() + time[1]);
 
-		}else if(category == 0 && end == 0){ // 開始日付検索
-			message = messageMapper.getMessageWithStartDate(form.getStart()+ time[0]);
+		} else if (category == 0 && end == 0) { // 開始日付検索
+			message = messageMapper.getMessageWithStartDate(form.getStart() + time[0]);
 
-		}else if(category == 0){ // 期間指定検索
+		} else if (category == 0) { // 期間指定検索
 			if (form.getStart().compareTo(form.getEnd()) > 0) {
 				String tmp = form.getStart();
 				form.setStart(form.getEnd());
@@ -103,13 +101,13 @@ public class MessageService {
 			}
 			message = messageMapper.getMessageWithDate(form.getStart() + time[0], form.getEnd() + time[1]);
 
-		}else if(start == 0){ // カテゴリーと終了日時検索
+		} else if (start == 0) { // カテゴリーと終了日時検索
 			message = messageMapper.getMessageWithCategoryAndEndDate(form.getCategory(), form.getEnd() + time[1]);
 
-		}else if(end == 0){ // カテゴリーと開始日時検索
+		} else if (end == 0) { // カテゴリーと開始日時検索
 			message = messageMapper.getMessageWithCategoryAndStartDate(form.getCategory(), form.getStart() + time[0]);
 
-		}else{ // カテゴリー及び期間指定検索
+		} else { // カテゴリー及び期間指定検索
 			if (form.getStart().compareTo(form.getEnd()) > 0) {
 				String tmp = form.getStart();
 				form.setStart(form.getEnd());
@@ -120,7 +118,7 @@ public class MessageService {
 			message = messageMapper.getMessage(form);
 		}
 
-		for(MessageEntity m: message){
+		for (MessageEntity m : message) {
 			m.setElapsedTimeText(m.getElapsedTime());
 		}
 		return message;
@@ -130,7 +128,7 @@ public class MessageService {
 		return messageMapper.isExistPost(id);
 	}
 
-	public boolean isExistComment(int id){
+	public boolean isExistComment(int id) {
 		return messageMapper.isExistComment(id);
 	}
 }

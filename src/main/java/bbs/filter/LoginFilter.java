@@ -12,33 +12,43 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import bbs.entity.UserEntity;
+import bbs.service.UserService;
 
 @Controller
 public class LoginFilter implements Filter {
 
+	// private UserChecker userChecker = new UserChecker();
+	@Autowired
+	private UserService userService;
 
 	public void init(FilterConfig filterConfig) throws ServletException {
-
+		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, filterConfig.getServletContext());
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		UserEntity loginUser = (UserEntity) ((HttpServletRequest) request).getSession().getAttribute("loginUser");
 		System.out.println("bbs.filter.LoginFilter#doFilter running.");
-//		boolean check = false;
-//		if (loginUser != null) {
-//			try {
-//				check = new UserChecker().isValidUser(loginUser.getId());
-//			} catch (Exception e) {
-//				System.out.println("Exception in bbs.filter.LoignFilter#doFilter.");
-//				e.printStackTrace();
-//			}
-//		}
-		if (loginUser == null) {
+		boolean check = false;
+		if (loginUser != null) {
+			try {
+				if (userService.getStatus(loginUser.getId()) == true
+						|| userService.isExistUser(loginUser.getId()) == true) {
+					check = true;
+				}
+			} catch (Exception e) {
+				System.out.println("Exception in bbs.filter.LoignFilter#doFilter.");
+				// e.printStackTrace();
+			}
+			System.out.println("bbs.check.UserChecker#isValidUser is " + check);
+		}
 
+		if (loginUser == null) {
 			System.out.println("loginUser is null.");
 			HttpSession session = ((HttpServletRequest) request).getSession();
 			session.removeAttribute("message");
@@ -51,7 +61,6 @@ public class LoginFilter implements Filter {
 	}
 
 	public void destroy() {
-		// TODO 自動生成されたメソッド・スタブ
 
 	}
 

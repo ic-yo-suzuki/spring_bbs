@@ -33,7 +33,7 @@ public class EditUserController {
 		HttpSession session = request.getSession();
 
 		UserEntity editUser = (UserEntity) session.getAttribute("editUser");
-//		session.removeAttribute("editUser");
+		// session.removeAttribute("editUser");
 
 		List<String> branches = userService.getBranches();
 		branches.removeIf(a -> a.equals(editUser.getBranchName()));
@@ -72,7 +72,7 @@ public class EditUserController {
 			if (!(request.getParameter("password").equals(request.getParameter("password_verify")))) {
 				message = "エラーです<br>入力されたパスワードが一致していません";
 			}
-			if(userService.isExistLoginId(form.getLoginId())){
+			if (userService.isExistLoginId(form.getLoginId())) {
 				message += "<br>入力されたログインIDは既に使用されています";
 			}
 			model.addAttribute("message", message);

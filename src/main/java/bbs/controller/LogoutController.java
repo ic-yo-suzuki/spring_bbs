@@ -13,7 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class LogoutController {
 	@RequestMapping(value = "/logout/", method = RequestMethod.GET)
-	public String Logout(Model model, HttpServletRequest request, HttpServletResponse response, RedirectAttributes attributes) {
+	public String Logout(Model model, HttpServletRequest request, HttpServletResponse response,
+			RedirectAttributes attributes) {
 		System.out.println("bbs.controller.LogoutController#Logout running.");
 		HttpSession session = request.getSession();
 		session.invalidate();

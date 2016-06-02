@@ -28,8 +28,9 @@ public class PostMessageController {
 	}
 
 	@RequestMapping(value = "/post/message/", method = RequestMethod.POST)
-	public String postMessage(@Valid @ModelAttribute PostMessageForm form, BindingResult result, Model model, HttpServletRequest request){
-		if(result.hasErrors() || form.getCategory().length() > 10  || messageService.postMessage(form) != 1){
+	public String postMessage(@Valid @ModelAttribute PostMessageForm form, BindingResult result, Model model,
+			HttpServletRequest request) {
+		if (result.hasErrors() || form.getCategory().length() > 10 || messageService.postMessage(form) != 1) {
 			model.addAttribute("message", "エラー");
 			model.addAttribute("categories", messageService.getCategories());
 			model.addAttribute("selectedCategory", form.getCategory());

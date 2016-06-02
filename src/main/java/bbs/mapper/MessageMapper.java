@@ -48,4 +48,8 @@ public interface MessageMapper {
 
 	boolean isExistComment(@Param("id") int id);
 
+	void deleteMessageWithUserId(@Param("id") int target);
+
+	void deleteCommentWithUserId(@Param("id") int id);
+
 }

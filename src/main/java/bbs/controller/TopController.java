@@ -36,7 +36,6 @@ public class TopController {
 
 	@RequestMapping(params = "postComment", method = RequestMethod.POST)
 	public String postComment(@Valid @ModelAttribute PostCommentForm form, BindingResult result, Model model) {
-		System.out.println(form.getPostId());
 		if (result.hasErrors() || !messageService.isExistPost(form.getPostId())) {
 			String message = "エラー：コメントの投稿に失敗しました。";
 			if (!messageService.isExistPost(form.getPostId())) {
@@ -61,7 +60,7 @@ public class TopController {
 		boolean confirm = messageService.deleteMessage(Integer.parseInt(request.getParameter("deleteMessage")));
 		if (!confirm) {
 			model.addAttribute("message", "エラー：投稿の削除に失敗しました。");
-		}else{
+		} else {
 			model.addAttribute("message", "投稿の削除が完了しました。");
 		}
 		init(model);
@@ -74,7 +73,7 @@ public class TopController {
 		if (!confirm) {
 			model.addAttribute("message", "エラー：コメントの削除に失敗しました。");
 
-		}else{
+		} else {
 			model.addAttribute("message", "コメントの削除が完了しました。");
 		}
 		init(model);
