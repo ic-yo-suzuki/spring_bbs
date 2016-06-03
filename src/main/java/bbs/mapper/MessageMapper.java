@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import bbs.entity.CommentEntity;
 import bbs.entity.MessageEntity;
+import bbs.entity.NgWord;
 import bbs.form.NarrowingForm;
 import bbs.form.PostCommentForm;
 import bbs.form.PostMessageForm;
@@ -51,5 +52,7 @@ public interface MessageMapper {
 	void deleteMessageWithUserId(@Param("id") int target);
 
 	void deleteCommentWithUserId(@Param("id") int id);
+
+	List<NgWord> getNgWord();
 
 }

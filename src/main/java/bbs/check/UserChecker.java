@@ -26,7 +26,7 @@ public class UserChecker {
 			QueryRunner qr = new QueryRunner();
 			ResultSetHandler rs = new ScalarHandler();
 			exist = (long) qr.query(con, "select count(*) as count from users where id = ?;", rs, id);
-			status = (boolean) qr.query(con, "select status from	users where id = ?;", rs, id);
+			status = (boolean) qr.query(con, "select status from users where id = ?;", rs, id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

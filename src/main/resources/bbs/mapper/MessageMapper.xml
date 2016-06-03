@@ -28,6 +28,13 @@
 		<result column="elapsed_time" property="elapsedTime" />
 	</resultMap>
 
+	<resultMap id="ngword" type="bbs.entity.NgWord">
+		<result column="id" property="id" />
+		<result column="word" property="word" />
+	</resultMap>
+
+
+
 	<select id="getCategories" resultType="String">
 		select distinct category
 		from posts
@@ -41,10 +48,12 @@
 		title, text, category, insert_date,
 		timestampdiff(SECOND,
 		posts.insert_date, CURRENT_TIMESTAMP) as elapsed_time
-		from posts inner join users
+		from posts inner
+		join users
 		on posts.user_id = users.id
 		where users.status = true
-		order by posts.insert_date desc;
+		order by
+		posts.insert_date desc;
 
 
 	</select>
@@ -127,7 +136,8 @@
 		from posts
 		inner join users
 		on posts.user_id = users.id
-		where users.status = true;
+		where
+		users.status = true;
 	</select>
 
 	<select id="getMessage" resultMap="message">
@@ -138,7 +148,8 @@
 		timestampdiff(SECOND,
 		posts.insert_date, CURRENT_TIMESTAMP) as
 		elapsed_time
-		from posts inner join users
+		from posts inner
+		join users
 		on posts.user_id = users.id
 		where category = #{category} and
 		insert_date between #{start} and #{end}
@@ -158,7 +169,8 @@
 		timestampdiff(SECOND,
 		posts.insert_date, CURRENT_TIMESTAMP) as
 		elapsed_time
-		from posts inner join users
+		from posts inner
+		join users
 		on posts.user_id = users.id
 		where category = #{category}
 		and
@@ -177,7 +189,8 @@
 		timestampdiff(SECOND,
 		posts.insert_date, CURRENT_TIMESTAMP) as
 		elapsed_time
-		from posts inner join users
+		from posts inner
+		join users
 		on posts.user_id = users.id
 		where insert_date between
 		#{start} and #{end}
@@ -196,7 +209,8 @@
 		timestampdiff(SECOND,
 		posts.insert_date, CURRENT_TIMESTAMP) as
 		elapsed_time
-		from posts inner join users
+		from posts inner
+		join users
 		on posts.user_id = users.id
 		where insert_date &gt;= #{start}
 		and users.status = true
@@ -275,19 +289,23 @@
 	</select>
 
 	<select id="isExistComment" resultType="boolean">
-		select exists(select * from
+		select exists(select *
+		from
 		comments where id = #{id});
 	</select>
 
-	<delete id = "deleteMessageWithUserId">
+	<delete id="deleteMessageWithUserId">
 		delete from posts
 		where user_id = #{id};
 	</delete>
 
-	<delete id = "deleteCommentWithUserId">
+	<delete id="deleteCommentWithUserId">
 		delete from comments
 		where user_id = #{id};
 	</delete>
 
+	<select id = "getNgWord" resultMap = "ngword">
+		select * from ngwords;
+	</select>
 
 </mapper>

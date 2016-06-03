@@ -10,6 +10,8 @@
 <title>新規投稿</title>
 </head>
 <body>
+	<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
+	<a href="${contextPath}/top/">ホーム</a>
 	<h2>${message }</h2>
 	<table class="newpost">
 		<form:form modelAttribute="postMessageForm" onsubmit="setCategory();">

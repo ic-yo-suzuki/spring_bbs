@@ -22,13 +22,14 @@ public class ManageUserController {
 	private UserService userService;
 
 	@RequestMapping(value = "/manage/user/", method = RequestMethod.GET)
-	public String showManageScreen(Model model) {
+	public String showPostScreen(Model model) {
 
 		model.addAttribute("users", userService.getUsers());
 
 		model.addAttribute("message", "ユーザ管理");
 		return "usermanager";
 	}
+
 
 	@RequestMapping(params = "editUser",value = "/manage/user/",  method = RequestMethod.POST)
 	public String editUser(@ModelAttribute UserForm form, Model model, HttpServletRequest request){

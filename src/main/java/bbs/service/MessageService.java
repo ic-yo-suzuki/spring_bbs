@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import bbs.entity.CommentEntity;
 import bbs.entity.MessageEntity;
+import bbs.entity.NgWord;
 import bbs.form.NarrowingForm;
 import bbs.form.PostCommentForm;
 import bbs.form.PostMessageForm;
@@ -130,5 +131,9 @@ public class MessageService {
 
 	public boolean isExistComment(int id) {
 		return messageMapper.isExistComment(id);
+	}
+
+	public List<NgWord> getNgWord(){
+		return messageMapper.getNgWord();
 	}
 }
