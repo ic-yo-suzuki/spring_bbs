@@ -9,10 +9,11 @@
 	<context:component-scan base-package="webapp" />
 
 
-<!-- 	<context:component-scan base-package="bbs.filter"> -->
-<!-- 	<context:include-filter type="annotation" -->
-<!-- 	expression="org.springframework.stereotype.Controller" /> -->
-<!-- 	</context:component-scan> -->
-	<bean id="LoginFilter" class="bbs.filter.LoginFilter" />
-	<bean id="PermissionFilter" class="bbs.filter.PermissionFilter" />
+	<context:component-scan base-package="bbs.filter">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<bean id = "LoginFilter" class = "bbs.filter.LoginFilter"></bean>
+
 </beans>

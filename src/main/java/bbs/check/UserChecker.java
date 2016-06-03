@@ -1,35 +1,44 @@
 package bbs.check;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
-import bbs.service.UserService;
-import lombok.Getter;
-import lombok.Setter;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 public class UserChecker {
 
-	@Autowired
-	@Getter
-	@Setter
-	private static UserService userService;
-
-	@SuppressWarnings("null")
-	public Boolean isValidUser(int id) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Boolean isValidUser(int id) throws Exception {
 
 		System.out.println("bbs.check.UserChecker#isValidUser running.");
-		System.out.println("userService.toString() is : " + userService.toString());
-		Boolean exist, status;
+
+		Boolean status;
+		Long exist;
+		exist = null;
+		status = null;
 		boolean result = false;
+		Class.forName("org.gjt.mm.mysql.Driver");
+		String url = "jdbc:mysql:///bbs?useUnicode=true&characterEncoding=UTF-8";
+		Connection con = DriverManager.getConnection(url, "java", "ic-com.Test");
 		try {
-			exist = userService.isExistUser(id);
-			status = userService.getStatus(id);
-			if(exist != null && status == null){
-				result = exist & status;
-			}
+			QueryRunner qr = new QueryRunner();
+			ResultSetHandler rs = new ScalarHandler();
+			exist = (long) qr.query(con, "select count(*) as count from users where id = ?;", rs, id);
+			status = (boolean) qr.query(con, "select status from	users where id = ?;", rs, id);
 		} catch (Exception e) {
-			System.out.println("Exception in bbs.check.UserChecker#isValidUser.");
 			e.printStackTrace();
+		} finally {
+			con.close();
 		}
+
+		if (exist != null && status != null) {
+			if (status == true && exist == 1) {
+				result = true;
+			}
+		}
+		System.out.println("bbs.check.UserChecker#result is " + result);
 		return result;
 	}
 }

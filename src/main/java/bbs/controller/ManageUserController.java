@@ -17,10 +17,12 @@ import bbs.service.UserService;
 @Controller
 
 public class ManageUserController {
+
 	@Autowired
 	private UserService userService;
+
 	@RequestMapping(value = "/manage/user/", method = RequestMethod.GET)
-	public String showPostScreen(Model model) {
+	public String showManageScreen(Model model) {
 
 		model.addAttribute("users", userService.getUsers());
 

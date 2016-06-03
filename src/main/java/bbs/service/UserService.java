@@ -100,7 +100,10 @@ public class UserService {
 	}
 
 	public Boolean getStatus(int id) {
-		Boolean result = userMapper.getStatus(id);
+		Boolean result = null;
+		if(userMapper != null){
+			result = userMapper.getStatus(id);
+		}
 		if(result == null){
 			return false;
 		}else{
@@ -123,7 +126,10 @@ public class UserService {
 	}
 
 	public Boolean isExistUser(int id) {
-		Boolean result = userMapper.isExistUser(id);
+		Boolean result = null;
+		if(userMapper != null){
+			result = userMapper.isExistUser(id);
+		}
 		if (result == null) {
 			return false;
 		} else {
