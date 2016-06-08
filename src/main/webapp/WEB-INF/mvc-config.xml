@@ -12,7 +12,9 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<context:component-scan base-package="bbs"></context:component-scan>
+	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<mvc:annotation-driven />
+
 
 	<!-- 入力値検証の日本語リソース設定 -->
 	<bean id="messageSource"

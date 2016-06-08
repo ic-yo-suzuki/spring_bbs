@@ -20,7 +20,13 @@
 <link rel="stylesheet"
 	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css">
 
-
+<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/resources/js/lib/prototype.js"></script>
+<script type="text/javascript"
+ 	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
+<script type="text/javascript"
+	src="<c:url value = "/resources/js/getUserList.js" />"></script>
 </head>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>

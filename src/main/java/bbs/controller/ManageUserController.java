@@ -9,9 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import bbs.entity.UserEntity;
 import bbs.form.UserForm;
+import bbs.json.JsonConverter;
 import bbs.service.UserService;
 
 @Controller
@@ -22,17 +26,35 @@ public class ManageUserController {
 	private UserService userService;
 
 	@RequestMapping(value = "/manage/user/", method = RequestMethod.GET)
-	public String showPostScreen(Model model) {
+	public ModelAndView showPostScreen() {
 
-		model.addAttribute("users", userService.getUsers());
-
-		model.addAttribute("message", "ユーザ管理");
-		return "usermanager";
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("users", userService.getUsers());
+		try {
+			modelAndView.addObject("jsonUserList", new JsonConverter().parseJsonFromUserList(userService.getUsers()));
+		} catch (JsonProcessingException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		modelAndView.addObject("message", "ユーザ管理");
+		modelAndView.setViewName("usermanager");
+		return modelAndView;
 	}
 
+//	@RequestMapping(value = "getUsersList", method = RequestMethod.GET)
+//
+//	public @ResponseBody String getUsersList() {
+//		String jsonUserList = "";
+//		try {
+//			jsonUserList = new JsonConverter().parseJsonFromUserList(userService.getUsers());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return jsonUserList;
+//	}
 
-	@RequestMapping(params = "editUser",value = "/manage/user/",  method = RequestMethod.POST)
-	public String editUser(@ModelAttribute UserForm form, Model model, HttpServletRequest request){
+	@RequestMapping(params = "editUser", value = "/manage/user/", method = RequestMethod.POST)
+	public String editUser(@ModelAttribute UserForm form, Model model, HttpServletRequest request) {
 
 		int id = Integer.parseInt(request.getParameter("editUser"));
 		System.out.println(id);
@@ -45,20 +67,19 @@ public class ManageUserController {
 		return "redirect:/manage/user/edit/";
 	}
 
-
 	@RequestMapping(params = "logicalDeleteUser", method = RequestMethod.POST)
-	public String logicalDeleteUser(@ModelAttribute UserForm form, Model model, HttpServletRequest request){
+	public String logicalDeleteUser(@ModelAttribute UserForm form, Model model, HttpServletRequest request) {
 		int target = Integer.parseInt(request.getParameter("logicalDeleteUser"));
-		int own = ((UserEntity)request.getSession().getAttribute("loginUser")).getId();
+		int own = ((UserEntity) request.getSession().getAttribute("loginUser")).getId();
 		System.out.println("操作者：" + own + " 論理削除対象：" + target);
-		if(!userService.logicalDeleteUser(target, own)){
+		if (!userService.logicalDeleteUser(target, own)) {
 			model.addAttribute("errorMessage", "ユーザの論理削除に失敗しました");
 			System.out.println("論理削除失敗");
-		}else{
-			if(userService.getStatus(target)){
+		} else {
+			if (userService.getStatus(target)) {
 				model.addAttribute("successMessage", "ユーザの復元に成功しました");
 				System.out.println("復元");
-			}else{
+			} else {
 				model.addAttribute("successMessage", "ユーザの論理削除に成功しました");
 				System.out.println("論理削除成功");
 			}
@@ -69,13 +90,13 @@ public class ManageUserController {
 	}
 
 	@RequestMapping(params = "physicalDeleteUser", method = RequestMethod.POST)
-	public String physicalDeleteUser(@ModelAttribute UserForm form, Model model, HttpServletRequest request){
+	public String physicalDeleteUser(@ModelAttribute UserForm form, Model model, HttpServletRequest request) {
 		int target = Integer.parseInt(request.getParameter("physicalDeleteUser"));
-		int own = ((UserEntity)request.getSession().getAttribute("loginUser")).getId();
+		int own = ((UserEntity) request.getSession().getAttribute("loginUser")).getId();
 
-		if(!userService.physicalDeleteUser(target, own)){
+		if (!userService.physicalDeleteUser(target, own)) {
 			model.addAttribute("errorMessage", "ユーザの物理削除に失敗しました");
-		}else{
+		} else {
 
 			model.addAttribute("successMessage", "ユーザの物理削除に成功しました");
 		}

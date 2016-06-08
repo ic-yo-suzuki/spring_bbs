@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import bbs.entity.MessageEntity;
 import bbs.form.DeleteCommentForm;
 import bbs.form.DeleteMessageForm;
 import bbs.form.NarrowingForm;
 import bbs.form.PostCommentForm;
+import bbs.json.JsonConverter;
 import bbs.service.MessageService;
 
 @Controller
@@ -34,6 +37,16 @@ public class TopController {
 		return "top";
 	}
 
+//	@RequestMapping(value = "getMessageList", method = RequestMethod.GET)
+//	public String getMessageList(){
+//		String jsonMessagesList = "";
+//		try{
+//			jsonMessagesList = new JsonConverter().parseJsonFromMessageList(messageService.getAllMessage());
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
+//		return jsonMessagesList;
+//	}
 	@RequestMapping(params = "postComment", method = RequestMethod.POST)
 	public String postComment(@Valid @ModelAttribute PostCommentForm form, BindingResult result, Model model) {
 		if (result.hasErrors() || !messageService.isExistPost(form.getPostId())) {
@@ -112,5 +125,12 @@ public class TopController {
 		model.addAttribute("comments", messageService.getComments());
 		model.addAttribute("postCommentForm", new PostCommentForm());
 		model.addAttribute("postCount", messageService.getMessageCount());
+		try {
+			model.addAttribute("jsonMessage",
+					new JsonConverter().parseJsonFromMessageList(messageService.getAllMessage()));
+		} catch (JsonProcessingException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
 }

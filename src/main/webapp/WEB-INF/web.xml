@@ -62,7 +62,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<filter>
 		<filter-name>LoginFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-<!-- 		<filter-class>bbs.filter.LoginFilter</filter-class> -->
+		<!-- <filter-class>bbs.filter.LoginFilter</filter-class> -->
 	</filter>
 	<filter-mapping>
 		<filter-name>LoginFilter</filter-name>
@@ -85,6 +85,13 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/manage/user/edit/</url-pattern>
 	</filter-mapping>
 
-
+	<filter>
+		<filter-name>ResourceUrlEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.servlet.resource.ResourceUrlEncodingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ResourceUrlEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 </web-app>
