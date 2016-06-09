@@ -10,12 +10,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<meta http-equiv = "content-language" content="ja">
 <title>ユーザ管理</title>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/resources/js/lib/prototype.js"></script>
 <script type="text/javascript"
- 	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
+	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
 <script type="text/javascript"
 	src="<c:url value = "/resources/js/getUserList.js" />"></script>
 </head>

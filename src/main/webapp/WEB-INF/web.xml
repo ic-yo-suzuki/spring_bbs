@@ -36,12 +36,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-
-
-
 	<!-- 文字エンコーディング -->
-
-
 	<filter>
 		<filter-name>CharacterEncoding</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -60,21 +55,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</filter-mapping>
 
 	<filter>
-		<filter-name>LoginFilter</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-		<!-- <filter-class>bbs.filter.LoginFilter</filter-class> -->
-	</filter>
-	<filter-mapping>
-		<filter-name>LoginFilter</filter-name>
-		<url-pattern>/top/</url-pattern>
-		<url-pattern>/post/message/</url-pattern>
-		<url-pattern>/manage/user/</url-pattern>
-		<url-pattern>/manage/user/signup/</url-pattern>
-		<url-pattern>/manage/user/edit/</url-pattern>
-	</filter-mapping>
-
-
-	<filter>
 		<filter-name>PermissionFilter</filter-name>
 		<filter-class>bbs.filter.PermissionFilter</filter-class>
 	</filter>
@@ -86,12 +66,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</filter-mapping>
 
 	<filter>
-		<filter-name>ResourceUrlEncodingFilter</filter-name>
-		<filter-class>org.springframework.web.servlet.resource.ResourceUrlEncodingFilter</filter-class>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>bbs.filter.LoginFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>ResourceUrlEncodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>/top/</url-pattern>
+		<url-pattern>/post/message/</url-pattern>
+		<url-pattern>/manage/user/</url-pattern>
+		<url-pattern>/manage/user/signup/</url-pattern>
+		<url-pattern>/manage/user/edit/</url-pattern>
 	</filter-mapping>
 
 </web-app>
