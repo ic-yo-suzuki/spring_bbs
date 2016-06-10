@@ -22,6 +22,7 @@
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
+<input type = "hidden" id = "loginUserId" value = "${loginUser.id }">
 	<div class="main-contents">
 		<div class="header">
 			<div class="menu">
@@ -53,16 +54,17 @@
 					<th>最終ログイン</th>
 					<th colspan="3">ユーザの操作</th>
 
-
 					<c:forEach items="${users }" var="user">
 						<tr>
-							<td><c:out value="${user.name }" /></td>
-							<td><c:out value="${user.loginId }" /></td>
-							<td><c:out value="${user.branchName }" /></td>
-							<td><c:out value="${user.departmentName }" /></td>
-							<td><abbr
-								title="<fmt:formatDate value= "${user.lastLoginDate }" pattern ="yyyy/MM/dd HH:mm:ss" />"><c:out
-										value="${user.elapsedTimeText }" /></abbr></td>
+							<td id = "name"><c:out value="${user.name }" /></td>
+							<td id = "loginId"><c:out value="${user.loginId }" /></td>
+							<td id = "branchName"><c:out value="${user.branchName }" /></td>
+							<td id = "departmentName"><c:out value="${user.departmentName }" /></td>
+							<td id = "loginDate">
+								<abbr title="<fmt:formatDate value= "${user.lastLoginDate }" pattern ="yyyy/MM/dd HH:mm:ss" />">
+									<c:out value="${user.elapsedTimeText }" />
+								</abbr>
+							</td>
 
 							<form:form modelAttribute="userForm" method="post"
 								style="display: inline">
@@ -103,6 +105,7 @@
 
 				</tbody>
 			</table>
+
 		</div>
 	</div>
 </body>

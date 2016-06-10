@@ -12,8 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import bbs.entity.MessageEntity;
 import bbs.form.DeleteCommentForm;
@@ -24,12 +23,11 @@ import bbs.json.JsonConverter;
 import bbs.service.MessageService;
 
 @Controller
-@RequestMapping(value = "/top/")
 public class TopController {
 	@Autowired
 	private MessageService messageService;
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "/top/", method = RequestMethod.GET)
 	public String showTopScreen(Model model) {
 		System.out.println("bbs.controller.TopController#showTopScreen running.");
 		init(model);
@@ -37,17 +35,31 @@ public class TopController {
 		return "top";
 	}
 
-//	@RequestMapping(value = "getMessageList", method = RequestMethod.GET)
-//	public String getMessageList(){
-//		String jsonMessagesList = "";
-//		try{
-//			jsonMessagesList = new JsonConverter().parseJsonFromMessageList(messageService.getAllMessage());
-//		}catch(Exception e){
-//			e.printStackTrace();
-//		}
-//		return jsonMessagesList;
-//	}
-	@RequestMapping(params = "postComment", method = RequestMethod.POST)
+	@RequestMapping(value = "/getMessageList/", method = RequestMethod.GET)
+	@ResponseBody
+	public String getMessageList() {
+		String jsonMessagesList = "";
+		try {
+			jsonMessagesList = new JsonConverter().parseJsonFromMessageList(messageService.getAllMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return jsonMessagesList;
+	}
+
+	@RequestMapping(value = "/getCommentList/", method = RequestMethod.GET)
+	@ResponseBody
+	public String getCommentList(){
+		String jsonCommentList = "";
+		try{
+			jsonCommentList = new JsonConverter().parseJsonFromCommentList(messageService.getComments());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return jsonCommentList;
+	}
+
+	@RequestMapping(value = "/top/", params = "postComment", method = RequestMethod.POST)
 	public String postComment(@Valid @ModelAttribute PostCommentForm form, BindingResult result, Model model) {
 		if (result.hasErrors() || !messageService.isExistPost(form.getPostId())) {
 			String message = "エラー：コメントの投稿に失敗しました。";
@@ -67,7 +79,7 @@ public class TopController {
 		return "top";
 	}
 
-	@RequestMapping(params = "deleteMessage", method = RequestMethod.POST)
+	@RequestMapping(value = "/top/", params = "deleteMessage", method = RequestMethod.POST)
 	public String deleteMessage(@ModelAttribute DeleteMessageForm form, HttpServletRequest request, Model model) {
 
 		boolean confirm = messageService.deleteMessage(Integer.parseInt(request.getParameter("deleteMessage")));
@@ -80,7 +92,7 @@ public class TopController {
 		return "top";
 	}
 
-	@RequestMapping(params = "deleteComment", method = RequestMethod.POST)
+	@RequestMapping(value = "/top/", params = "deleteComment", method = RequestMethod.POST)
 	public String deleteComment(@ModelAttribute DeleteCommentForm form, HttpServletRequest request, Model model) {
 		boolean confirm = messageService.deleteComment(Integer.parseInt(request.getParameter("deleteComment")));
 		if (!confirm) {
@@ -93,7 +105,7 @@ public class TopController {
 		return "top";
 	}
 
-	@RequestMapping(params = "narrow", method = RequestMethod.POST)
+	@RequestMapping(value = "/top/", params = "narrow", method = RequestMethod.POST)
 	public String narrowingMessage(@ModelAttribute NarrowingForm form, HttpServletRequest request, Model model) {
 
 		List<MessageEntity> messages = messageService.getMessage(form);
@@ -113,7 +125,7 @@ public class TopController {
 		return "top";
 	}
 
-	@RequestMapping(params = "reset", method = RequestMethod.POST)
+	@RequestMapping(value = "/top/", params = "reset", method = RequestMethod.POST)
 	public String resetView(Model model) {
 		return this.showTopScreen(model);
 	}
@@ -125,12 +137,5 @@ public class TopController {
 		model.addAttribute("comments", messageService.getComments());
 		model.addAttribute("postCommentForm", new PostCommentForm());
 		model.addAttribute("postCount", messageService.getMessageCount());
-		try {
-			model.addAttribute("jsonMessage",
-					new JsonConverter().parseJsonFromMessageList(messageService.getAllMessage()));
-		} catch (JsonProcessingException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
 	}
 }

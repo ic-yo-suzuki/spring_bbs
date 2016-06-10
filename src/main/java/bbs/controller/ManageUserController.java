@@ -9,9 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import bbs.entity.UserEntity;
 import bbs.form.UserForm;
@@ -30,28 +29,22 @@ public class ManageUserController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("users", userService.getUsers());
-		try {
-			modelAndView.addObject("jsonUserList", new JsonConverter().parseJsonFromUserList(userService.getUsers()));
-		} catch (JsonProcessingException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
 		modelAndView.addObject("message", "ユーザ管理");
 		modelAndView.setViewName("usermanager");
 		return modelAndView;
 	}
 
-//	@RequestMapping(value = "getUsersList", method = RequestMethod.GET)
-//
-//	public @ResponseBody String getUsersList() {
-//		String jsonUserList = "";
-//		try {
-//			jsonUserList = new JsonConverter().parseJsonFromUserList(userService.getUsers());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return jsonUserList;
-//	}
+	@RequestMapping(value = "/getUserList/", method = RequestMethod.GET)
+
+	public @ResponseBody String getUsersList() {
+		String jsonUserList = "";
+		try {
+			jsonUserList = new JsonConverter().parseJsonFromUserList(userService.getUsers());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return jsonUserList;
+	}
 
 	@RequestMapping(params = "editUser", value = "/manage/user/", method = RequestMethod.POST)
 	public String editUser(@ModelAttribute UserForm form, Model model, HttpServletRequest request) {

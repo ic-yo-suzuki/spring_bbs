@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv = "content-language" content="ja">
+<meta http-equiv="content-language" content="ja">
 <title>${title }</title>
 
 <script
@@ -25,9 +25,11 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/resources/js/lib/prototype.js"></script>
 <script type="text/javascript"
- 	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
+	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
 <script type="text/javascript"
-	src="<c:url value = "/resources/js/getUserList.js" />"></script>
+	src="<c:url value = "/resources/js/getMessageList.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value = "/resources/js/postComment.js"/>"></script>
 </head>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
@@ -52,18 +54,17 @@
 
 
 		<div>
-			<c:out value = "${message }" />
+			<c:out value="${message }" />
 			<form:errors path="*" />
 			<c:out value="${errorMessages }" />
 			<c:remove var="errorMessages" scope="session" />
-			<c:remove var="message" scope = "session" />
+			<c:remove var="message" scope="session" />
 		</div>
 		<p>
 	</div>
 	<p>
 	<p>
-	<div class="narrowing">
-		<form:form modelAttribute="narrowingForm">
+		<div class="narrowing"><form:form modelAttribute="narrowingForm">
 			<script>
 				$(function() {
 					$("#dateStart").datepicker({
@@ -75,6 +76,7 @@
 				});
 			</script>
 			<b>投稿の絞込み検索</b>
+
 			<p>${narrowingMessage }</p>
 			<ul>
 
@@ -94,10 +96,7 @@
 			<button type="submit" name="narrow">指定した条件で検索</button>
 			<button type="submit" name="reset">絞込みを解除</button>
 
-		</form:form>
-
-
-	</div>
+		</form:form></div>
 	<!-- 		<table class="postCount"> -->
 	<!-- 			<th></th> -->
 	<!-- 			<th>記事投稿数</th> -->
@@ -225,7 +224,7 @@
 						</c:forEach>
 					</c:if>
 				</table>
-				<div class="postComeent">
+				<div class="postComment">
 					<form:form modelAttribute="postCommentForm">
 						<br />コメントの投稿<br />
 						<div>
@@ -233,12 +232,21 @@
 						</div>
 						<form:textarea path="text" cols="80" rows="5" value="${text }" />
 						<br />
-						<input type="submit" name="postComment" value="投稿する">(500文字まで)
+						<input type="submit" name="postComment" value="投稿する"
+							id="postComment">(500文字まで)
 
 							<form:hidden path="postId" value="${message.postId }" />
 						<form:hidden path="userId" value="${loginUser.id }" />
 
 					</form:form>
+
+					<form id="postComment" action="${contextPath}/top/postComment/" method="POST">
+						<br />コメントの投稿<br />
+						<textarea name="text" cols="80" rows="5"></textarea>
+						<br /> <input type="hidden" value="${message.postId }" />
+						<input type="hidden" value="${loginUser.id }" />
+						<button>投稿する</button>(500文字まで(Ajax通信用))
+					</form>
 				</div>
 			</div>
 			<hr>

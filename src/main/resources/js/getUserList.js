@@ -7,7 +7,7 @@ var jq = jQuery.noConflict();
 jq(function($) {
 	$.ajax({
 		type : "GET",
-		url : "getUsersList",
+		url : "/getUserList/",
 		dataType : "json",
 		success : function(data) {
 			success(data);
