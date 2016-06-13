@@ -64,7 +64,8 @@
 	</div>
 	<p>
 	<p>
-		<div class="narrowing"><form:form modelAttribute="narrowingForm">
+	<div class="narrowing">
+		<form:form modelAttribute="narrowingForm">
 			<script>
 				$(function() {
 					$("#dateStart").datepicker({
@@ -96,7 +97,8 @@
 			<button type="submit" name="narrow">指定した条件で検索</button>
 			<button type="submit" name="reset">絞込みを解除</button>
 
-		</form:form></div>
+		</form:form>
+	</div>
 	<!-- 		<table class="postCount"> -->
 	<!-- 			<th></th> -->
 	<!-- 			<th>記事投稿数</th> -->
@@ -240,12 +242,16 @@
 
 					</form:form>
 
-					<form id="postComment" action="${contextPath}/top/postComment/" method="POST">
+					<form id="postComment" action="${contextPath }/top/post/comment/"
+						method="POST">
 						<br />コメントの投稿<br />
-						<textarea name="text" cols="80" rows="5"></textarea>
-						<br /> <input type="hidden" value="${message.postId }" />
-						<input type="hidden" value="${loginUser.id }" />
-						<button>投稿する</button>(500文字まで(Ajax通信用))
+						<textarea id = "comment-box" name="text" cols="80" rows="5"></textarea>
+						<br /> 	<input type="hidden" id = "postId" name = "postId" value="${message.postId }" />
+								<input type="hidden" id = "userId" name = "userId" value="${loginUser.id }" />
+								<input type = "hidden" id = "branchId" name = "branchId" value = "${loginUser.branchId }" />
+								<input type = "hidden" id = "departmentId" id = "departmentId" value = "${loginUser.departmentId }" />
+						<input type = "submit" id = "postCommentJson" name = "postCommentJson" value = "投稿する" />
+						(500文字まで(Ajax通信用))
 					</form>
 				</div>
 			</div>

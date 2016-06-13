@@ -4,12 +4,15 @@ import java.util.Date;
 
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import bbs.validator.annotation.RefuseBlank;
 import lombok.Getter;
 import lombok.Setter;
 
 
 @Getter
+@JsonIgnoreProperties({"id", "elapsedTime", "elapsedTimeText", "name", "insertDate"})
 public class PostCommentForm {
 	@Setter
 	private int id, postId, userId, branchId, departmentId;

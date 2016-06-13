@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -78,6 +79,19 @@ public class TopController {
 		init(model);
 		return "top";
 	}
+
+
+	// JSON形式で投稿するコメントを受け取るメソッド
+	@RequestMapping(value = "/top/post/comment/", params = "postCommentJson",  method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public String postComment(@RequestBody String commentJson, Model model){
+
+		return "top";
+	}
+//
+//	@RequestMapping(value = "/top/post/comment", params = "postCommentJson",  method = RequestMethod.POST)
+//	public String postComment(Model model){
+//		return "top";
+//	}
 
 	@RequestMapping(value = "/top/", params = "deleteMessage", method = RequestMethod.POST)
 	public String deleteMessage(@ModelAttribute DeleteMessageForm form, HttpServletRequest request, Model model) {

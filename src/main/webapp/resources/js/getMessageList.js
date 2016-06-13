@@ -33,12 +33,12 @@ jq(function($) {
 });
 
 function success(data, message) {
-	alert("success:" + message + ":" +  data);
+//	alert("success:" + message + ":" +  data);
 
 
 }
 function error(XMLHttpRequest, textStatus, errorThrown) {
-	alert("error:" + XMLHttpRequest);
-	alert("status:" + textStatus);
-	alert("errorThrown:" + errorThrown);
+//	alert("error:" + XMLHttpRequest);
+//	alert("status:" + textStatus);
+//	alert("errorThrown:" + errorThrown);
 }
