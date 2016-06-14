@@ -30,6 +30,12 @@
 	src="<c:url value = "/resources/js/getMessageList.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value = "/resources/js/postComment.js"/>"></script>
+<script type="text/javascript"
+	src="<c:url value = "/resources/js/deleteComment.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value = "/resources/js/deleteMessage.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value = "/resources/js/ajaxProcedure.js" />"></script>
 </head>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
@@ -132,6 +138,10 @@
 
 				<c:set var="id" scope="request" value="${message.postId }" />
 				<tr>
+					<td>投稿番号(投稿ID)</td>
+					<td><c:out value="${message.postId }"></c:out></td>
+				</tr>
+				<tr>
 					<td>投稿者</td>
 					<td><c:out value="${message.name }"></c:out></td>
 				</tr>
@@ -169,10 +179,27 @@
 					test="${(message.userId == loginUser.id) || (loginUser.departmentId == 2) || (message.branchId == loginUser.branchId && loginUser.departmentId == 3) }">
 					<form:form modelAttribute="deleteMessageForm">
 						<tr>
-							<td colspan="2"><button type="submit" name="deleteMessage"
+							<td colspan="2">
+
+								<button type="submit" name="deleteMessage"
 									value="${message.postId }"
 									onClick="return confirm('この投稿を削除します。よろしいですか？')">投稿を削除する</button>
 					</form:form>
+
+					<form id="deleteMessage" method="POST"
+						action="${contextPath }/top/delete/message/">
+
+						<input type="hidden" id="deleteMessageId"
+							value="${message.postId }" />
+						<tr>
+							<td colspan="2">
+								<button type="submit" name="deleteMessage"
+									onClick="return confirm('この投稿を削除します。よろしいですか？')">投稿を削除する</button>(Ajax通信用)
+							</td>
+						</tr>
+					</form>
+
+
 				</c:if>
 
 			</table>
@@ -218,9 +245,22 @@
 												</td>
 											</tr>
 										</form:form>
+										<form id="deleteComment" method="POST"
+											action="${contextPath }/top/delete/comment/">
+											<tr>
+												<td colspan="2"><input type="hidden"
+													id="deleteCommentId" value="${comment.commentId }" />
+													<button type="submit" name="deleteComment"
+														onClick="return confirm('このコメントを削除します。よろしいですか？')">コメントを削除する</button>(Ajax通信用)
+												</td>
+											</tr>
+										</form>
 									</c:if>
 									<hr>
-									投稿番号：<%=++count%><br>
+									投稿番号：<%=++count%>(コメントID：
+									<c:out value="${comment.commentId }"></c:out>
+									)
+									<br>
 								</table>
 							</c:if>
 						</c:forEach>
@@ -245,12 +285,14 @@
 					<form id="postComment" action="${contextPath }/top/post/comment/"
 						method="POST">
 						<br />コメントの投稿<br />
-						<textarea id = "comment-box" name="text" cols="80" rows="5"></textarea>
-						<br /> 	<input type="hidden" id = "postId" name = "postId" value="${message.postId }" />
-								<input type="hidden" id = "userId" name = "userId" value="${loginUser.id }" />
-								<input type = "hidden" id = "branchId" name = "branchId" value = "${loginUser.branchId }" />
-								<input type = "hidden" id = "departmentId" id = "departmentId" value = "${loginUser.departmentId }" />
-						<input type = "submit" id = "postCommentJson" name = "postCommentJson" value = "投稿する" />
+						<textarea id="comment-box" name="text" cols="80" rows="5"></textarea>
+						<br /> <input type="hidden" id="postId" name="postId"
+							value="${message.postId }" /> <input type="hidden" id="userId"
+							name="userId" value="${loginUser.id }" /> <input type="hidden"
+							id="branchId" name="branchId" value="${loginUser.branchId }" />
+						<input type="hidden" id="departmentId" id="departmentId"
+							value="${loginUser.departmentId }" />
+						<button name="postCommentJson">投稿する</button>
 						(500文字まで(Ajax通信用))
 					</form>
 				</div>

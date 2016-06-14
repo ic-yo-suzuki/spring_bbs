@@ -82,16 +82,27 @@ public class TopController {
 
 
 	// JSON形式で投稿するコメントを受け取るメソッド
-	@RequestMapping(value = "/top/post/comment/", params = "postCommentJson",  method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-	public String postComment(@RequestBody String commentJson, Model model){
+	@RequestMapping(value = "/top/post/comment/",
+			method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String postCommentViaJson(@RequestBody String commentJson, Model model){
 
-		return "top";
+		System.out.println("Recieved data : " + commentJson);
+
+		PostCommentForm form = new PostCommentForm();
+		try {
+			form = new JsonConverter().parseJsonToPostCommentForm(commentJson);
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		if (messageService.postComment(form) == null) {
+			model.addAttribute("message", "エラー：コメントの投稿に失敗しました。");
+			model.addAttribute("text", form.getText());
+		}
+		model.addAttribute("message", "コメントが投稿されました。");
+		return commentJson;
 	}
-//
-//	@RequestMapping(value = "/top/post/comment", params = "postCommentJson",  method = RequestMethod.POST)
-//	public String postComment(Model model){
-//		return "top";
-//	}
 
 	@RequestMapping(value = "/top/", params = "deleteMessage", method = RequestMethod.POST)
 	public String deleteMessage(@ModelAttribute DeleteMessageForm form, HttpServletRequest request, Model model) {
@@ -118,6 +129,55 @@ public class TopController {
 		init(model);
 		return "top";
 	}
+
+	//Ajax通信でコメントを削除するメソッド
+	@RequestMapping(value = "/top/delete/comment/",
+			method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String deleteMessageViaJson(@RequestBody String deleteMessageIdJson, Model model){
+		System.out.println("Recieved data : " + deleteMessageIdJson);
+
+		int id = 0;
+
+		try{
+			id = new JsonConverter().parseIntFromJsonId(deleteMessageIdJson);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		boolean confirm = messageService.deleteMessage(id);
+		if (!confirm) {
+			model.addAttribute("message", "エラー：投稿の削除に失敗しました。");
+		} else {
+			model.addAttribute("message", "投稿の削除が完了しました。");
+		}
+		return deleteMessageIdJson;
+	}
+
+
+	//Ajax通信でコメントを削除するメソッド
+	@RequestMapping(value = "/top/delete/message/",
+			method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String deleteCommentViaJson(@RequestBody String deleteCommentIdJson, Model model){
+		System.out.println("Recieved data : " + deleteCommentIdJson);
+
+		int id = 0;
+
+		try{
+			id = new JsonConverter().parseIntFromJsonId(deleteCommentIdJson);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		boolean confirm = messageService.deleteComment(id);
+		if (!confirm) {
+			model.addAttribute("message", "エラー：コメントの削除に失敗しました。");
+
+		} else {
+			model.addAttribute("message", "コメントの削除が完了しました。");
+		}
+		return deleteCommentIdJson;
+	}
+
 
 	@RequestMapping(value = "/top/", params = "narrow", method = RequestMethod.POST)
 	public String narrowingMessage(@ModelAttribute NarrowingForm form, HttpServletRequest request, Model model) {

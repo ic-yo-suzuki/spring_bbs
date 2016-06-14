@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import bbs.entity.CommentEntity;
 import bbs.entity.MessageEntity;
 import bbs.entity.UserEntity;
+import bbs.form.DeleteForm;
+import bbs.form.PostCommentForm;
 
 public class JsonConverter {
 
@@ -44,16 +46,25 @@ public class JsonConverter {
 		return jsonStr;
 	}
 
-	// public List<UserEntity> parseJsonToUserEntityList(String userJsonStr)
-	// throws Exception {
-	// if (userJsonStr.equals(null)) {
-	// return null;
-	// }
-	// ObjectMapper mapper = new ObjectMapper();
-	//
-	// List<UserEntity> userList = new ArrayList<UserEntity>();
-	//
-	//
-	// return userList;
-	// }
+	public PostCommentForm parseJsonToPostCommentForm(String jsonCommentStr) throws Exception{
+		if(jsonCommentStr == null){
+			return null;
+		}
+		ObjectMapper mapper = new ObjectMapper();
+		PostCommentForm form = mapper.readValue(jsonCommentStr, PostCommentForm.class);
+
+		return form;
+	}
+
+	public int parseIntFromJsonId(String jsonId) throws Exception{
+		if(jsonId == null){
+			return -1;
+		}
+		ObjectMapper mapper = new ObjectMapper();
+		DeleteForm form = mapper.readValue(jsonId, DeleteForm.class);
+
+		return form.getId();
+
+	}
+
 }
