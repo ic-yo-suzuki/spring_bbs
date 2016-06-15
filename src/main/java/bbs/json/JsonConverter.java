@@ -46,6 +46,14 @@ public class JsonConverter {
 		return jsonStr;
 	}
 
+	public String parseJesonFromBoolean(boolean value) throws JsonProcessingException{
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonStr = mapper.writeValueAsString(value);
+		System.out.println(jsonStr);
+
+		return jsonStr;
+	}
+
 	public PostCommentForm parseJsonToPostCommentForm(String jsonCommentStr) throws Exception{
 		if(jsonCommentStr == null){
 			return null;

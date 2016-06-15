@@ -7,6 +7,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>ユーザ登録</title>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/resources/js/lib/prototype.js"></script>
+<script type="text/javascript"
+	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
+	<script type="text/javascript"
+	src="<c:url value = "/resources/js/existLoginId.js"/>"></script>
+	<script type="text/javascript"
+	src="<c:url value = "/resources/js/ajaxProcedure.js" />"></script>
 </head>
 
 <body>
@@ -29,12 +37,12 @@
 				<tr>
 					<td>名前</td>
 					<td><form:input path="name" maxlength = "10" /></td>
-					<td>10文字以下</td>
+					<td >10文字以下</td>
 				</tr>
 				<tr>
 					<td>ログインID</td>
-					<td><form:input path="loginId" maxlength = "20" /></td>
-					<td>半角英数字(A～Z、a～z、0～9)で6～20文字</td>
+					<td><form:input path="loginId" maxlength = "20" onKeyUp = "existLoginId(this)"/></td>
+					<td id = "notice">半角英数字(A～Z、a～z、0～9)で6～20文字</td>
 				</tr>
 				<tr>
 					<td>パスワード</td>

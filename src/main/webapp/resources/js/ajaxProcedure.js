@@ -35,3 +35,31 @@ function sendData(form, button, data){
 
 	});
 }
+
+function existCheck(inputValue){
+	jq.ajax({
+		type : "GET",
+		url : "/Spring_BBS/check/exist/loginid/"
+				+ inputValue + "/",	// URLに入力値を組み込む
+		dataType : "json",
+		contentType : "application/json; charset=UTF-8",
+		success : function(data) {
+			printResult(data);
+
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			error(XMLHttpRequest, textStatus, errorThrown);
+		}
+	})
+	function printResult(data) {
+		var result = JSON.parse(data);	// JSON文字列→Boolean型変換
+		if(!result){
+			$("notice").innerHTML = "入力されたユーザIDは使用可能です";
+			jq("#notice").css("color", "black");
+		}else{
+			$("notice").innerHTML = "入力されたユーザIDは既に使用されています";
+			jq("#notice").css("color", "red");
+		}
+	}
+
+}

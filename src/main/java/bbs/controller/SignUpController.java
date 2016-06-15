@@ -25,6 +25,9 @@ public class SignUpController {
 	@Autowired
 	private UserService userService;
 
+
+
+
 	@RequestMapping(value = "/manage/user/signup/", method = RequestMethod.GET)
 	public String showSignUpScreen(Model model, HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();

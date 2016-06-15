@@ -8,6 +8,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>${editUser.name}-ユーザ情報の編集</title>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/resources/js/lib/prototype.js"></script>
+<script type="text/javascript"
+	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
+	<script type="text/javascript"
+	src="<c:url value = "/resources/js/existLoginId.js"/>"></script>
+	<script type="text/javascript"
+	src="<c:url value = "/resources/js/ajaxProcedure.js" />"></script>
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
@@ -32,9 +40,11 @@
 			</tr>
 			<tr>
 				<td><label for="loginId">ログインID</label></td>
-				<td><input name="loginId" id="loginId"
-					value="${editUser.loginId }" maxlength="20" /></td>
-				<td>半角英数字(A～Z、a～z、0～9)で6～20文字</td>
+				<td>
+				<input type = "hidden" id = "orginalId" value = "${editUser.loginId }" />
+				<input name="loginId" id="loginId"
+					value="${editUser.loginId }" maxlength="20" onKeyUp = "existLoginIdEdit(this)" /></td>
+				<td id = "notice">半角英数字(A～Z、a～z、0～9)で6～20文字</td>
 			</tr>
 			<tr>
 				<td><label for="password">パスワード</label></td>

@@ -177,24 +177,22 @@
 
 				<c:if
 					test="${(message.userId == loginUser.id) || (loginUser.departmentId == 2) || (message.branchId == loginUser.branchId && loginUser.departmentId == 3) }">
-					<form:form modelAttribute="deleteMessageForm">
-						<tr>
-							<td colspan="2">
+<%-- 					<form:form modelAttribute="deleteMessageForm"> --%>
+<!-- 						<tr> -->
+<!-- 							<td colspan="2"> -->
 
-								<button type="submit" name="deleteMessage"
-									value="${message.postId }"
-									onClick="return confirm('この投稿を削除します。よろしいですか？')">投稿を削除する</button>
-					</form:form>
+<!-- 								<button type="submit" name="deleteMessage" -->
+<%-- 									value="${message.postId }" --%>
+<!-- 									onClick="return confirm('この投稿を削除します。よろしいですか？')">投稿を削除する</button> -->
+<%-- 					</form:form> --%>
 
 					<form id="deleteMessage" method="POST"
-						action="${contextPath }/top/delete/message/">
+						action="${contextPath }/top/delete/message/" value = "${message.postId }">
 
-						<input type="hidden" id="deleteMessageId"
-							value="${message.postId }" />
 						<tr>
 							<td colspan="2">
 								<button type="submit" name="deleteMessage"
-									onClick="return confirm('この投稿を削除します。よろしいですか？')">投稿を削除する</button>(Ajax通信用)
+									onClick="var postId = '<c:out value = "${message.postId}" />';  return confirm('この投稿を削除します。よろしいですか？'); " value = "${message.postId }">投稿を削除する</button>(Ajax通信用)
 							</td>
 						</tr>
 					</form>
@@ -237,16 +235,16 @@
 									</tr>
 									<c:if
 										test="${(comment.userId == loginUser.id) || (loginUser.departmentId == 2) || (comment.branchId == loginUser.branchId && loginUser.departmentId == 3) }">
-										<form:form modelAttribute="deleteCommentForm">
-											<tr>
-												<td colspan="2"><button type="submit"
-														name="deleteComment" value="${comment.commentId }"
-														onClick="return confirm('このコメントを削除します。よろしいですか？')">コメントを削除する</button>
-												</td>
-											</tr>
-										</form:form>
+<%-- 										<form:form modelAttribute="deleteCommentForm"> --%>
+<!-- 											<tr> -->
+<!-- 												<td colspan="2"><button type="submit" -->
+<%-- 														name="deleteComment" value="${comment.commentId }" --%>
+<!-- 														onClick="return confirm('このコメントを削除します。よろしいですか？')">コメントを削除する</button> -->
+<!-- 												</td> -->
+<!-- 											</tr> -->
+<%-- 										</form:form> --%>
 										<form id="deleteComment" method="POST"
-											action="${contextPath }/top/delete/comment/">
+											action="${contextPath }/top/delete/comment/" value = "${comment.commentId } }">
 											<tr>
 												<td colspan="2"><input type="hidden"
 													id="deleteCommentId" value="${comment.commentId }" />
@@ -267,31 +265,26 @@
 					</c:if>
 				</table>
 				<div class="postComment">
-					<form:form modelAttribute="postCommentForm">
+<%-- 					<form:form modelAttribute="postCommentForm"> --%>
+<!-- 						<br />コメントの投稿<br /> -->
+<!-- 						<div> -->
+<%-- 							<form:errors path="*" /> --%>
+<!-- 						</div> -->
+<%-- 						<form:textarea path="text" cols="80" rows="5" value="${text }" /> --%>
+<!-- 						<br /> -->
+<!-- 						<input type="submit" name="postComment" value="投稿する" -->
+<!-- 							id="postComment">(500文字まで) -->
+
+<%-- 							<form:hidden path="postId" value="${message.postId }" /> --%>
+<%-- 						<form:hidden path="userId" value="${loginUser.id }" /> --%>
+
+<%-- 					</form:form> --%>
+
+					<form id="postComment"  action="${contextPath }/top/post/comment/" method="POST" value = "${message.postId }">
 						<br />コメントの投稿<br />
-						<div>
-							<form:errors path="*" />
-						</div>
-						<form:textarea path="text" cols="80" rows="5" value="${text }" />
-						<br />
-						<input type="submit" name="postComment" value="投稿する"
-							id="postComment">(500文字まで)
-
-							<form:hidden path="postId" value="${message.postId }" />
-						<form:hidden path="userId" value="${loginUser.id }" />
-
-					</form:form>
-
-					<form id="postComment" action="${contextPath }/top/post/comment/"
-						method="POST">
-						<br />コメントの投稿<br />
-						<textarea id="comment-box" name="text" cols="80" rows="5"></textarea>
-						<br /> <input type="hidden" id="postId" name="postId"
-							value="${message.postId }" /> <input type="hidden" id="userId"
-							name="userId" value="${loginUser.id }" /> <input type="hidden"
-							id="branchId" name="branchId" value="${loginUser.branchId }" />
-						<input type="hidden" id="departmentId" id="departmentId"
-							value="${loginUser.departmentId }" />
+						<textarea id="comment-box" name="text" cols="80" rows="5"></textarea><br />
+						<input type="hidden" id="postId" name="postId" value="${message.postId }" />
+						<input type="hidden" id="userId" name="userId" value="${loginUser.id }" />
 						<button name="postCommentJson">投稿する</button>
 						(500文字まで(Ajax通信用))
 					</form>

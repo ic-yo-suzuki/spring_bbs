@@ -8,55 +8,25 @@ jq(function() {
 		event.preventDefault();
 
 		var form = jq(this);
-		var button = form.find('button');
+		var button = form.find('button'); 	// データ送信中の二十送信防止のために使用
+		var textarea = form.find('textarea');	// ボタン押下されたフォームにあるtextareaを取得
 
-		var userId = jq('#postComment [id = userId]').val();
+		var userId = jq('#postComment [id = userId]').val();	// 投稿者のIDを取得
+		var postId = form.attr('value');	// 対象となる投稿のIDを取得(formのvalue属性に指定したもの)
+		var text = textarea.val();	// コメント本文を取得(対象となるform中にあるtextareaのもの)
 
-		var postId = jq('#postComment [id = postId]').val();
-		var text = jq('#postComment [id = comment-box]').val();
-
-		var data = JSON.stringify({
+		var data = JSON.stringify({		// JSONデータの生成
 			userId : parseInt(userId),
 			postId : parseInt(postId),
 			text : text
 		});
-		alert("text:" + text);
-		alert(data);
+//		alert("text:" + text);
+//		alert(data);
 		console.log("Data Destination : " + form.attr("action"));
 		console.log("Method : " + form.attr('method'));
 
 		sendData(form, button, data);
 
-//		jq.ajax({
-//			url : form.attr('action'),
-//			contentType: 'application/json; charset=utf-8',
-//			type : form.attr('method'),
-//			dataType: 'json',
-//			data : data,
-//			timeout : 10000,
-//
-//			beforeSend : function(xhr, settings) {
-//				button.attr('disabled', true);
-//			},
-//
-//			complete : function(xhr, settings) {
-//				button.attr('disabled', false);
-//			},
-//
-//			success : function(result, textStatus, xhr) {
-//				form[0].reset();
-//				alert('OK');
-//				location.reload();
-//			},
-//
-//			error : function(xhr, textStatus, error) {
-//				alert("NG...");
-//				console.log("XHR:" + xhr);
-//				console.log("textStatus:" + textStatus);
-//				console.log("Error:" + error);
-//			}
-//
-//		});
 
 	});
 });
