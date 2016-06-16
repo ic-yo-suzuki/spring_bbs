@@ -130,8 +130,8 @@ public class TopController {
 		return "top";
 	}
 
-	//Ajax通信でコメントを削除するメソッド
-	@RequestMapping(value = "/top/delete/comment/",
+	//Ajax通信でメッセージを削除するメソッド
+	@RequestMapping(value = "/top/delete/message/",
 			method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String deleteMessageViaJson(@RequestBody String deleteMessageIdJson, Model model){
@@ -147,15 +147,17 @@ public class TopController {
 		boolean confirm = messageService.deleteMessage(id);
 		if (!confirm) {
 			model.addAttribute("message", "エラー：投稿の削除に失敗しました。");
+			System.out.println("fail.");
 		} else {
 			model.addAttribute("message", "投稿の削除が完了しました。");
+			System.out.println("success.");
 		}
 		return deleteMessageIdJson;
 	}
 
 
 	//Ajax通信でコメントを削除するメソッド
-	@RequestMapping(value = "/top/delete/message/",
+	@RequestMapping(value = "/top/delete/comment/",
 			method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String deleteCommentViaJson(@RequestBody String deleteCommentIdJson, Model model){
@@ -171,9 +173,11 @@ public class TopController {
 		boolean confirm = messageService.deleteComment(id);
 		if (!confirm) {
 			model.addAttribute("message", "エラー：コメントの削除に失敗しました。");
+			System.out.println("fail.");
 
 		} else {
 			model.addAttribute("message", "コメントの削除が完了しました。");
+			System.out.println("success.");
 		}
 		return deleteCommentIdJson;
 	}

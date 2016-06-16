@@ -2,9 +2,8 @@
  *
  */
 
-var jq = jQuery.noConflict();
 
-jq(function($) {
+$(function() {
 	$.ajax({
 		type : "GET",
 		url : "/Spring_BBS/getMessageList/",

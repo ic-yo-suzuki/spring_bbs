@@ -21,8 +21,6 @@ function existLoginId($this) {
 
 }
 
-var jq = jQuery.noConflict();
-
 function existLoginIdEdit($this) {
 	jq(function() {
 		var inputValue = $this.value;

@@ -51,7 +51,14 @@ public class EditUserController {
 			HttpServletRequest request) {
 		System.out.println("名前：" + form.getName());
 
-		if (!result.hasErrors() && !(userService.isExistLoginId(form.getLoginId()))) {
+		UserEntity orgUserInfo = (UserEntity)request.getSession().getAttribute("editUser");
+		System.out.println("Original : " + orgUserInfo.getLoginId());
+		System.out.println("New      : " + form.getLoginId());
+		System.out.println("Result.hasErrors() : " + result.hasErrors());
+		System.out.println("Original.equals(new) : " + orgUserInfo.getLoginId().equals(form.getLoginId()));
+		System.out.println("Exist? : " + userService.isExistLoginId(form.getLoginId()));
+
+		if (!result.hasErrors() && orgUserInfo.getLoginId().equals(form.getLoginId()) || !(userService.isExistLoginId(form.getLoginId()))) {
 			form.setBranchId(userService.getBranchId(form.getBranchName()));
 			form.setDepartmentId(userService.getDepartmentId(form.getDepartmentName()));
 			if (request.getParameter("password").equals(request.getParameter("password_verify"))
@@ -72,8 +79,11 @@ public class EditUserController {
 			if (!(request.getParameter("password").equals(request.getParameter("password_verify")))) {
 				message = "エラーです<br>入力されたパスワードが一致していません";
 			}
-			if (userService.isExistLoginId(form.getLoginId())) {
+			if (!(orgUserInfo.getLoginId().equals(form.getLoginId()))  && userService.isExistLoginId(form.getLoginId())) {
 				message += "<br>入力されたログインIDは既に使用されています";
+			}
+			if(result.hasErrors()){
+				System.out.println(result.toString());
 			}
 			model.addAttribute("message", message);
 			model.addAttribute("name", form.getName());

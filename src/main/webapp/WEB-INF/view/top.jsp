@@ -9,9 +9,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="content-language" content="ja">
 <title>${title }</title>
-
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value = "/resources/stylesheet/style.css"/>">
+<script type="text/javascript"
+	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
 <script
@@ -21,21 +21,16 @@
 <link rel="stylesheet"
 	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css">
 
-<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath }/resources/js/lib/prototype.js"></script>
+	src="<c:url value = "/resources/js/top/getMessageList.js" />"></script>
 <script type="text/javascript"
-	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
+	src="<c:url value = "/resources/js/top/postComment.js"/>"></script>
 <script type="text/javascript"
-	src="<c:url value = "/resources/js/getMessageList.js" />"></script>
+	src="<c:url value = "/resources/js/top/deleteComment.js" />"></script>
 <script type="text/javascript"
-	src="<c:url value = "/resources/js/postComment.js"/>"></script>
+	src="<c:url value = "/resources/js/top/deleteMessage.js" />"></script>
 <script type="text/javascript"
-	src="<c:url value = "/resources/js/deleteComment.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value = "/resources/js/deleteMessage.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value = "/resources/js/ajaxProcedure.js" />"></script>
+	src="<c:url value = "/resources/js/general/ajaxProcedure.js" />"></script>
 </head>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>

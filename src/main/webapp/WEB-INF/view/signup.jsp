@@ -7,6 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>ユーザ登録</title>
+<link rel="stylesheet" type="text/css" href="<c:url value = "/resources/stylesheet/style.css"/>">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/resources/js/lib/prototype.js"></script>
 <script type="text/javascript"

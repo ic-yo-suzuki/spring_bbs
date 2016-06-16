@@ -8,14 +8,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>${editUser.name}-ユーザ情報の編集</title>
+<link rel="stylesheet" type="text/css" href="<c:url value = "/resources/stylesheet/style.css"/>">
 <script type="text/javascript"
-	src="${pageContext.request.contextPath }/resources/js/lib/prototype.js"></script>
+	src="<c:url value = "/resources/js/lib/prototype.js"/>"></script>
 <script type="text/javascript"
 	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
 	<script type="text/javascript"
-	src="<c:url value = "/resources/js/existLoginId.js"/>"></script>
+	src="<c:url value = "/resources/js/manage/user/existLoginId.js"/>"></script>
 	<script type="text/javascript"
-	src="<c:url value = "/resources/js/ajaxProcedure.js" />"></script>
+	src="<c:url value = "/resources/js/general/ajaxProcedure.js" />"></script>
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>

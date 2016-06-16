@@ -37,6 +37,7 @@ function sendData(form, button, data){
 }
 
 function existCheck(inputValue){
+	var jq = jQuery.noConflict();
 	jq.ajax({
 		type : "GET",
 		url : "/Spring_BBS/check/exist/loginid/"
