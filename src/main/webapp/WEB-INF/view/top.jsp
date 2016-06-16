@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="content-language" content="ja">
 <title>${title }</title>
-<link rel="stylesheet" type="text/css" href="<c:url value = "/resources/stylesheet/style.css"/>">
+<%-- <link rel="stylesheet" type="text/css" href="<c:url value = "/resources/stylesheet/style.css"/>"> --%>
 <script type="text/javascript"
 	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
 <script
@@ -31,6 +31,8 @@
 	src="<c:url value = "/resources/js/top/deleteMessage.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value = "/resources/js/general/ajaxProcedure.js" />"></script>
+	<script type="text/javascript"
+	src="<c:url value = "/resources/js/top/checkComment.js" />"></script>
 </head>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
@@ -250,9 +252,7 @@
 										</form>
 									</c:if>
 									<hr>
-									投稿番号：<%=++count%>(コメントID：
-									<c:out value="${comment.commentId }"></c:out>
-									)
+									投稿番号：<%=++count%>(コメントID：<c:out value="${comment.commentId }" />)
 									<br>
 								</table>
 							</c:if>
@@ -275,13 +275,14 @@
 
 <%-- 					</form:form> --%>
 
-					<form id="postComment"  action="${contextPath }/top/post/comment/" method="POST" value = "${message.postId }">
+					<form id="postComment"  action="${contextPath }/top/post/comment/" method="POST" value = "${message.postId }" >
 						<br />コメントの投稿<br />
-						<textarea id="comment-box" name="text" cols="80" rows="5"></textarea><br />
+						<textarea id="comment-box" name="text" cols="80" rows="5" onKeyUp = "checkComment(this)"></textarea><br />
 						<input type="hidden" id="postId" name="postId" value="${message.postId }" />
 						<input type="hidden" id="userId" name="userId" value="${loginUser.id }" />
 						<button name="postCommentJson">投稿する</button>
 						(500文字まで(Ajax通信用))
+						<div id = "commentHeader"></div>
 					</form>
 				</div>
 			</div>

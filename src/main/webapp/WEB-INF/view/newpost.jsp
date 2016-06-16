@@ -8,8 +8,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>新規投稿</title>
-<link rel="stylesheet" type="text/css" href="<c:url value = "/resources/stylesheet/style.css"/>">
+<%-- <link rel="stylesheet" type="text/css" href="<c:url value = "/resources/stylesheet/style.css"/>"> --%>
+<script type="text/javascript" src = "<c:url value = "/resources/js/lib/jquery-1.12.4.min.js" />"></script>
 <script type="text/javascript" src = "<c:url value = "/resources/js/post/categorySelect.js" />"></script>
+<script type="text/javascript" src = "<c:url value = "/resources/js/post/checkMessage.js" />"></script>
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
@@ -22,53 +24,74 @@
 			</div>
 			<tr>
 				<td>カテゴリー(必須)(選択してください)</td>
-				<td><label><input type="radio" name="categorySelect"
-						value="select" onclick="categorySelectChanged();"
-						checked="checked" />既存のカテゴリーから選択</label> <label><input
-						type="radio" name="categorySelect" value="create"
-						onclick="categorySelectChanged();" />新たにカテゴリーを作成</label></td>
+				<td>
+					<label>
+						<input type="radio" name="categorySelect" value="select" onclick="categorySelectChanged();" checked="checked" />既存のカテゴリーから選択
+					</label>
+					<label>
+						<input type="radio" name="categorySelect" value="create" onclick="categorySelectChanged();" />新たにカテゴリーを作成
+					</label>
+				</td>
 			</tr>
 			<tr id="selectCategory">
 				<td>カテゴリの選択</td>
-				<td><select name="selectCategory">
+				<td>
+					<select name="selectCategory">
 						<c:forEach items="${categories }" var="category">
 							<c:if test="${category == selectedCategory }">
-								<option value="${category }" selected="selected"><c:out
-										value="${category }"></c:out></option>
+								<option value="${category }" selected="selected">
+									<c:out value="${category }" />
+								</option>
 							</c:if>
 							<c:if test="${category != selectedCategory }">
-								<option value="${category }"><c:out
-										value="${category }"></c:out></option>
+								<option value="${category }">
+									<c:out value="${category }" />
+								</option>
 							</c:if>
 						</c:forEach>
-				</select></td>
+					</select>
+				</td>
 			</tr>
 			<tr id="createCategory">
 				<td>カテゴリの新規作成(10文字まで)</td>
-				<td><input name="createCategory" id="createCategory"
-					value="${selectedCategory  }" /></td>
+				<td>
+					<input name="createCategory" id="createCategory" value="${selectedCategory  }" />
+				</td>
 			</tr>
 			<form:hidden path="category" value="" />
 			<tr>
 				<td>投稿者</td>
-				<td><c:out value="${loginUser.name }"></c:out>さん(自動で追加されます)</td>
+				<td>
+					<c:out value="${loginUser.name }" />さん(自動で追加されます)
+				</td>
 			</tr>
 			<tr>
-				<td>タイトル(必須)(50文字まで)</td>
-				<td><form:input path="title" size="40" /></td>
+				<td>
+					タイトル(必須)(50文字まで)
+					<div id = "titleHeader"></div>
+				</td>
+				<td>
+					<form:input path="title" size="40" onKeyUp = "checkTitle(this)" />
+				</td>
 			</tr>
 			<tr>
-				<td>本文(1000文字まで)</td>
-				<td><form:textarea path="text" cols="60" rows="8" /></td>
+				<td>
+					本文(1000文字まで)
+					<div id = "textHeader"></div>
+				</td>
+				<td>
+					<form:textarea path="text" cols="60" rows="8" onKeyUp = "checkText(this)" />
+				</td>
 			</tr>
 
 			<tr>
 				<td></td>
-				<td><input type="submit" value="投稿する"></td>
+				<td>
+					<input type="submit" value="投稿する">
+				</td>
 				<form:hidden path="userId" value="${loginUser.id }" />
 				<form:hidden path="branchId" value="${loginUser.branchId }" />
 				<form:hidden path="departmentId" value="${loginUser.departmentId }" />
-
 			</tr>
 
 		</form:form>

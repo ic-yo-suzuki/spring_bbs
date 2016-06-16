@@ -55,11 +55,13 @@ function existCheck(inputValue){
 	function printResult(data) {
 		var result = JSON.parse(data);	// JSON文字列→Boolean型変換
 		if(!result){
-			$("notice").innerHTML = "入力されたユーザIDは使用可能です";
+			$("notice").innerHTML = "入力されたユーザIDは使用可能です　　　　　";
 			jq("#notice").css("color", "black");
+			jq("#loginId").css('background', 'white');
 		}else{
 			$("notice").innerHTML = "入力されたユーザIDは既に使用されています";
 			jq("#notice").css("color", "red");
+			jq("#loginId").css('background', 'pink');
 		}
 	}
 

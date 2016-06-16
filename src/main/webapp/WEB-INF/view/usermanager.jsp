@@ -13,7 +13,7 @@
 <meta http-equiv = "content-language" content="ja">
 <title>ユーザ管理</title>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
-<link rel="stylesheet" type="text/css" href="<c:url value = "/resources/stylesheet/style.css"/>">
+<%-- <link rel="stylesheet" type="text/css" href="<c:url value = "/resources/stylesheet/style.css"/>"> --%>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/resources/js/lib/prototype.js"></script>
 <script type="text/javascript"
@@ -23,7 +23,7 @@
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
-<input type = "hidden" id = "loginUserId" value = "${loginUser.id }">
+	<input type = "hidden" id = "loginUserId" value = "${loginUser.id }">
 	<div class="main-contents">
 		<div class="header">
 			<div class="menu">
@@ -71,9 +71,6 @@
 								style="display: inline">
 								<td>
 									<button type='submit' name='editUser' value="${user.id }">編集</button>
-
-
-
 								</td>
 							</form:form>
 
@@ -81,32 +78,34 @@
 								style="display: inline">
 								<c:if test="${loginUser.id != user.id }">
 									<c:if test="${user.status == true }">
-										<td><button type='submit' name='logicalDeleteUser'
-												value="${user.id }"
-												onClick="return confirm('このユーザを停止します。よろしいですか？')">停止</button></td>
+										<td>
+											<button type='submit' name='logicalDeleteUser' value="${user.id }" onClick="return confirm('このユーザを停止します。よろしいですか？')">停止</button>
+										</td>
 									</c:if>
 									<c:if test="${user.status == false }">
-										<td><button type='submit' name='logicalDeleteUser'
-												value="${user.id }"
-												onClick="return confirm('このユーザを復活します。よろしいですか？')">復活</button></td>
+										<td>
+											<button type='submit' name='logicalDeleteUser' value="${user.id }" onClick="return confirm('このユーザを復活します。よろしいですか？')">復活</button>
+										</td>
 									</c:if>
 								</c:if>
-							</form:form>
-							<form:form modelAttribute="userForm" method="post"
-								style="display: inline">
-								<c:if test="${loginUser.id != user.id }">
-									<td><button type='submit' name='physicalDeleteUser'
-											value="${user.id }"
-											onClick="return confirm('このユーザを削除します。よろしいですか？')">削除</button></td>
+								<c:if test="${loginUser.id == user.id }">
+									<td></td>
 								</c:if>
 							</form:form>
-
+							<form:form modelAttribute="userForm" method="post" style="display: inline">
+								<c:if test="${loginUser.id != user.id }">
+									<td>
+										<button type='submit' name='physicalDeleteUser' value="${user.id }" onClick="return confirm('このユーザを削除します。よろしいですか？')">削除</button>
+									</td>
+								</c:if>
+								<c:if test="${loginUser.id == user.id }">
+									<td></td>
+								</c:if>
+							</form:form>
 						</tr>
 					</c:forEach>
-
 				</tbody>
 			</table>
-
 		</div>
 	</div>
 </body>

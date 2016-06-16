@@ -58,7 +58,15 @@ public class EditUserController {
 		System.out.println("Original.equals(new) : " + orgUserInfo.getLoginId().equals(form.getLoginId()));
 		System.out.println("Exist? : " + userService.isExistLoginId(form.getLoginId()));
 
-		if (!result.hasErrors() && orgUserInfo.getLoginId().equals(form.getLoginId()) || !(userService.isExistLoginId(form.getLoginId()))) {
+		boolean idCheck = false;
+
+		if(orgUserInfo.getLoginId().equals(form.getLoginId())){
+			idCheck = true;
+		}else{
+			idCheck = !userService.isExistLoginId(form.getLoginId());
+		}
+
+		if (!result.hasErrors() && idCheck) {
 			form.setBranchId(userService.getBranchId(form.getBranchName()));
 			form.setDepartmentId(userService.getDepartmentId(form.getDepartmentName()));
 			if (request.getParameter("password").equals(request.getParameter("password_verify"))
