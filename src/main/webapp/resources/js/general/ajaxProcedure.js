@@ -22,12 +22,10 @@ function sendData(form, button, data){
 
 		success : function(result, textStatus, xhr) {
 			form[0].reset();
-			alert('OK');
 			location.reload();
 		},
 
 		error : function(xhr, textStatus, error) {
-			alert("NG...");
 			console.log("XHR:" + xhr);
 			console.log("textStatus:" + textStatus);
 			console.log("Error:" + error);
@@ -56,11 +54,14 @@ function existCheck(inputValue){
 		var result = JSON.parse(data);	// JSON文字列→Boolean型変換
 		if(!result){
 			$("notice").innerHTML = "入力されたユーザIDは使用可能です　　　　　";
+			jq("#notice").css("background", "#d2ffd2");
 			jq("#notice").css("color", "black");
 			jq("#loginId").css('background', 'white');
+
 		}else{
 			$("notice").innerHTML = "入力されたユーザIDは既に使用されています";
-			jq("#notice").css("color", "red");
+			jq("#notice").css("background", "red");
+			jq("#notice").css("color", "white");
 			jq("#loginId").css('background', 'pink');
 		}
 	}

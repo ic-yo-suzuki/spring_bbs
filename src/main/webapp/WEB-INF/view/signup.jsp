@@ -13,7 +13,7 @@
 <script type="text/javascript"
 	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
 	<script type="text/javascript"
-	src="<c:url value = "/resources/js/manage/user/existLoginId.js"/>"></script>
+	src="<c:url value = "/resources/js/manage/user/checkSignUp.js"/>"></script>
 	<script type="text/javascript"
 	src="<c:url value = "/resources/js/general/ajaxProcedure.js" />"></script>
 </head>
@@ -37,23 +37,22 @@
 				<th>備考</th>
 				<tr>
 					<td>名前</td>
-					<td><form:input path="name" maxlength = "10" /></td>
-					<td >10文字以下</td>
+					<td><form:input path="name" maxlength = "10" required="required" /></td>
+					<td id = "nameValidCheck" >10文字以下</td>
 				</tr>
 				<tr>
 					<td>ログインID</td>
-					<td><form:input path="loginId" maxlength = "20" onKeyUp = "existLoginId(this)"/></td>
+					<td><form:input path="loginId" maxlength = "20" onKeyUp = "existLoginId(this)" required="required"/></td>
 					<td id = "notice">半角英数字(A～Z、a～z、0～9)で6～20文字</td>
 				</tr>
 				<tr>
 					<td>パスワード</td>
-					<td><form:password path="password" maxlength = "255" /></td>
-					<td>記号含む半角文字で6～255文字</td>
+					<td><form:password path="password" maxlength = "255" onKeyUp = "checkPassword(this)" required="required" /></td>
+					<td rowspan = "2" id = "passwordValidCheck">記号含む半角文字で6～255文字</td>
 				</tr>
 				<tr>
 					<td>パスワード(確認)</td>
-					<td><input type="password" name="password_verify" maxlength = "255" /></td>
-					<td></td>
+					<td><input type="password" name="password_verify" id = "password_verify" maxlength = "255" onKeyUp = "checkSameValueOfPassword(this)" required="required" /></td>
 				<tr>
 					<td><label for="branch">所属支店</label></td>
 

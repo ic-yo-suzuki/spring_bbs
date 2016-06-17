@@ -22,9 +22,9 @@
 			<div>
 				<form:errors path="*" />
 			</div>
-			<tr>
+			<tr id = "selectCategoryDivision">
 				<td>カテゴリー(必須)(選択してください)</td>
-				<td>
+				<td id = "selectCategoryRadioButton">
 					<label>
 						<input type="radio" name="categorySelect" value="select" onclick="categorySelectChanged();" checked="checked" />既存のカテゴリーから選択
 					</label>
@@ -34,9 +34,12 @@
 				</td>
 			</tr>
 			<tr id="selectCategory">
-				<td>カテゴリの選択</td>
 				<td>
-					<select name="selectCategory">
+					カテゴリの選択
+					<div id = "selectCategoryValidCheck"></div>
+				</td>
+				<td>
+					<select name="selectCategory" id = "cmbCategory" onChange = "checkCategory(this)">
 						<c:forEach items="${categories }" var="category">
 							<c:if test="${category == selectedCategory }">
 								<option value="${category }" selected="selected">
@@ -53,9 +56,9 @@
 				</td>
 			</tr>
 			<tr id="createCategory">
-				<td>カテゴリの新規作成(10文字まで)</td>
+				<td>カテゴリの新規作成(10文字まで)<div id = "createCategoryValidCheck"></div></td>
 				<td>
-					<input name="createCategory" id="createCategory" value="${selectedCategory  }" />
+					<input name="createCategory" id="txtCategory" value="${selectedCategory  }" onKeyUp = "checkCategory(this)" />
 				</td>
 			</tr>
 			<form:hidden path="category" value="" />
@@ -87,7 +90,7 @@
 			<tr>
 				<td></td>
 				<td>
-					<input type="submit" value="投稿する">
+					<input type="submit" value="投稿する" id = "submit-button" disabled = "disabled">
 				</td>
 				<form:hidden path="userId" value="${loginUser.id }" />
 				<form:hidden path="branchId" value="${loginUser.branchId }" />
