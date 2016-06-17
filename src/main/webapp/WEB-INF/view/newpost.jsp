@@ -68,7 +68,7 @@
 			<tr>
 				<td>
 					タイトル(必須)(50文字まで)
-					<div id = "titleHeader"></div>
+					<div id = "titleValidCheck"></div>
 				</td>
 				<td>
 					<form:input path="title" size="40" onKeyUp = "checkTitle(this)" />
@@ -77,7 +77,7 @@
 			<tr>
 				<td>
 					本文(1000文字まで)
-					<div id = "textHeader"></div>
+					<div id = "textValidCheck"></div>
 				</td>
 				<td>
 					<form:textarea path="text" cols="60" rows="8" onKeyUp = "checkText(this)" />

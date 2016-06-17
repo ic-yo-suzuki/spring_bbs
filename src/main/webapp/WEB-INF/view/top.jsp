@@ -275,14 +275,14 @@
 
 <%-- 					</form:form> --%>
 
-					<form id="postComment"  action="${contextPath }/top/post/comment/" method="POST" value = "${message.postId }" >
+					<form id="postComment"  action="${contextPath }/top/post/comment/" method="POST" value = "${message.postId }">
 						<br />コメントの投稿<br />
-						<textarea id="comment-box" name="text" cols="80" rows="5" onKeyUp = "checkComment(this)"></textarea><br />
+						<textarea id="comment-box" name="text" cols="80" rows="5"  onKeyUp = "checkComment(this)"></textarea><br />
 						<input type="hidden" id="postId" name="postId" value="${message.postId }" />
 						<input type="hidden" id="userId" name="userId" value="${loginUser.id }" />
-						<button name="postCommentJson">投稿する</button>
+						<button name="postCommentJson" disabled = "disabled">投稿する</button>
 						(500文字まで(Ajax通信用))
-						<div id = "commentHeader"></div>
+						<div class = "commentValdMessage"></div>
 					</form>
 				</div>
 			</div>

@@ -9,7 +9,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>ログイン</title>
-<link rel="stylesheet" type="text/css" href="<c:url value = "/resources/stylesheet/style.css"/>">
+<link rel="stylesheet" type="text/css"
+	href="<c:url value = "/resources/stylesheet/style.css"/>">
+<script type="text/javascript"
+	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
+<script type="text/javascript"
+	src="<c:url value = "/resources/js/login/inputValidate.js"/>"></script>
 </head>
 <body>
 
@@ -20,10 +25,10 @@
 		<form:form modelAttribute="loginForm">
 			<div>
 				<form:errors path="*" />
-				<c:if test = "${not empty message }">
+				<c:if test="${not empty message }">
 					${message }
 				</c:if>
-				<c:if test = "${not empty errorMessages }">
+				<c:if test="${not empty errorMessages }">
 					${errorMessages }
 				</c:if>
 			</div>
@@ -31,16 +36,17 @@
 				<tbody>
 					<tr>
 						<td>ユーザID</td>
-						<td><form:input path="loginId" /></td>
+						<td><form:input path="loginId" onKeyUp="idValidate(this)" /></td>
 					</tr>
 					<tr>
 						<td>パスワード</td>
-						<td><form:password path="password" /></td>
+						<td><form:password path="password"
+								onKeyUp="passValidate(this)" /></td>
 					</tr>
 				</tbody>
 			</table>
 			<br>
-			<input type="submit" value="ログイン">
+			<input type="submit" value="ログイン" >
 		</form:form>
 
 
