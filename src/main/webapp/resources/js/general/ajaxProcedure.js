@@ -36,6 +36,8 @@ function sendData(form, button, data){
 
 function existCheck(inputValue){
 	var jq = jQuery.noConflict();
+	console.log("url : /Spring_BBS/check/exist/loginid/"
+			+ inputValue + "/");
 	jq.ajax({
 		type : "GET",
 		url : "/Spring_BBS/check/exist/loginid/"
@@ -47,21 +49,23 @@ function existCheck(inputValue){
 
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			error(XMLHttpRequest, textStatus, errorThrown);
+			console.log("XHR : " + XMLHttpRequest);
+			console.log("textStatus" + textStatus);
+			console.log("errorThrown" + errorThrown);
 		}
 	})
 	function printResult(data) {
 		var result = JSON.parse(data);	// JSON文字列→Boolean型変換
 		if(!result){
-			$("notice").innerHTML = "入力されたユーザIDは使用可能です　　　　　";
-			jq("#notice").css("background", "#d2ffd2");
-			jq("#notice").css("color", "black");
+			$("loginIdValidCheck").innerHTML = "入力されたユーザIDは使用可能です　　　　　";
+			jq("#loginIdValidCheck").css("background", "#d2ffd2");
+			jq("#loginIdValidCheck").css("color", "black");
 			jq("#loginId").css('background', 'white');
 
 		}else{
-			$("notice").innerHTML = "入力されたユーザIDは既に使用されています";
-			jq("#notice").css("background", "red");
-			jq("#notice").css("color", "white");
+			$("loginIdValidCheck").innerHTML = "入力されたユーザIDは既に使用されています";
+			jq("#loginIdValidCheck").css("background", "white");
+			jq("#loginIdValidCheck").css("color", "red");
 			jq("#loginId").css('background', 'pink');
 		}
 	}

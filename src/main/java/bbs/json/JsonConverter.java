@@ -19,7 +19,6 @@ public class JsonConverter {
 		}
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = mapper.writeValueAsString(userList);
-		System.out.println(jsonStr);
 
 		return jsonStr;
 	}
@@ -29,7 +28,6 @@ public class JsonConverter {
 		}
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = mapper.writeValueAsString(messageList);
-		System.out.println(jsonStr);
 
 		return jsonStr;
 	}
@@ -41,7 +39,6 @@ public class JsonConverter {
 
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = mapper.writeValueAsString(commentList);
-		System.out.println(jsonStr);
 
 		return jsonStr;
 	}
@@ -49,7 +46,6 @@ public class JsonConverter {
 	public String parseJesonFromBoolean(boolean value) throws JsonProcessingException{
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = mapper.writeValueAsString(value);
-		System.out.println(jsonStr);
 
 		return jsonStr;
 	}

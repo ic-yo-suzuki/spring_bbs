@@ -2,151 +2,96 @@
  *
  */
 
-// それぞれの状態を判定するためのフラグ
-var textStatus = false;
-var titleStatus = false;
-var categoryStatus = false;
 
-/*
- * 本文の文字数をカウント。 1～1000文字の範囲内であればtrue、そうでなければfalseをflgにセットする。
- * その後、flgの値を基にボタンの有効/無効切り替えを実施
- */
-function checkText($this) {
+$(function(){
+	$("form#postMessageForm").submit(function(event){
+		setCategory();	// Formにあるhidden属性のinputにカテゴリをセット
+		var form = $(this);
+		var category = form.find("input#category");
+		var text = form.find("textarea#text");
+		var title = form.find("input#title");
 
-	var button = document.getElementById("submit-button");
-	textStatus = false;
-	colorChange('normal', "#textValidCheck", "#text");
-	if ($this.value.length > 1000) {
-		document.getElementById("textValidCheck").innerHTML = ($this.value.length - 1000)
-				+ "文字オーバーしています(" + $this.value.length + "文字)";
-		colorChange('error', "#textValidCheck", "#text");
-	} else if ($this.value.length == 0) {
+		var valid = true;
+
+		valid &= checkText(text);
+		valid &= checkTitle(title);
+		valid &= checkCategory(category);
+
+		console.log("Validation Result : " + valid);
+
+		if(!valid){
+			alert("NG：フォーム上のエラーメッセージを確認の上修正してください");
+			event.preventDefault();
+		}
+
+	});
+});
+
+function checkText(text) {
+
+	var textStatus = false;
+	var length = text.val().length;
+	if (length > 1000) {
+		document.getElementById("textValidCheck").innerHTML = (length - 1000)
+				+ "文字オーバーしています(" + $length + "文字)";
+		$("textarea#text").css("background", "pink");
+		$("#textValidCheck").css("color", "red");
+	} else if (length == 0 || !text.val().match(/\S/g)) {
+		document.getElementById("textValidCheck").innerHTML = "本文を入力してください";
+		$("textarea#text").css("background", "pink");
+		$("#textValidCheck").css("color", "red");
+	} else {
+		textStatus = true;
 		document.getElementById("textValidCheck").innerHTML = "";
-		colorChange('normal', "#textValidCheck", "#text");
-	} else if ($this.value.length > 969) {
-		document.getElementById("textValidCheck").innerHTML = "あと"
-				+ (1000 - $this.value.length) + "文字入力できます("
-				+ $this.value.length + "文字)";
-		colorChange('notice', "#textValidCheck", "#text");
-		textStatus = true;
-	} else {
-		document.getElementById("textValidCheck").innerHTML = "あと"
-				+ (1000 - $this.value.length) + "文字入力できます("
-				+ $this.value.length + "文字)";
-		textStatus = true;
+		$("textarea#text").css("background", "white");
+		$("#textValidCheck").css("color", "black");
 	}
-	buttonEnable(textStatus, titleStatus, categoryStatus, button);
+
+	return textStatus;
 }
 
-/*
- * タイトルの文字数をカウント。 1～50文字の範囲内であればtrue、そうでなければfalseをflgにセットする。
- * その後、flgの値を基にボタンの有効/無効切り替えを実施
- */
-function checkTitle($this) {
-	var button = document.getElementById("submit-button");
-	colorChange('normal', "#titleValidCheck", "#title");
-	titleStatus = false;
-	if ($this.value.length > 50) {
-		document.getElementById("titleValidCheck").innerHTML = ($this.value.length - 50)
-				+ "文字オーバーしています(" + $this.value.length + "文字)";
-		colorChange('error', "#titleValidCheck", "#title");
 
-	} else if ($this.value.length == 0) {
+function checkTitle(title) {
+	var titleStatus = false;
+
+	var length = title.val().length;
+
+	if (length > 50) {
+		document.getElementById("titleValidCheck").innerHTML = (length - 50)
+				+ "文字オーバーしています(" + length + "文字)";
+		$("#titleValidCheck").css("color", "red");
+		$("input#title").css("background", "pink");
+
+	} else if (length == 0 || !title.val().match(/\S/g)) {
+		document.getElementById("titleValidCheck").innerHTML = "タイトルを入力してください";
+		$("#titleValidCheck").css("color", "red");
+		$("input#title").css("background", "pink");
+	} else {
+		titleStatus = true;
 		document.getElementById("titleValidCheck").innerHTML = "";
-		colorChange('normal', "#titleValidCheck", "#title");
-	} else if ($this.value.length > 39) {
-		document.getElementById("titleValidCheck").innerHTML = "あと"
-				+ (50 - $this.value.length) + "文字入力できます(" + $this.value.length
-				+ "文字)";
-		colorChange('notice', "#titleValidCheck", "#title");
-		titleStatus = true;
-	} else {
-		document.getElementById("titleValidCheck").innerHTML = "あと"
-				+ (50 - $this.value.length) + "文字入力できます(" + $this.value.length
-				+ "文字)";
-		titleStatus = true;
+		$("#titleValidCheck").css("color", "black");
+		$("input#title").css("background", "white");
 	}
-	buttonEnable(textStatus, titleStatus, categoryStatus, button);
+	return titleStatus;
 }
 
-/*
- * カテゴリの文字数をカウント。セレクトボックスの場合、1以上あればtrue、そうでなければfalseをflgにセットする。
- * テキストボックスの場合、1～10文字であればtrue、そうでなければfalseをflgにセットする
- * その後、flgの値を基にボタンの有効/無効切り替えを実施
- */
-function checkCategory($this) {
-	var button = document.getElementById("submit-button");
-	categoryStatus = false;
-	switch ($this.name) {
-	case "selectCategory":
-		if ($this.value.length == 0) {
-			document.getElementById("selectCategoryValidCheck").innerHTML = "カテゴリを選択してください";
-			colorChange('error', '#selectCategoryValidCheck', '#cmbCategory');
-		} else {
-			document.getElementById("selectCategoryValidCheck").innerHTML = "";
-			colorChange('normal', '#selectCategoryValidCheck', '#cmbCategory');
-			categoryStatus = true;
-		}
-		break;
-	case "createCategory":
-		if ($this.value.length === 0) {
-			colorChange('error', '#createCategoryValidCheck', '#txtCategory');
-			document.getElementById("createCategoryValidCheck").innerHTML = "カテゴリを入力してください";
-		} else if ($this.value.length > 10) {
-			document.getElementById("createCategoryValidCheck").innerHTML = ($this.value.length - 10)
-					+ "文字オーバーしています(" + $this.value.length + "文字)";
-			colorChange('error', '#createCategoryValidCheck', '#txtCategory');
-		} else if ($this.value.length > 7) {
-			colorChange('notice', '#createCategoryValidCheck', '#txtCategory');
-			document.getElementById("createCategoryValidCheck").innerHTML = "あと"
-					+ (10 - $this.value.length)
-					+ "文字入力できます("
-					+ $this.value.length + "文字)";
-			categoryStatus = true;
-		} else {
-			document.getElementById("createCategoryValidCheck").innerHTML = "あと"
-					+ (10 - $this.value.length)
-					+ "文字入力できます("
-					+ $this.value.length + "文字)";
-			colorChange('normal', '#createCategoryValidCheck', '#txtCategory');
-			categoryStatus = true;
+function checkCategory(category) {
+	var categoryStatus = false;
+	var categoryValue = category.val();
 
-		}
+	if(categoryValue.length == 0 || !categoryValue.match(/\S/g)){
+		document.getElementById("categoryValidCheck").innerHTML = "カテゴリを選択/入力してください";
+		$("select#cmbCategory").css("background", "pink");
+		$("input#txtCategory").css("background", "pink");
+		$("#categoryValidCheck").css("color", "red");
 
-		break;
-	default:
-		console.log("error");
+	}else{
+		categoryStatus = true;
+		document.getElementById("categoryValidCheck").innerHTML = "";
+		$("select#cmbCategory").css("background", "white");
+		$("input#txtCategory").css("background", "white");
+		$("#categoryValidCheck").css("color", "black");
 	}
-	buttonEnable(textStatus, titleStatus, categoryStatus, button);
+	return categoryStatus;
 }
 
-/*
- * バリデーションメッセージを表示する領域、テキストボックス、セレクトボックスの色を変更
- */
-
-function colorChange(mode, validDivDom, textDom) {
-	if (mode === 'normal') {
-		$(validDivDom).css('color', 'black');
-		$(textDom).css('background', 'white');
-	} else if (mode === 'error') {
-		$(validDivDom).css('color', 'red');
-		$(textDom).css('background', 'pink');
-	} else if (mode === 'notice') {
-		$(textDom).css('background', '#FFFF99');
-	}
-
-}
-
-/*
- * 送信ボタンの有効/無効切り替えを行う
- *
- */
-
-function buttonEnable(textStatus, titleStatus, categoryStatus, button) {
-	if (textStatus && titleStatus && categoryStatus) {
-		$(button).attr('disabled', false);
-	} else {
-		$(button).attr('disabled', true);
-	}
-
-}
