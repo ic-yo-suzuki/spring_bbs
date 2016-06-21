@@ -19,7 +19,7 @@
 <script type="text/javascript"
 	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
 <script type="text/javascript"
-	src="<c:url value = "/resources/js/manage/user/getUserList.js" />"></script>
+	src="<c:url value = "/resources/js/manage/user/logicalDeleteAjax.js" />"></script>
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
@@ -34,8 +34,9 @@
 
 			</div>
 		</div>
-		<p>
-			${message } <br>
+					${message } <br>
+		<p id = "resultMessage">
+
 			<c:if test="${not empty successMessage }">
 				${successMessage }
 		</c:if>
@@ -74,17 +75,17 @@
 								</td>
 							</form:form>
 
-							<form:form modelAttribute="userForm" method="post"
-								style="display: inline">
+							<form:form modelAttribute="userForm" id = "logicalDelete" method="post"
+								style="display: inline" value = "${user.id}">
 								<c:if test="${loginUser.id != user.id }">
 									<c:if test="${user.status == true }">
 										<td>
-											<button type='submit' name='logicalDeleteUser' value="${user.id }" onClick="return confirm('このユーザを停止します。よろしいですか？')">停止</button>
+											<button type='submit' id = "logicalDelete" name='logicalDeleteUser' value="${user.id }" onClick="return confirm('このユーザを停止します。よろしいですか？')">停止</button>
 										</td>
 									</c:if>
 									<c:if test="${user.status == false }">
 										<td>
-											<button type='submit' name='logicalDeleteUser' value="${user.id }" onClick="return confirm('このユーザを復活します。よろしいですか？')">復活</button>
+											<button type='submit' id = "logicalDelete" name='logicalDeleteUser' value="${user.id }" onClick="return confirm('このユーザを復活します。よろしいですか？')">復活</button>
 										</td>
 									</c:if>
 								</c:if>
@@ -92,7 +93,7 @@
 									<td></td>
 								</c:if>
 							</form:form>
-							<form:form modelAttribute="userForm" method="post" style="display: inline">
+							<form:form modelAttribute="userForm" method="post" id = "physicalDelete" style="display: inline">
 								<c:if test="${loginUser.id != user.id }">
 									<td>
 										<button type='submit' name='physicalDeleteUser' value="${user.id }" onClick="return confirm('このユーザを削除します。よろしいですか？')">削除</button>

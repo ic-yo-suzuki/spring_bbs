@@ -7,11 +7,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>ユーザ登録</title>
-<%-- <link rel="stylesheet" type="text/css" href="<c:url value = "/resources/stylesheet/style.css"/>"> --%>
+<link rel="stylesheet" type="text/css" href="<c:url value = "/resources/stylesheet/style.css"/>">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/resources/js/lib/prototype.js"></script>
 <script type="text/javascript"
 	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
+
 	<script type="text/javascript"
 	src="<c:url value = "/resources/js/manage/user/checkSignUp.js"/>"></script>
 	<script type="text/javascript"
