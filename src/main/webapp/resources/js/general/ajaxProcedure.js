@@ -55,6 +55,7 @@ function existCheck(inputValue){
 		}
 	})
 	function printResult(data) {
+		console.log(data);
 		var result = JSON.parse(data);	// JSON文字列→Boolean型変換
 		if(!result){
 			$("loginIdValidCheck").innerHTML = "入力されたユーザIDは使用可能です　　　　　";

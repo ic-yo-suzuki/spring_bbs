@@ -55,4 +55,8 @@ public interface MessageMapper {
 
 	List<NgWord> getNgWord();
 
+	Integer setNgWord(String word);
+
+
+
 }

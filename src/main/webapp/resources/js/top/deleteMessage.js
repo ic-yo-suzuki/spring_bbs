@@ -12,7 +12,7 @@ $(function() {
 		console.log(postId);
 
 		var data = JSON.stringify({
-			id : parseInt(postId)
+			value : parseInt(postId)
 		});
 //		alert(data);
 		console.log("Data Destination : " + form.attr("action"));

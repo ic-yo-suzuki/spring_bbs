@@ -308,4 +308,12 @@
 		select * from ngwords;
 	</select>
 
+	<insert id="setNgWord">
+		insert ngwords(word) into #{word};
+	</insert>
+
+	<delete id="deleteNgWord">
+		delete from ngwords where id = #{id};
+	</delete>
+
 </mapper>

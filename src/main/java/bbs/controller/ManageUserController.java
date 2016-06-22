@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import bbs.entity.UserEntity;
+import bbs.form.LogicalDeleteFormViaAjax;
+import bbs.form.PhysicalDeleteFormViaAjax;
 import bbs.form.UserForm;
 import bbs.json.JsonConverter;
 import bbs.service.UserService;
@@ -24,6 +26,8 @@ public class ManageUserController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private JsonConverter jsonConverter;
 
 	@RequestMapping(value = "/manage/user/", method = RequestMethod.GET)
 	public ModelAndView showPostScreen() {
@@ -40,7 +44,7 @@ public class ManageUserController {
 	public @ResponseBody String getUsersList() {
 		String jsonUserList = "";
 		try {
-			jsonUserList = new JsonConverter().parseJsonFromUserList(userService.getUsers());
+			jsonUserList = jsonConverter.parseJson(userService.getUsers());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -99,9 +103,44 @@ public class ManageUserController {
 		return "usermanager";
 	}
 
-	@RequestMapping(value = "/manage/user/delete/logical/id/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/manage/user/delete/logical/id/{id}/", method = RequestMethod.GET)
 	@ResponseBody
 	public String logicalDeleteViaAjax(@PathVariable int id, Model model){
-		return "";
+		System.out.println("論理削除開始。ユーザID：" + id);
+		LogicalDeleteFormViaAjax result = new LogicalDeleteFormViaAjax();
+		String jsonStr = "";
+		try{
+			if(userService.logicalDeleteUser(id)){
+				result.setResult("success");
+			}else{
+				result.setResult("failure");
+			}
+			result.setUserStatus(userService.getStatus(id));
+			jsonStr = jsonConverter.parseJson(result);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		System.out.println("論理削除：" + jsonStr);
+		return jsonStr;
+	}
+
+	@RequestMapping(value = "/manage/user/delete/physical/id/{id}/", method = RequestMethod.GET)
+	@ResponseBody
+	public String physicalDeleteViaAjax(@PathVariable int id, Model model){
+		System.out.println("物理削除開始。ユーザID：" + id);
+		PhysicalDeleteFormViaAjax result = new PhysicalDeleteFormViaAjax();
+		String jsonStr = "";
+		try{
+			if(userService.physicalDeleteUser(id)){
+				result.setResult("success");
+			}else{
+				result.setResult("failure");
+			}
+			jsonStr = jsonConverter.parseJson(result);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		System.out.println("物理削除：" + jsonStr);
+		return jsonStr;
 	}
 }

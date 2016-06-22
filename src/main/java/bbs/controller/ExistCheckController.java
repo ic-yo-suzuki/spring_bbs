@@ -22,7 +22,7 @@ public class ExistCheckController {
 	@ResponseBody
 	public String getResultForExistCheck(@PathVariable("inputValue") String inputValue){
 		try {
-			return new JsonConverter().parseJesonFromBoolean(userService.isExistLoginId(inputValue));
+			return new JsonConverter().parseJson(userService.isExistLoginId(inputValue));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			return null;

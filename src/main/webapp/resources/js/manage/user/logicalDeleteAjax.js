@@ -8,21 +8,24 @@ jq(function($) {
 			function(event) {
 
 				var form = $(this);
-				var button = form.find('button#logicalDelete');
 				var id = parseInt(form.attr('value'));
+				if (!confirm('このユーザを' + form.find('button').context[0].innerHTML + 'します。よろしいですか？')) {
+					event.preventDefault();
+					return;
+				}
 
 				console.log("Destination is "
 						+ "/Spring_BBS/manage/user/delete/logical/id/" + id
 						+ "/");
 				event.preventDefault();
-				 $.ajax({
+				$.ajax({
 					type : "GET",
 					url : "/Spring_BBS/manage/user/delete/logical/id/" + id
 							+ "/",
 					dataType : "json",
-					contentType : "application/json; charset=utf-8",
-					success : function() {
-						printResult(data);
+					contentType : "application/json; charset=UTF-8",
+					success : function(data) {
+						printResult(data, form);
 					},
 					error : function(XMLHttpResult, textStatus, errorThrown) {
 						console.log("XHR : " + XMLHttpRequest);
@@ -33,14 +36,23 @@ jq(function($) {
 					}
 				})
 
-				function printResult(data) {
-					var result = JSON.parse(data);
-					if (result === "success") {
-
-						$("p#resultMessage").html("ユーザの論理削除に成功しました");
-					} else {
-						("p#resultMessage").html("ユーザの論理削除に失敗しました");
-					}
-				}
 			});
 });
+
+function printResult(result, form) {
+	var id = parseInt(form.attr('value'));
+	var button = form.find('button').context[0];
+
+	if (result.result == "success") {
+		if (!result.userStatus) {
+			jq("p#resultMessage").html("ユーザの論理削除に成功しました");
+			button.innerHTML = "復活";
+
+		} else {
+			jq("p#resultMessage").html("ユーザの復元に成功しました");
+			button.innerHTML = "停止";
+		}
+	} else {
+		jq("p#resultMessage").html("ユーザの論理削除に失敗しました");
+	}
+}

@@ -83,6 +83,22 @@ public class UserService {
 		return users;
 	}
 
+
+	/**
+	 * 同期通信用の論理削除メソッド
+	 * <br>
+	 * 操作者と操作対象ユーザのIDが同一かどうかを比較、一致した場合は処理を継続せずfalseを返す。
+	 * <br>
+	 * それ以外の場合は論理削除操作を実施、結果に応じた戻り値を返す。
+	 *<p>
+	 * @param target 論理削除対象となるユーザのID
+	 * <br>
+	 * @param own 操作しているユーザのID
+	 * <p>
+	 * @return 論理削除操作の成否(true = 成功、false = 失敗)
+	 *
+	 */
+
 	public boolean logicalDeleteUser(int target, int own) {
 		if (target == own) {
 			return false;
@@ -91,9 +107,58 @@ public class UserService {
 		return userMapper.logicalDeleteUser(target, status);
 	}
 
+
+	/**
+	 * 非同期通信用の論理削除メソッド
+	 * <br>
+	 * 論理削除操作を実施、結果に応じた戻り値を返す。
+	 *<p>
+	 * @param target 論理削除対象となるユーザのID
+	 * <p>
+	 * @return 論理削除操作の成否(true = 成功、false = 失敗)
+	 *
+	 */
+
+	public boolean logicalDeleteUser(int target){
+		boolean status = !(getStatus(target));
+		return userMapper.logicalDeleteUser(target, status);
+	}
+
+
+	/**
+	 * 同期通信用のユーザ物理削除メソッド
+	 * <br>
+	 * DB上にあるユーザデータを削除し、結果に応じた戻り値を返す。
+	 * <br>
+	 * 操作者と対象ユーザが同一の場合、<b>何もせず</b>に失敗を返す
+	 * <p>
+	 * @param target 削除対象となるユーザのID
+	 * <br>
+	 * @param own 操作を行うユーザのID
+	 * <p>
+	 * @return 物理削除操作の成否(true = 成功、false = 失敗)
+	 */
+
 	public boolean physicalDeleteUser(int target, int own) {
 		if (target == own)
 			return false;
+		messageMapper.deleteMessageWithUserId(target);
+		messageMapper.deleteCommentWithUserId(target);
+		return userMapper.physicalDeleteUser(target);
+	}
+
+
+	/**
+	 * 非同期通信用のユーザ物理削除メソッド
+	 * <br>
+	 *DB上にあるユーザデータを削除し、結果に応じた戻り値を返す。
+	 *<p>
+	 * @param target 削除対象となるユーザのID
+	 *<p>
+	 * @return 物理削除操作の成否(true = 成功、false = 失敗)
+	 */
+
+	public boolean physicalDeleteUser(int target){
 		messageMapper.deleteMessageWithUserId(target);
 		messageMapper.deleteCommentWithUserId(target);
 		return userMapper.physicalDeleteUser(target);

@@ -41,10 +41,11 @@ public class TopController {
 	public String getMessageList() {
 		String jsonMessagesList = "";
 		try {
-			jsonMessagesList = new JsonConverter().parseJsonFromMessageList(messageService.getAllMessage());
+			jsonMessagesList = new JsonConverter().parseJson(messageService.getAllMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+//		System.out.println(jsonMessagesList);
 		return jsonMessagesList;
 	}
 
@@ -53,10 +54,11 @@ public class TopController {
 	public String getCommentList(){
 		String jsonCommentList = "";
 		try{
-			jsonCommentList = new JsonConverter().parseJsonFromCommentList(messageService.getComments());
+			jsonCommentList = new JsonConverter().parseJson(messageService.getComments());
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+
 		return jsonCommentList;
 	}
 

@@ -20,6 +20,8 @@
 	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
 <script type="text/javascript"
 	src="<c:url value = "/resources/js/manage/user/logicalDeleteAjax.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value = "/resources/js/manage/user/physicalDeleteAjax.js" />"></script>
 </head>
 <body>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
@@ -80,12 +82,12 @@
 								<c:if test="${loginUser.id != user.id }">
 									<c:if test="${user.status == true }">
 										<td>
-											<button type='submit' id = "logicalDelete" name='logicalDeleteUser' value="${user.id }" onClick="return confirm('このユーザを停止します。よろしいですか？')">停止</button>
+											<button type='submit' id = "logicalDelete" name='logicalDeleteUser' value="${user.id }" >停止</button>
 										</td>
 									</c:if>
 									<c:if test="${user.status == false }">
 										<td>
-											<button type='submit' id = "logicalDelete" name='logicalDeleteUser' value="${user.id }" onClick="return confirm('このユーザを復活します。よろしいですか？')">復活</button>
+											<button type='submit' id = "logicalDelete" name='logicalDeleteUser' value="${user.id }" >復活</button>
 										</td>
 									</c:if>
 								</c:if>
@@ -93,10 +95,10 @@
 									<td></td>
 								</c:if>
 							</form:form>
-							<form:form modelAttribute="userForm" method="post" id = "physicalDelete" style="display: inline">
+							<form:form modelAttribute="userForm" method="post"  id = "physicalDelete" value="${user.id }" style="display: inline">
 								<c:if test="${loginUser.id != user.id }">
 									<td>
-										<button type='submit' name='physicalDeleteUser' value="${user.id }" onClick="return confirm('このユーザを削除します。よろしいですか？')">削除</button>
+										<button type='submit' name='physicalDeleteUser' value="${user.id }" >削除</button>
 									</td>
 								</c:if>
 								<c:if test="${loginUser.id == user.id }">

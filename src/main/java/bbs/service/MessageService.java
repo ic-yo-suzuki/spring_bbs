@@ -136,4 +136,13 @@ public class MessageService {
 	public List<NgWord> getNgWord(){
 		return messageMapper.getNgWord();
 	}
+
+	public boolean setNgWord(String word){
+		int count = messageMapper.setNgWord(word);
+		if(count != 1){
+			return false;
+		}
+		return true;
+
+	}
 }
