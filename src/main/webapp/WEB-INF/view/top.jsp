@@ -12,6 +12,8 @@
 <link rel="stylesheet" type="text/css" href="<c:url value = "/resources/stylesheet/style.css"/>">
 <script type="text/javascript"
 	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js"/>"></script>
+<script type = "text/javascript"
+	src = "<c:url value = "/resources/js/manage/ngword/getNgWord.js"/>"></script>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
 <script
@@ -72,7 +74,7 @@
 	<div class="narrowing">
 		<form:form modelAttribute="narrowingForm">
 			<script>
-				$(function() {
+				jq(function($) {
 					$("#dateStart").datepicker({
 						maxDate : 0
 					});

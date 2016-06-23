@@ -2,7 +2,7 @@
  *
  */
 
-$(function() {
+jq(function($) {
 	$('form#deleteMessage').submit(function(event) {
 		event.preventDefault();
 

@@ -2,7 +2,9 @@
  *
  */
 
-$(function() {
+var jq = jQuery.noConflict();
+
+jq(function($) {
 	$("form#postMessageForm").submit(
 			function(event) {
 				setCategory(); // Formにあるhidden属性のinputにカテゴリをセット
@@ -18,11 +20,15 @@ $(function() {
 				valid &= checkCategory(category);
 
 				console.log("Validation Result : " + valid);
+				console.log(ngWord);
 
 				if (valid) {
 					var ret = confirm("下記の内容で投稿します。よろしいですか？\n" + "タイトル："
 							+ title.val() + "\n" + "カテゴリー：" + category.val()
 							+ "\n" + "本文：" + text.val());
+					if (!ret) {
+						event.preventDefault();
+					}
 				} else {
 					alert("NG：フォーム上のエラーメッセージを確認の上修正してください");
 					event.preventDefault();
@@ -37,18 +43,22 @@ function checkText(text) {
 	var length = text.val().length;
 	if (length > 1000) {
 		document.getElementById("textValidCheck").innerHTML = (length - 1000)
-				+ "文字オーバーしています(" + $length + "文字)";
-		$("textarea#text").css("background", "pink");
-		$("#textValidCheck").css("color", "red");
+				+ "文字オーバーしています(" + length + "文字)";
+		jq("textarea#text").css("background", "pink");
+		jq("#textValidCheck").css("color", "red");
 	} else if (length == 0 || !text.val().match(/\S/g)) {
 		document.getElementById("textValidCheck").innerHTML = "本文を入力してください";
-		$("textarea#text").css("background", "pink");
-		$("#textValidCheck").css("color", "red");
+		jq("textarea#text").css("background", "pink");
+		jq("#textValidCheck").css("color", "red");
+	} else if (isExistNgWord(text.val())) {
+		document.getElementById("textValidCheck").innerHTML = "本文中に使えないキーワードが含まれています";
+		jq("textarea#text").css("background", "pink");
+		jq("#textValidCheck").css("color", "red");
 	} else {
 		textStatus = true;
 		document.getElementById("textValidCheck").innerHTML = "";
-		$("textarea#text").css("background", "white");
-		$("#textValidCheck").css("color", "black");
+		jq("textarea#text").css("background", "white");
+		jq("#textValidCheck").css("color", "black");
 	}
 
 	return textStatus;
@@ -62,18 +72,22 @@ function checkTitle(title) {
 	if (length > 50) {
 		document.getElementById("titleValidCheck").innerHTML = (length - 50)
 				+ "文字オーバーしています(" + length + "文字)";
-		$("#titleValidCheck").css("color", "red");
-		$("input#title").css("background", "pink");
+		jq("#titleValidCheck").css("color", "red");
+		jq("input#title").css("background", "pink");
 
 	} else if (length == 0 || !title.val().match(/\S/g)) {
 		document.getElementById("titleValidCheck").innerHTML = "タイトルを入力してください";
-		$("#titleValidCheck").css("color", "red");
-		$("input#title").css("background", "pink");
+		jq("#titleValidCheck").css("color", "red");
+		jq("input#title").css("background", "pink");
+	} else if (isExistNgWord(title.val())) {
+		document.getElementById("titleValidCheck").innerHTML = "タイトル中に使えないキーワードが含まれています";
+		jq("#titleValidCheck").css("color", "red");
+		jq("input#title").css("background", "pink");
 	} else {
 		titleStatus = true;
 		document.getElementById("titleValidCheck").innerHTML = "";
-		$("#titleValidCheck").css("color", "black");
-		$("input#title").css("background", "white");
+		jq("#titleValidCheck").css("color", "black");
+		jq("input#title").css("background", "white");
 	}
 	return titleStatus;
 }
@@ -84,16 +98,32 @@ function checkCategory(category) {
 
 	if (categoryValue.length == 0 || !categoryValue.match(/\S/g)) {
 		document.getElementById("categoryValidCheck").innerHTML = "カテゴリを選択/入力してください";
-		$("select#cmbCategory").css("background", "pink");
-		$("input#txtCategory").css("background", "pink");
-		$("#categoryValidCheck").css("color", "red");
+		jq("select#cmbCategory").css("background", "pink");
+		jq("input#txtCategory").css("background", "pink");
+		jq("#categoryValidCheck").css("color", "red");
 
+	} else if (isExistNgWord(category.val())) {
+		document.getElementById("categoryValidCheck").innerHTML = "カテゴリに使えないキーワードが含まれています";
+		jq("input#txtCategory").css("background", "pink");
+		jq("#categoryValidCheck").css("color", "red");
 	} else {
 		categoryStatus = true;
 		document.getElementById("categoryValidCheck").innerHTML = "";
-		$("select#cmbCategory").css("background", "white");
-		$("input#txtCategory").css("background", "white");
-		$("#categoryValidCheck").css("color", "black");
+		jq("select#cmbCategory").css("background", "white");
+		jq("input#txtCategory").css("background", "white");
+		jq("#categoryValidCheck").css("color", "black");
 	}
 	return categoryStatus;
+}
+
+function isExistNgWord(text) {
+	var trimText;
+	trimText = text.replace(/\s+/g, "");
+	for (var i = 0; i < ngWord.length; i++) {
+		if (trimText.indexOf(ngWord[i].word) != -1) {
+			console.log("Hit!! Keyword is : " + ngWord[i].word);
+			return true;
+		}
+	}
+	return false;
 }

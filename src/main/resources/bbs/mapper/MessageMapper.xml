@@ -309,7 +309,7 @@
 	</select>
 
 	<insert id="setNgWord">
-		insert ngwords(word) into #{word};
+		insert into ngwords(word) values(#{word});
 	</insert>
 
 	<delete id="deleteNgWord">

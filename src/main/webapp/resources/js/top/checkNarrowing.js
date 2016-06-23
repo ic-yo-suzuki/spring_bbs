@@ -2,7 +2,7 @@
  *
  */
 
-$(function(){
+jq(function($){
 	$("form#narrowingForm").submit(function(event){
 		var form = $(this);
 		var category = form.find("select#category");

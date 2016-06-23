@@ -3,7 +3,7 @@
  */
 
 
-$(function() {
+jq(function($) {
 	$.ajax({
 		type : "GET",
 		url : "/Spring_BBS/getMessageList/",

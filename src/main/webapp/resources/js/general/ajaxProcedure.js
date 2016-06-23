@@ -4,12 +4,13 @@
 
 function sendData(form, button, data){
 	var jq = jQuery.noConflict();
+	var result = false;
 	jq.ajax({
 		url : form.attr('action'),
-		contentType: 'application/json; charset=utf-8',
 		type : form.attr('method'),
-		dataType: 'json',
 		data : data,
+		dataType: 'json',
+		contentType: 'application/json; charset=UTF-8',
 		timeout : 10000,
 
 		beforeSend : function(xhr, settings) {
@@ -22,6 +23,7 @@ function sendData(form, button, data){
 
 		success : function(result, textStatus, xhr) {
 			form[0].reset();
+			alert("操作は正常に完了しました");
 			location.reload();
 		},
 
@@ -29,9 +31,12 @@ function sendData(form, button, data){
 			console.log("XHR:" + xhr);
 			console.log("textStatus:" + textStatus);
 			console.log("Error:" + error);
+			jq(messageArea).html("操作に失敗しました");
+			alert("error");
 		}
 
 	});
+	return result;
 }
 
 function existCheck(inputValue){

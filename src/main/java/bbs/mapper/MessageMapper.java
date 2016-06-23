@@ -55,7 +55,9 @@ public interface MessageMapper {
 
 	List<NgWord> getNgWord();
 
-	Integer setNgWord(String word);
+	Integer setNgWord(@Param("word") String word);
+
+	Integer deleteNgWord(@Param("id") int id);
 
 
 

@@ -3,6 +3,7 @@ package bbs.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +26,18 @@ public class ManageNgWordController {
 		return "ngwordmanager";
 	}
 
+	@RequestMapping(value = "/manage/ngword/get/", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+	@ResponseBody
+	public String getNgWordList(Model model){
+		String jsonNgList = "";
+		try{
+			jsonNgList = jsonConverter.parseJson(messageService.getNgWord());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return jsonNgList;
+	}
+
 	@RequestMapping(value = "/manage/ngword/add/", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String addNgWord(@RequestBody String ngwordJson, Model model){
@@ -34,9 +47,21 @@ public class ManageNgWordController {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-
-
-		return word;
+		messageService.setNgWord(word);
+		return ngwordJson;
 	}
+
+	@RequestMapping(value = "/manage/ngword/delete/id/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public String deleteNgWord(@PathVariable int id, Model model){
+
+		if(messageService.deleteNgWord(id)){
+			return "{\"result\":\"success\"}";
+		}else{
+			return "{\"result\":\"failure\"}";
+		}
+
+	}
+
 
 }

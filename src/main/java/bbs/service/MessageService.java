@@ -133,16 +133,23 @@ public class MessageService {
 		return messageMapper.isExistComment(id);
 	}
 
-	public List<NgWord> getNgWord(){
+	public List<NgWord> getNgWord() {
 		return messageMapper.getNgWord();
 	}
 
-	public boolean setNgWord(String word){
+	public boolean setNgWord(String word) {
 		int count = messageMapper.setNgWord(word);
-		if(count != 1){
+		if (count != 1) {
 			return false;
 		}
 		return true;
 
+	}
+
+	public boolean deleteNgWord(int id) {
+		if (messageMapper.deleteNgWord(id) != 1) {
+			return false;
+		}
+		return true;
 	}
 }

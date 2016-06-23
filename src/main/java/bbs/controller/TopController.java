@@ -142,7 +142,7 @@ public class TopController {
 		int id = 0;
 
 		try{
-			id = new JsonConverter().parseIntFromJsonId(deleteMessageIdJson);
+			id = new JsonConverter().parseJsonToInt(deleteMessageIdJson);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -168,7 +168,7 @@ public class TopController {
 		int id = 0;
 
 		try{
-			id = new JsonConverter().parseIntFromJsonId(deleteCommentIdJson);
+			id = new JsonConverter().parseJsonToInt(deleteCommentIdJson);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

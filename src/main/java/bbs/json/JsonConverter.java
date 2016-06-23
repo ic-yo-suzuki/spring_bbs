@@ -48,6 +48,7 @@ public class JsonConverter {
 	}
 
 
+
 	public PostCommentForm parseJsonToPostCommentForm(String jsonCommentStr) throws Exception{
 		if(jsonCommentStr == null){
 			return null;
@@ -58,7 +59,7 @@ public class JsonConverter {
 		return form;
 	}
 
-	public int parseIntFromJsonId(String jsonId) throws Exception{
+	public int parseJsonToInt(String jsonId) throws Exception{
 		if(jsonId == null){
 			return -1;
 		}

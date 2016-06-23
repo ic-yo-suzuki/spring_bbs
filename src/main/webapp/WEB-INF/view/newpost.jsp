@@ -11,6 +11,8 @@
 <%-- <link rel="stylesheet" type="text/css" href="<c:url value = "/resources/stylesheet/style.css"/>"> --%>
 <script type="text/javascript"
 	src="<c:url value = "/resources/js/lib/jquery-1.12.4.min.js" />"></script>
+<script type = "text/javascript"
+	src = "<c:url value = "/resources/js/manage/ngword/getNgWord.js"/>"></script>
 <script type="text/javascript"
 	src="<c:url value = "/resources/js/post/categorySelect.js" />"></script>
 <script type="text/javascript"

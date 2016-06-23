@@ -71,11 +71,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</filter>
 	<filter-mapping>
 		<filter-name>LoginFilter</filter-name>
-		<url-pattern>/top/</url-pattern>
-		<url-pattern>/post/message/</url-pattern>
-		<url-pattern>/manage/user/</url-pattern>
-		<url-pattern>/manage/user/signup/</url-pattern>
-		<url-pattern>/manage/user/edit/</url-pattern>
+		<url-pattern>/top/*</url-pattern>
+		<url-pattern>/post/*</url-pattern>
+		<url-pattern>/manage/*</url-pattern>
 	</filter-mapping>
 
 
@@ -85,9 +83,18 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</filter>
 	<filter-mapping>
 		<filter-name>PermissionFilter</filter-name>
-		<url-pattern>/manage/user/</url-pattern>
-		<url-pattern>/manage/user/signup/</url-pattern>
-		<url-pattern>/manage/user/edit/</url-pattern>
+		<url-pattern>/manage/user/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>NgWordFilter</filter-name>
+		<filter-class>bbs.filter.NgWordFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>NgWordFilter</filter-name>
+		<url-pattern>/manage/ngword/</url-pattern>
+		<url-pattern>/manage/ngword/add/</url-pattern>
+		<url-pattern>/manage/ngword/delete/*</url-pattern>
 	</filter-mapping>
 
 </web-app>

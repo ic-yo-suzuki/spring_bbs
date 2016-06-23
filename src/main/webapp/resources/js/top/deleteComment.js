@@ -2,7 +2,7 @@
  *
  */
 
-$(function() {
+jq(function($) {
 	$('form#deleteComment').submit(function(event) {
 		event.preventDefault();
 
@@ -17,7 +17,7 @@ $(function() {
 //		alert(data);
 		console.log("Data Destination : " + form.attr("action"));
 		console.log("Method : " + form.attr('method'));
-
+		console.log("Data : " + data);
 		sendData(form, button, data);
 
 	});
