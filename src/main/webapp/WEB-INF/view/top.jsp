@@ -39,6 +39,7 @@
 	src="<c:url value = "/resources/js/top/checkNarrowing.js" />"></script>
 </head>
 
+<body>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
 <div class="main-contents">
 	<div class="header">

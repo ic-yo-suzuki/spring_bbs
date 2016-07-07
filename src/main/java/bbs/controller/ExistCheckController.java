@@ -17,12 +17,15 @@ public class ExistCheckController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private JsonConverter jsonConverter;
+
 
 	@RequestMapping(value = "/check/exist/loginid/{inputValue}", method = RequestMethod.GET)
 	@ResponseBody
 	public String getResultForExistCheck(@PathVariable("inputValue") String inputValue){
 		try {
-			return new JsonConverter().parseJson(userService.isExistLoginId(inputValue));
+			return jsonConverter.parseJson(userService.isExistLoginId(inputValue));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			return null;

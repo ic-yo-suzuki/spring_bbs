@@ -18,6 +18,7 @@ function existLoginIdEdit($this) {
 				jq("#loginId").css('background', 'pink');
 			}else{
 				existCheck(inputValue);
+				
 			}
 		}else{
 			$("loginIdValidCheck").innerHTML = "半角英数字(A～Z、a～z、0～9)で6～20文字";
